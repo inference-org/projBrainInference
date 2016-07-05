@@ -3,7 +3,7 @@ Slate Theme for GitHub Pages
 by Jason Costello, @jsncostello
 *******************************************************************************/
 
-@import url(github-light.css);
+/*@import url(github-light.css);*/
 
 /*******************************************************************************
 MeyerWeb Reset
@@ -44,6 +44,7 @@ table {
   border-spacing: 0;
 }
 
+
 /*******************************************************************************
 Theme Styles
 *******************************************************************************/
@@ -51,7 +52,7 @@ Theme Styles
 body {
   box-sizing: border-box;
   color:#373737;
-  background: #212121;
+  background-color: white;
   font-size: 16px;
   font-family: 'Myriad Pro', Calibri, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -160,7 +161,7 @@ p img {
 pre, code {
   width: 100%;
   color: #222;
-  background-color: #fff;
+  background-color: white;
 
   font-family: Monaco, "Bitstream Vera Sans Mono", "Lucida Console", Terminal, monospace;
   font-size: 14px;
@@ -264,9 +265,13 @@ Full-Width Styles
   width: 100%;
 }
 
+
+/******
+Margins
+******/
 .inner {
   position: relative;
-  max-width: 640px;
+  max-width: 820px;
   padding: 20px 10px;
   margin: 0 auto;
 }
@@ -299,14 +304,16 @@ Full-Width Styles
   padding: 50px 10px 30px 10px;
 }
 
+
 #project_title {
   margin: 0;
   color: #fff;
-  font-size: 42px;
+  font-size: 20px;
   font-weight: 700;
   text-shadow: #111 0px 0px 10px;
 }
 
+/*
 #project_tagline {
   color: #fff;
   font-size: 24px;
@@ -314,6 +321,7 @@ Full-Width Styles
   background: none;
   text-shadow: #111 0px 0px 10px;
 }
+*/
 
 #downloads {
   position: absolute;
@@ -354,72 +362,29 @@ Full-Width Styles
   background: url(../images/sprite_download.png) no-repeat top right;
 }
 
-#main_content_wrap {
-  background: #f2f2f2;
+table_of_content_wrap {
+  background: white;
+  border-top: 1px solid #111;
+}
+
+#table_of_content {
+  padding-top: 40px;
+}
+
+main_content_wrap {
+  background: white;
   border-top: 1px solid #111;
   border-bottom: 1px solid #111;
+  line-height: 1.5;
 }
 
 #main_content {
-  padding-top: 40px;
+  padding-top: 20px;
 }
 
 #footer_wrap {
   background: #212121;
-}
+}*/
 
 
 
-/*******************************************************************************
-Small Device Styles
-*******************************************************************************/
-
-@media screen and (max-width: 480px) {
-  body {
-    font-size:14px;
-  }
-
-  #downloads {
-    display: none;
-  }
-
-  .inner {
-    min-width: 320px;
-    max-width: 480px;
-  }
-
-  #project_title {
-  font-size: 32px;
-  }
-
-  h1 {
-    font-size: 28px;
-  }
-
-  h2 {
-    font-size: 24px;
-  }
-
-  h3 {
-    font-size: 21px;
-  }
-
-  h4 {
-    font-size: 18px;
-  }
-
-  h5 {
-    font-size: 14px;
-  }
-
-  h6 {
-    font-size: 12px;
-  }
-
-  code, pre {
-    min-width: 320px;
-    max-width: 480px;
-    font-size: 11px;
-  }
-
-}
