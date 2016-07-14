@@ -60,9 +60,17 @@
       <p> We decoded motion directions from voxels patterns recorded when subject switched to prior mean and to motion direction separately to determine whether subject brain encodes sensory evidence when subject switch to the prior mean.  </p> 
       
       <!--code-->
-      <div style="background-color:#e5e6e6; color:black; padding-top:1px;padding-bottom:1px;">  
+      <div style="background-color:#e5e6e6; color:black; padding-top:1px; padding-bottom:1px;">  
       <br> >> slfmriInitClassifAnalysisTaskDotDirfMRI05 </br>
       <br> >> dataClassif = slfmriClassifyDir_x_switch(o) </br>
+      </div>
+      
+      <p> We further check whether we could decode only two motion directions from the voxel patterns sorted by switching to test whether the classifier low accuracy was due to an inability to decode all five directions or an ability to only decode few directions which pulls down classification accuracy when all five directions are considered.  </p> 
+      
+      <!--code-->
+      <div style="background-color:#e5e6e6; color:black; padding-top:1px; padding-bottom:1px;">  
+      <br> >> slfmriInitClassifAnalysisTaskDotDirfMRI05 </br>
+      <br> >> dataClassif = slfmriClassifyTwoDir_x_switch(o) </br>
       </div>
       
     </div>
