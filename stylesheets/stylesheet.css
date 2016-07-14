@@ -293,7 +293,7 @@ Margins
 }
 
 #header_wrap {
-  background: #212121;
+  background: ##373737;
   background: -moz-linear-gradient(top, #373737, #212121);
   background: -webkit-linear-gradient(top, #373737, #212121);
   background: -ms-linear-gradient(top, #373737, #212121);
@@ -302,15 +302,15 @@ Margins
 }
 
 #header_wrap .inner {
-  padding: 50px 10px 30px 10px;
+  padding: 30px 10px 30px 10px;
 }
-
 
 #project_title {
   margin: 0;
-  color: #fff;
-  font-size: 20px;
-  font-weight: 700;
+  /*color: #fff;*/
+  color: #797979
+  font-size: 15px;
+  font-weight: 600;
   text-shadow: #111 0px 0px 10px;
 }
 
