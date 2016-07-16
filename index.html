@@ -77,18 +77,16 @@
       <!--figure-->
       <center><img src="images/ClassifyTwoDirections.png" style="width: 100%; height: 100%"/></center>
       
-      <p> We first classify the two directions from a control region outside the brain as a control condition that makes
+      <p> We classified the two directions from various visually responsive areas of the brain (V1,V2,V3,V3A,hMT,IPS) and a control region outside the brain as a control condition that makes
       sure any significant accuracy is not spurious (e.g., error in the code). <p>
       
       <!--figure-->
       <center><img src="images/ControlROI.png" style="width: 50%; height: 50%"/></center>
       
-      <p>We then examined classification accuracy in different visual areas (V1)<p>
-      
       <!--code-->
       <div style="background-color:#f2f2f2; color:black; line-height:0.8; padding:10px;">            
-         <br> >> slfmriInitClassifAnalysisTaskDotDirfMRI05;</br> 
-         <br> >> [dataClassifsw1,dataClassifsw2] = slfmriClassifyTwoDir_x_switch(o);</br> 
+         <br> >> slfmriInitClassifAnalysisTaskDotDirfMRI05_loop;</br> 
+         <br> >> [accuracies,ste] = slfmriClassifyTwoDir_x_switch_loop(o);</br> 
       </div>
       
     </div>
