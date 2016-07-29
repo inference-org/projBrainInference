@@ -56,6 +56,16 @@
       <center><img src="images/MotionBrain.png" style="width: 50%; height: 50%"/></center>
       
       <h3><a id="Look-at-fMRI-voxel-responses" class="anchor" href="#Look-at-fMRI-voxel-responses" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Look at fMRI voxel responses</h3>
+          
+      <!--code-->
+      <section class="code">    
+        <p>  >> slfmriInitAnalysisTaskDotDirfMRI05 <br>
+          >> [d,o,behbySess] = slfmriGetDBoverSessions(o,varargin); <br>
+          >> [~,VoxelsParams] = slfmriGetVoxTuningParams('vonMisesprior','neuralvector',d,o); <br>
+          >> slfmriVisualDatabase(d.instances(d.mySwitch==1,:),'x1',d.myRandomDir(d.mySwitch==1,:),'x2',VoxelsParams.modes1); <br>
+          >> slfmriVisualDatabase(d.instances(d.mySwitch==2,:),'x1',d.myRandomDir(d.mySwitch==2,:),'x2',VoxelsParams.modes2) </p>
+      </section>
+
       
       <h3><a id="Decode-stimulus-features-from-brain-activity" class="anchor" href="#Decode-stimulus-features-from-brain-activity" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Decode stimulus features from brain activity</h3>  
       
