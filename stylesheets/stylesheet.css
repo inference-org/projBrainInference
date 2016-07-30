@@ -140,9 +140,9 @@ em {
   font-style: italic;
 }
 
-/*strong {*/
-/*  font-weight: bold;*/
-/*}*/
+strong {
+  font-weight: bold;
+}
 
 img {
   position: relative;
