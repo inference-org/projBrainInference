@@ -22,7 +22,7 @@ time, mark, audio, video {
   border: 0;
   vertical-align: baseline;
   font-family : 'CMS';
-  font-size: 16px;
+  font-size: 18px;
   line-height: 25px;
 }
 
@@ -57,7 +57,7 @@ Theme Styles
 
 body {
   box-sizing: border-box;
-  color:#373737;
+  color:black;
   background-color: white;
   font-size: 18px;
   font-family: 'CMS';
@@ -89,7 +89,7 @@ h2 {
 }
 
 h3 {
-  font-size: 24px;
+  font-size: 27px;
 }
 
 h4 {
