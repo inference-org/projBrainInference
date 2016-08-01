@@ -67,10 +67,17 @@
       </section>
 
       
+      
+      
+      
+      
+      
       <h3><a id="Decode-stimulus-features-from-brain-activity" class="anchor" href="#Decode-stimulus-features-from-brain-activity" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Decode stimulus features from brain activity</h3>  
       
       <!--text-->
-      <p> We decoded motion directions from voxels patterns recorded when subject switched to prior mean and to motion direction separately to determine whether subject brain encodes sensory evidence when subject switch to the prior mean  </p> 
+      <p><strong> Did the subject's brain maintained a representation of the displayed motion direction when the subject switched to his prior ? </strong>
+      <p> We decoded the motion direction displayed on each trial from the activity patterns recorded from the subject's brain when he switched to his prior 
+      mean and when he switched to the sensory evidence separately.</p> 
       
       <!--code-->
       <section class="code">
@@ -78,9 +85,14 @@
        >> dataClassif = slfmriClassifyDir_x_switch(o) </p>
       </section>
       
-      <p> We further check whether we could decode only two motion directions from the voxel patterns sorted by switching to test whether the classifier low accuracy was due to an inability to decode all five directions or an ability to 
-      only decode few directions which pulls down classification accuracy when all five directions are considered.  </p>
-      <p> We chose the two directions furthest from the prior (225 deg in blue), where switching is the clearest: 15 and 85 degrees (red arrows) </p> 
+      <!--!!!! Figure HERE !!!! -->
+      
+    
+      <!--subsection-->
+      <p><strong> The classifier might have a hard time identify difference in patterns elicited by 5 motion directions, can he do better with two motion directions ? </strong> </p>
+      <p> We chose the two directions furthest from the prior (225 deg in blue), where switching is the clearest: 15 and 85 degrees. 
+      The classifier outputted one class at each of the 8/32 trials collected for each direction and when the subject switched to prior/evidence. 
+      We report the classifier's percent correct prediction. </p> 
       
       <!--code-->
       <section class="code">
@@ -90,8 +102,10 @@
       <!--figure-->
       <center><img src="images/ClassifyTwoDirections.png" style="width: 100%; height: 100%"/></center>
       
-      <p> We classified the two directions from various visually responsive areas of the brain (V1,V2,V3,V3A,hMT,IPS) and a control region outside the brain as a control condition that makes
-      sure any significant accuracy is not spurious (e.g., error in the code). <p>
+      <p> We classified the two directions from various visually responsive areas of the brain (V1,V2,V3,V3A,hMT,IPS) 
+      for subject "s025" over 3 sessions when motion and the prior were weak (6% coherence, 80 deg prior). We also 
+      classified the directions from signals recorded outside the brain as a control check that significant accuracies were not 
+      spurious (e.g., error in the code).
       
       <!--figure-->
       <center><img src="images/ControlROI.png" style="width: 50%; height: 50%"/></center>
@@ -99,9 +113,13 @@
       <!--code-->
       <section class="code">
          <p> >> slfmriInitClassifAnalysisTaskDotDirfMRI05_loop; <br> 
-              >> [accuracies,ste] = slfmriClassifyTwoDir_x_switch_loop(o); </p>
+              >> [accuracy, ste, dataClassifsw1, dataClassifsw2, nTrials] = slfmriClassifyTwoDir_x_switch_loop(o); </p>
       </section>
       
+      <!--figure-->
+      <center><img src="images/ClassifTwoDir.png" style="width: 50%; height: 50%"/></center>
+      
+      <!--SECTION-->
       <h3><a id="Analysis-of-population-of-voxel-selectivity" class="anchor" href="#Analysis-of-population-of-voxel-selectivity" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Analysis of population of voxel selectivity</h3>  
 
       <section class="code">
