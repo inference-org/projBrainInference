@@ -89,7 +89,24 @@
       
       <!--figure-->
       <center><img src="images/Classif4DirBySwitch.png" style="width: 70%; height: 70%"/></center>
-    
+      
+      <!--subsection-->
+      <p><strong> It is a bit unfair to compare the accuracy produced by classifying with 32 trials in one condition with 
+      the accuracy produced by classifying from 8 trials which should be poorer because the sample size is smaller. We reduced
+      the sample size of the larger sampled size condition to 8 instances (randomly sampled 8 instances out of the 32) and 
+      rerun the classifications. </strong>
+        
+      <!--Code-->
+      <section class="code">
+          >> slfmriInitClassifAnalysisTaskDotDirfMRI05 <br>
+          >> params = {'accuracyAtTime',[7 14],'loadSavedROI','CalcInstances',... <br>
+                    'leaveOneOut','fisher','balancByRemovI=1',... <br>
+                    'numInstances',8,'loadInstancesByCond','randomseed'}; <br>          
+          >> myConds = {{'myRandomDir_x_mySwitch=1_x_myRandomCoh=0.06'},.... <br>
+                     {'myRandomDir_x_mySwitch=2_x_myRandomCoh=0.06'}}; <br>
+          >> [cbyc,sbyc,o] = slfmriClassifyByConditions(o,myConds,params); <br>
+      </section>
+          
       <!--subsection-->
       <p><strong> The classifier showed very poor decoding accuracies when trying to classify 5 motion directions. But it might have 
       a hard time identifying differences in patterns elicited by 5 motion directions, can he do better with 2 motion directions ? </strong> </p>
