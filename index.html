@@ -128,12 +128,15 @@
       <!--Code-->
       <section class="code">
           >> slfmriInitClassifAnalysisTaskDotDirfMRI05 <br>
+
           >> params = {'accuracyAtTime',[7 14],'loadSavedROI','CalcInstances',... <br>
-                    'leaveOneOut','fisher','balancByRemovI=1',... <br>
-                    'numInstances',8,'loadInstancesByCond','randomseed'}; <br>          
+              &nbsp &nbsp &nbsp &nbsp     'leaveOneOut','fisher','balancByRemovI=1',...<br>
+              &nbsp &nbsp &nbsp &nbsp     'numInstances',8,'loadInstancesByCond'}; <br>
+
           >> myConds = {{'myRandomDir_x_mySwitch=1_x_myRandomCoh=0.06'},.... <br>
-                     {'myRandomDir_x_mySwitch=2_x_myRandomCoh=0.06'}}; <br>
-          >> [cbyc,sbyc,o] = slfmriClassifyByConditions(o,myConds,params); <br>
+              &nbsp &nbsp &nbsp &nbsp     {'myRandomDir_x_mySwitch=2_x_myRandomCoh=0.06'}}; <br>
+
+          >> [ci1,m1,s1,ci2,m2,s2,accAll,accSTEAll,cbyc,sbyc]=slfmriClassifyBootInstByConditions(100,params,myConds,o);
       </section>
           
       <!--subsection-->
