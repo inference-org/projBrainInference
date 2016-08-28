@@ -125,30 +125,36 @@
       <!--subsection-->
       <p><strong> It is unfair to compare the classification accuracies produced from 32 trials in one condition with 
       the accuracy produced by classifying from 8 trials which should be poorer because the sample size is smaller. </strong> 
-      We reduced the sample size of the larger sampled size condition to 8 instances (randomly sampled 8 instances out of the 32) and 
-      rerun the classifications for 7 rois (V1 - V3, V3A, MT, IPS) and a control roi outside the brain. To equalize the number 
-      of samples across switching conditions we bootstrapped 8 instances (minimum number of samples) 100 times from each 
-      class and averaged the 100 resulting classification accuracies for each conditions and roi. </p> 
+      We equalized the sample size between switching conditions to 8 instances (sampled out of 32 without 
+      replacement) and rerun the classifications for 7 rois (V1 - V3, V3A, MT, IPS) and a control roi outside the brain. 
+      Sampling was performed 100 times (minimum number of samples) from each class and the 100 resulting classification 
+      accuracies were averaged for each conditions and roi with the 95% confidence interval calculated over bootstrapped 
+      samples. </p> 
         
       <!--Code-->
       <section class="code">
         
-          >> slfmriInitClassifAnalysisTaskDotDirfMRI05 <br>
+          <p>>> slfmriInitClassifAnalysisTaskDotDirfMRI05 <br></p>
 
-          >> params = {'accuracyAtTime',[7 14; 7 14;7 14; 7 14;7 14; 7 14;7 14],... <br>
+          <p>>> params = {'accuracyAtTime',[7 14; 7 14;7 14; 7 14;7 14; 7 14;7 14],... <br>
               &nbsp &nbsp &nbsp &nbsp       'loadSavedROI','CalcInstances','leaveOneOut','fisher',... <br>
-              &nbsp &nbsp &nbsp &nbsp       'numInstances',8,'CalcInstancesByCond'};
+              &nbsp &nbsp &nbsp &nbsp       'numInstances',8,'CalcInstancesByCond'};</p>
 
-          >> myConds = {{'myRandomDir_x_mySwitch=1_x_myRandomCoh=0.06'},.... <br>
-              &nbsp &nbsp &nbsp &nbsp     {'myRandomDir_x_mySwitch=2_x_myRandomCoh=0.06'}}; <br>
+          <p>>> myConds = {{'myRandomDir_x_mySwitch=1_x_myRandomCoh=0.06'},.... <br>
+              &nbsp &nbsp &nbsp &nbsp     {'myRandomDir_x_mySwitch=2_x_myRandomCoh=0.06'}}; <br></p>
 
-          >> [stat,cbycByROI,sbycByROI,oByROI,obycByROI]=...
-              &nbsp &nbsp &nbsp &nbsp     slfmriClassifyBootInstByConditions(100,params,myConds,o);
+          <p>>> [stat,cbycByROI,sbycByROI,oByROI,obycByROI]=... <br>
+              &nbsp &nbsp &nbsp &nbsp     slfmriClassifyBootInstByConditions(100,params,myConds,o);</p>
               
       </section>
           
+      <center><img src="images/classifAccEqSamplSizeByBoot.png" style="width: 50%; height: 50%"/></center>
+          
       <!--results-->
-      <p> None of the accuracies were significantly above chance. </p>
+      <p> None of the accuracies were significantly above chance. There might seem below chance because 
+      Fisher leaveOneOut slightly bias predictions against the test set (not sure, it's an explanation for 
+      svm but it should not bias classification for fisher) or because classification outputs are unstable for
+      such small sample size (8 instances). </p>
       
       
       
