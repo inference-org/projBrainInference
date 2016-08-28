@@ -147,8 +147,13 @@
               
       </section>
           
+      <center><img src="images/classifAccEqSamplSizeByBoot.png" style="width: 50%; height: 50%"/></center>
+          
       <!--results-->
-      <p> None of the accuracies were significantly above chance. </p>
+      <p> None of the accuracies were significantly above chance. There might seem below chance because 
+      Fisher leaveOneOut slightly bias predictions against the test set (not sure, it's an explanation for 
+      svm but it should not bias classification for fisher) or because classification outputs are unstable for
+      such small sample size (8 instances). </p>
       
       
       
