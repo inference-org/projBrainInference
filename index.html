@@ -119,16 +119,20 @@
       <!--figure-->
       <center><img src="images/Classif4DirBySwitch.png" style="width: 70%; height: 70%"/></center>
       
+      <p><strong> The classifier showed very poor decoding accuracies when trying to classify 5 motion directions. But it might have 
+      a hard time identifying differences in patterns elicited by 5 motion directions.
+      
       <!--subsection-->
-      <p><strong> It is a bit unfair to compare the accuracy produced by classifying with 32 trials in one condition with 
-      the accuracy produced by classifying from 8 trials which should be poorer because the sample size is smaller. We reduced
-      the sample size of the larger sampled size condition to 8 instances (randomly sampled 8 instances out of the 32) and 
+      <p><strong> It is unfair to compare the classification accuracies produced from 32 trials in one condition with 
+      the accuracy produced by classifying from 8 trials which should be poorer because the sample size is smaller. </strong> 
+      We reduced the sample size of the larger sampled size condition to 8 instances (randomly sampled 8 instances out of the 32) and 
       rerun the classifications for 7 rois (V1 - V3, V3A, MT, IPS) and a control roi outside the brain. To equalize the number 
       of samples across switching conditions we bootstrapped 8 instances (minimum number of samples) 100 times from each 
-      class and averaged the 100 resulting classification accuracies for each conditions and roi. </strong>
+      class and averaged the 100 resulting classification accuracies for each conditions and roi. </p> 
         
       <!--Code-->
       <section class="code">
+        
           >> slfmriInitClassifAnalysisTaskDotDirfMRI05 <br>
 
           >> params = {'accuracyAtTime',[7 14; 7 14;7 14; 7 14;7 14; 7 14;7 14],... <br>
@@ -140,15 +144,19 @@
 
           >> [stat,cbycByROI,sbycByROI,oByROI,obycByROI]=...
               &nbsp &nbsp &nbsp &nbsp     slfmriClassifyBootInstByConditions(100,params,myConds,o);
+              
       </section>
           
-      <!--subsection-->
-      <p><strong> The classifier showed very poor decoding accuracies when trying to classify 5 motion directions. But it might have 
-      a hard time identifying differences in patterns elicited by 5 motion directions, can he do better with 2 motion directions ? </strong> </p>
+      <!--results-->
+      <p> None of the accuracies were significantly above chance. </p>
+      
+      
+      
+<!--subsection-->
+      <p> Can he do better with 2 motion directions ? </strong> </p>
       <p> We chose the two directions furthest from the prior (225 deg in blue), where switching is the clearest: 15 and 85 degrees. 
       The classifier outputted one class at each of the 8/32 trials collected for each direction and when the subject switched to prior/evidence. 
       We report the classifier's percent correct prediction. </p> 
-      
       <!--code-->
       <section class="code">
         <p> >> drawVectors([15 85 155 225 295],[1 1 1 1 1]) </p>
