@@ -123,20 +123,22 @@
       <p><strong> It is a bit unfair to compare the accuracy produced by classifying with 32 trials in one condition with 
       the accuracy produced by classifying from 8 trials which should be poorer because the sample size is smaller. We reduced
       the sample size of the larger sampled size condition to 8 instances (randomly sampled 8 instances out of the 32) and 
-      rerun the classifications. </strong>
+      rerun the classifications for 7 rois (V1 - V3, V3A, MT, IPS) and a control roi outside the brain. To equalize the number 
+      of samples across switching conditions we bootstrapped 8 instances (minimum number of samples) 100 times from each 
+      class and averaged the 100 resulting classification accuracies for each conditions and roi. </strong>
         
       <!--Code-->
       <section class="code">
           >> slfmriInitClassifAnalysisTaskDotDirfMRI05 <br>
 
-          >> params = {'accuracyAtTime',[7 14],'loadSavedROI','CalcInstances',... <br>
-              &nbsp &nbsp &nbsp &nbsp     'leaveOneOut','fisher','balancByRemovI=1',...<br>
-              &nbsp &nbsp &nbsp &nbsp     'numInstances',8,'loadInstancesByCond'}; <br>
+          >> params = {'accuracyAtTime',[7 14; 7 14;7 14; 7 14;7 14; 7 14;7 14],... <br>
+              &nbsp &nbsp &nbsp &nbsp       'loadSavedROI','CalcInstances','leaveOneOut','fisher',... <br>
+              &nbsp &nbsp &nbsp &nbsp       'numInstances',8,'CalcInstancesByCond'};
 
           >> myConds = {{'myRandomDir_x_mySwitch=1_x_myRandomCoh=0.06'},.... <br>
               &nbsp &nbsp &nbsp &nbsp     {'myRandomDir_x_mySwitch=2_x_myRandomCoh=0.06'}}; <br>
 
-          >> [ci1,m1,s1,ci2,m2,s2,accAll,accSTEAll,cbyc,sbyc]=...
+          >> [stat,cbycByROI,sbycByROI,oByROI,obycByROI]=...
               &nbsp &nbsp &nbsp &nbsp     slfmriClassifyBootInstByConditions(100,params,myConds,o);
       </section>
           
