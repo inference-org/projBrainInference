@@ -37,7 +37,8 @@
         <a href="#Mapping-brain-areas"> Mapping brain areas <br>
         <a href="#Look-at-fMRI-voxel-responses"> Look at fmri voxel responses  <br>
         <a href="#Decode-stimulus-features-from-brain-activity"> Decode stimulus features from brain activity <br>
-        <a href="#Classification-with-a-Machine-learning-algorithm"> &nbsp &nbsp Classification with a Machine learning algorithm <br>
+        <a href="#Decode-direction-with-machine-learning"> &nbsp &nbsp Decode direction with machine learning <br>
+        <a href="#Decode coherence with machine learning"> &nbsp &nbsp Decode coherence with machine learning <br>
         <a href="#Analysis-of-population-of-voxel-selectivity"> &nbsp &nbsp Analysis of population of voxel selectivity <br>
     </div>
     
@@ -108,31 +109,33 @@
       <li> Are we able to decode likelihood conditions (motion directions, coherence) ? </li>
       </ul>
       
-      <p>We decoded the 4 motion directions from the voxels Bold pattern measured in 8 visual brain regions</p>
+      <h3><a id="Decode-direction-with-machine-learning" class="anchor" href="#Decode-direction-with-machine-learning" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Decode direction with machine learning</h3>  
+      <p>We decoded the 5 motion directions from the voxels Bold pattern measured in 8 visual brain regions</p>
       
       <!--Code-->
       <section class="code">
         
-      <p>% Initialize parameters
-      >> clear <br>
-      >> o.rootpath = '~/data/datafMRI/sltaskdotdirfmri05/';<br>
-      >> o.stckPath = o.rootpath;<br>
-      >> o.sessPath{1} = [o.rootpath 's02520150814'];<br>
-      >> o.sessPath{2} = [o.rootpath 's02520150923'];<br>
-      >> o.sessPath{3} = [o.rootpath 's02520150925'];<br>
-      >> o.myGroup = 'Concatenation';<br>
-      >> o.myScan = 1;<br>
-      >> o.myROIname = {'outsideBrain03','V1','V2','V3','V3A','MT','IPS','V1toMT'};<br>
-      >> o.taskNum = 2;<br>
-      >> o.phaseNum = 1;<br>
-      >> o.segmentNum = 2;   <br>
-      >> o.anatFileName = 's0025_flatL_WM_occipital_Rad90';<br>
-      >> o.anatFilePath = '~/data/datafMRI/mlrAnatDB/s0025/mlrBaseAnatomies/'; <br>
-      >> o.myROIpath = '~/data/datafMRI/mlrAnatDB/s0025/mlrROIs/'; </p>
-      
-      <p> >> slfmriClassify2(o,'myRandomDir','accuracyAtTime',[7 14;7 14;7 14;7 14;7 14;7 14;7 14;7 14],...<br>
-          &nbsp &nbsp &nbsp &nbsp              'loadSavedROI','CalcInstances','leaveOneOut','fisher','balancByRemovI=1');</p>
-      <p> >> cd slStckAnalyses/Concatenation/classif/myRandomDir/accAtTimeleaveOneOutfisherbalancByRemovI/ </p>
+          <p>
+          >> o.rootpath    = '~/data/datafMRI/sltaskdotdirfmri05/'; <br>
+          >> o.stckPath    = o.rootpath;<br>
+          >> o.sessPath{1} = [o.rootpath 's02520150814'];<br>
+          >> o.sessPath{2} = [o.rootpath 's02520150923'];<br>
+          >> o.sessPath{3} = [o.rootpath 's02520150925'];<br>
+          >> o.myGroup     = 'Concatenation';<br>
+          >> o.myScan      = 1;<br>
+          >> o.myROIname   = {'outsideBrain03','V1','V2','V3','V3A','MT','IPS','V1toMT'};<br>
+          >> o.taskNum     = 2;<br>
+          >> o.phaseNum    = 1;<br>
+          >> o.segmentNum  = 2;   <br>
+          >> o.anatFileName = 's0025_flatL_WM_occipital_Rad90'; <br>
+          >> o.anatFilePath = '~/data/datafMRI/mlrAnatDB/s0025/mlrBaseAnatomies/'; <br>
+          >> o.myROIpath    = '~/data/datafMRI/mlrAnatDB/s0025/mlrROIs/'; <br> 
+          </p>
+          
+          <p> %plot <br>
+          >> slfmriClassifyMotionDirections(o); 
+          <p>
+
       
       </section>
       
