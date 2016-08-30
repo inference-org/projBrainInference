@@ -143,7 +143,17 @@
            >> slfmriClassifyMotionCoherence(o);
       </section>
       
+      <!--Section-->
+      <h3><a id="Decode-switching-with-machine-learning" class="anchor" href="#Decode-switching-with-machine-learning" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Decode switching with machine learning</h3>  
+      <p>We also decoded when subjects switched to the prior or the likelihood from the voxels Bold pattern of the same brain regions. </p>
       
+      <!--Code-->
+      <section class="code">      
+           %First initialize the parameters as above for directions .. <br>
+           %..then decode <br>
+           >> slfmriClassifySwitchingbyCoh(o);
+      </section>
+
       <!--text-->
       <p><strong> Did the subject's brain maintained a representation of the displayed motion direction when the subject switched to his prior ? </strong>
       <p> We decoded the 4 motion directions (except at the prior mean, because those trials can be classified as switching to evidence or prior mean) displayed on each trial 
