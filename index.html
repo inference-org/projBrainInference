@@ -5,91 +5,252 @@
     <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <meta name="description" content="Project inference : Design an experiment which requires human subjects to do inference, analyse, mine and model their brain activity to understand how the brain do inference ?">
-
     <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
-
-    <title>Project inference</title>
+    <!--load font families-->
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+    <link rel="stylesheet" href="fonts/Serif/cmun-serif.css" />
   </head>
 
   <body>
-    <!-- HEADER -->
+       <!-- HEADER -->
     <div id="header_wrap" class="outer">
         <header class="inner">
           <a id="forkme_banner" href="https://github.com/steevelaquitaine/projBrainInference">View on GitHub</a>
-
-          <h3 id="project_title"> Project : understanding how human brain does inference </h1>
-          <!--<h2 id="project_tagline">  </h2>-->
-
-            <section id="downloads">
-              <a class="zip_download_link" href="https://github.com/steevelaquitaine/projBrainInference/zipball/master">Download this project as a .zip file</a>
-              <a class="tar_download_link" href="https://github.com/steevelaquitaine/projBrainInference/tarball/master">Download this project as a tar.gz file</a>
-            </section>
+          <a id="project_author"> Steeve laquitaine </a>
         </header>
     </div>
 
+    <!--TITLE-->
+    <div id="proj_title_wrap" class="outer">
+        <section id="proj_title" class="inner">
+        <h1 id="proj_title"> How does the brain do visual inference ? </h1>
+    </div>
 
     <!--Table of contents-->
     <div id="Table_of_content_wrap" class="outer">
       <section id="table_of_content" class="inner">
-        <h6> Table of Content </h6>
-        <a href="#Approach-to-inference"> Approach to inference <br>
+        <h3> Table of Content </h3>
+        <a href="#Inference"> Inference <br>
         <a href="#Design-an-inference-experiment"> Design an inference experiment <br>
+        <a href="#Database"> Database <br>
+        <a href="#Data preprocessing workflow"> Data preprocessing workflow <br>
         <a href="#Mapping-brain-areas"> Mapping brain areas <br>
+        <a href="#Look-at-fMRI-voxel-responses"> Look at fmri voxel responses  <br>
         <a href="#Decode-stimulus-features-from-brain-activity"> Decode stimulus features from brain activity <br>
+        <a href="#Decode-direction-with-machine-learning"> &nbsp &nbsp Decode direction with machine learning <br>
+        <a href="#Decode-coherence-with machine-learning"> &nbsp &nbsp Decode coherence with machine learning <br>
+        <a href="#Decode-switching-with machine-learning"> &nbsp &nbsp Decode switching with machine learning <br>
+        <a href="#Analysis-of-population-of-voxel-selectivity"> &nbsp &nbsp Analysis of population of voxel selectivity <br>
     </div>
     
     <!-- MAIN CONTENT -->
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
         
-      <h6><a id="Approaches-to-inference" class="anchor" href="#Approaches-to-inference" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Approaches to inference.</h3>  
+      <h3><a id="Inference" class="anchor" href="#Inference" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Inference</h3>  
       <p></p>
 
-      <h6><a id="Design-an-inference-experiment" class="anchor" href="#Design-an-inference-experiment" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Designing an inference experiment.</h3>
-      <p>We designed a motion direction estimation experiment in which humans were asked to estimate the motion direction of noisy stimuli on a computer screen. In this experiment statistical optimality can be achieved by combining noisy evidence of the motion with knowledge of the motion direction statistics learnt over motion stimulus history using Bayesian inference</p>
+      <h3><a id="Design-an-inference-experiment" class="anchor" href="#Design-an-inference-experiment" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Designing an inference experiment</h3>
+      <p>We designed a motion direction estimation experiment in which humans were asked to estimate the 
+      motion direction of noisy stimuli on a computer screen. In this experiment statistical optimality 
+      can be achieved by combining noisy evidence of the motion with knowledge of the motion direction 
+      statistics learnt over motion stimulus history using Bayesian inference</p>
+      
+      <p> Subjects were first trained with one prior distribution then scanned with the same prior. 
+      In subsequent session, subjects are trained with a new prior and scanned with this new prior. </p>
       <center><img src="images/experiment.png"></center>
       
-      <h6><a id="Mapping-brain-areas" class="anchor" href="#Mapping-brain-areas" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Mapping brain areas.</h3>
+      <o> The line by line steps of the experiment are stored in the following matlab script : <p>
+      <!--Codes-->
+      <section class="code">
+          >> run runAlltaskDirfMRI05.m
+      </section>
+      
+      <h3><a id="Database" class="anchor" href="#Database" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Database</h3>
+      <a href="dataset/datasetBrainInfer.csv"> Click for dataset info </a>
+
+      <h3><a id="Data-preprocessing-workflow" class="anchor" href="#Data-preprocessing-workflow" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Data preprocessing workflow</h3>
+      <p> The raw behavioral data we collected are saved in files under matlab format (".mat") in a project folder we called "sltaskDotDirfMRI05".
+      Open matlab script "slworkflowBehData.m". It contains the steps to preprocess and organize the data in ".mat" file format ready  
+      to be analyzed with the script "analyses.m". The subject id and its associated files for each condition are already set in "slworkflowBehData.m"  </p>
+      
+      <!--code-->
+      <section class="code">
+          >> run slworkflowBehData.m
+          >> analyses({'sub02'},{'StimStrength','Pstd','FeatureSample'},'inpath','experiment','vonMisesPrior','dataDis','signDistance');
+      </section>
+      
+      
+      <h3><a id="Mapping-brain-areas" class="anchor" href="#Mapping-brain-areas" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Mapping brain areas</h3>
       <p> The predominant view is that the brain is a collection of areas that are specialized for particular processing. e.g., The occipital cortex (largely involved in visual perception) has been divided into areas included V1, specialized in edge orientation processing, MT, specialized in motion processing etc...
-      The first step consists in mapping those visual areas. We first run an event-related analysis to reveal the brain areas that responded to motion (highlighted below in hot colors (yellow) on different views of an inflated brain </p>
+      The first step consists in mapping those visual areas. We used retinotopic mapping to identify visual areas : 6-8 scans of bars swipping the visual screen.
+      We then run a population receptive field analysis that identify voxels preferred spatial location (eccentricity and polar angle).
+      The analysis consists in modeling voxels responses to different stimulus locations with a 2D Gaussian that accounts for the hemodynamic response
+      timecourse, hemodynamic response timecourse was modelled with a difference of gamma function (fminsearch). <p>
+      
+      <p> We then run an event-related analysis to map the areas that responded to motion (highlighted below in hot colors (yellow) on different views of an inflated brain </p>
       <center><img src="images/MotionBrain.png" style="width: 50%; height: 50%"/></center>
       
-      <h6><a id="Decode-stimulus-features-from-brain-activity" class="anchor" href="#Decode-stimulus-features-from-brain-activity" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Decode stimulus features from brain activity.</h3>  
+      <h3><a id="Look-at-fMRI-voxel-responses" class="anchor" href="#Look-at-fMRI-voxel-responses" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Look at fMRI voxel responses</h3>
+          
+      <!--code-->
+      <section class="code">    
+        <p>  >> slfmriInitAnalysisTaskDotDirfMRI05 <br>
+          >> [d,o,behbySess] = slfmriGetDBoverSessions(o,varargin); <br>
+          >> [~,VoxelsParams] = slfmriGetVoxTuningParams('vonMisesprior','neuralvector',d,o); <br>
+          >> slfmriVisualDatabase(d.instances(d.mySwitch==1,:),'x1',d.myRandomDir(d.mySwitch==1,:),'x2',VoxelsParams.modes1); <br>
+          >> slfmriVisualDatabase(d.instances(d.mySwitch==2,:),'x1',d.myRandomDir(d.mySwitch==2,:),'x2',VoxelsParams.modes2) </p>
+      </section>
+
       
+      
+      
+      
+      
+      
+      <h3><a id="Decode-stimulus-features-from-brain-activity" class="anchor" href="#Decode-stimulus-features-from-brain-activity" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Decode stimulus features from brain activity</h3>  
+      
+      <ul>
+      <li> Are we able to decode prior conditions from any area? </li>
+      <li> Are we able to decode likelihood conditions (motion directions, coherence) ? </li>
+      </ul>
+      
+      <h3><a id="Decode-direction-with-machine-learning" class="anchor" href="#Decode-direction-with-machine-learning" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Decode direction with machine learning</h3>  
+      <p>We decoded the 5 motion directions from the voxels Bold pattern measured in 8 visual brain regions engaged in 
+      processing motion information. </p>
+      
+      <!--Code-->
+      <section class="code">
+        
+          <p>
+          <p> %Initialize parameters <br>
+            >> o = slfmriInitTask('Concatenation',1,2,1,2,o); <br>
+            >> o = slfmriInitSession('~/data/datafMRI/sltaskdotdirfmri05/',... <br>
+            &nbsp &nbsp &nbsp &nbsp    {'s02520150814','s02520150923','s02520150925'},o); <br>
+            >> o = slfmriInitRois({'outsideBrain03','V1','V2','V3','V3A','MT','IPS','V1toMT'},...<br>
+            &nbsp &nbsp &nbsp &nbsp   's0025_flatL_WM_occipital_Rad90',... <br>
+            &nbsp &nbsp &nbsp &nbsp  '~/data/datafMRI/mlrAnatDB/s0025/mlrBaseAnatomies/',... <br>
+            &nbsp &nbsp &nbsp &nbsp  '~/data/datafMRI/mlrAnatDB/s0025/mlrROIs/',o); <p>
+          </p>
+          
+          <p> %plot <br>
+          >> slfmriClassifyMotionDirections(o); 
+          <p>
+
+      </section>
+      
+      <h3><a id="Decode-coherence-with-machine-learning" class="anchor" href="#Decode-coherence-with-machine-learning" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Decode coherence with machine learning</h3>  
+      <p>We also decoded the 2 coherences from the voxels Bold pattern same brain regions. </p>
+      
+      <!--Code-->
+      <section class="code">      
+           %First initialize the parameters as above for directions .. <br>
+           %..then decode <br>
+           >> slfmriClassifyMotionCoherence(o);
+      </section>
+      
+      <!--Section-->
+      <h3><a id="Decode-switching-with-machine-learning" class="anchor" href="#Decode-switching-with-machine-learning" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Decode switching with machine learning</h3>  
+      <p>We also decoded when subjects switched to the prior or the likelihood from the voxels Bold pattern of the same brain regions. </p>
+      
+      <!--Code-->
+      <section class="code">      
+           %First initialize the parameters as above for directions .. <br>
+           %..then decode <br>
+           >> slfmriClassifySwitchingbyCoh(o);
+      </section>
+
       <!--text-->
-      <p> We decoded motion directions from voxels patterns recorded when subject switched to prior mean and to motion direction separately to determine whether subject brain encodes sensory evidence when subject switch to the prior mean.  </p> 
+      <p><strong> Did the subject's brain maintained a representation of the displayed motion direction when the subject switched to his prior ? </strong>
+      <p> We decoded the 4 motion directions (except at the prior mean, because those trials can be classified as switching to evidence or prior mean) displayed on each trial 
+      from the activity patterns recorded from the subject s025's brain when he switched to his prior mean and when he switched to the 
+      sensory evidence separately (at the weakest motion, 6% coherence, 3 sessions of 80 deg prior). The sample size was 32 trials/direction and 8 trials/direction when subjects 
+      switched to sensory evidence and prior respectively).</p> 
       
       <!--code-->
-      <div style="background-color:#f2f2f2; color:black; line-height:0.8; padding:10px;">            
-      <br> >> slfmriInitClassifAnalysisTaskDotDirfMRI05 </br>
-      <br> >> dataClassif = slfmriClassifyDir_x_switch(o) </br>
-      </div>
+      <section class="code">
+      <p> >> slfmriInitClassifAnalysisTaskDotDirfMRI05 <br>
+       >> dataClassif = slfmriClassifyDir_x_switch(o) </p>
+      </section>
       
-      <p> We further check whether we could decode only two motion directions from the voxel patterns sorted by switching to test whether the classifier low accuracy was due to an inability to decode all five directions or an ability to 
-      only decode few directions which pulls down classification accuracy when all five directions are considered.  </p>
-      <p> We chose the two directions furthest from the prior (225 deg in blue), where switching is the clearest: 15 and 85 degrees (red arrows) </p> 
+      <!--figure-->
+      <center><img src="images/Classif4DirBySwitch.png" style="width: 70%; height: 70%"/></center>
       
+      <p><strong> The classifier showed very poor decoding accuracies when trying to classify 5 motion directions. But it might have 
+      a hard time identifying differences in patterns elicited by 5 motion directions.
+      
+      <!--subsection-->
+      <p><strong> It is unfair to compare the classification accuracies produced from 32 trials in one condition with 
+      the accuracy produced by classifying from 8 trials which should be poorer because the sample size is smaller. </strong> 
+      We equalized the sample size between switching conditions to 8 instances (sampled out of 32 without 
+      replacement) and rerun the classifications for 7 rois (V1 - V3, V3A, MT, IPS) and a control roi outside the brain. 
+      Sampling was performed 100 times (minimum number of samples) from each class and the 100 resulting classification 
+      accuracies were averaged for each conditions and roi with the 95% confidence interval calculated over bootstrapped 
+      samples. </p> 
+        
+      <!--Code-->
+      <section class="code">
+        
+          <p>>> slfmriInitClassifAnalysisTaskDotDirfMRI05 <br></p>
+
+          <p>>> params = {'accuracyAtTime',[7 14; 7 14;7 14; 7 14;7 14; 7 14;7 14],... <br>
+              &nbsp &nbsp &nbsp &nbsp       'loadSavedROI','CalcInstances','leaveOneOut','fisher',... <br>
+              &nbsp &nbsp &nbsp &nbsp       'numInstances',8,'CalcInstancesByCond'};</p>
+
+          <p>>> myConds = {{'myRandomDir_x_mySwitch=1_x_myRandomCoh=0.06'},.... <br>
+              &nbsp &nbsp &nbsp &nbsp     {'myRandomDir_x_mySwitch=2_x_myRandomCoh=0.06'}}; <br></p>
+
+          <p>>> [stat,cbycByROI,sbycByROI,oByROI,obycByROI]=... <br>
+              &nbsp &nbsp &nbsp &nbsp     slfmriClassifyBootInstByConditions(100,params,myConds,o);</p>
+              
+      </section>
+          
+      <center><img src="images/classifAccEqSamplSizeByBoot.png" style="width: 50%; height: 50%"/></center>
+          
+      <!--results-->
+      <p> None of the accuracies were significantly above chance. There might seem below chance because 
+      Fisher leaveOneOut slightly bias predictions against the test set (not sure, it's an explanation for 
+      svm but it should not bias classification for fisher) or because classification outputs are unstable for
+      such small sample size (8 instances). </p>
+      
+      
+      
+<!--subsection-->
+      <p> Can he do better with 2 motion directions ? </strong> </p>
+      <p> We chose the two directions furthest from the prior (225 deg in blue), where switching is the clearest: 15 and 85 degrees. 
+      The classifier outputted one class at each of the 8/32 trials collected for each direction and when the subject switched to prior/evidence. 
+      We report the classifier's percent correct prediction. </p> 
       <!--code-->
-      <div style="background-color:#f2f2f2; color:black; line-height:0.8; padding:10px;">            
-      >> drawVectors([15 85 155 225 295],[1 1 1 1 1])
-      </div>
+      <section class="code">
+        <p> >> drawVectors([15 85 155 225 295],[1 1 1 1 1]) </p>
+      </section>
       
       <!--figure-->
       <center><img src="images/ClassifyTwoDirections.png" style="width: 100%; height: 100%"/></center>
       
-      <p> We first classify the two directions from a control region outside the brain as a control condition that makes
-      sure any significant accuracy is not spurious (e.g., error in the code). <p>
+      <p> We classified the two directions from various visually responsive areas of the brain (V1,V2,V3,V3A,hMT,IPS) 
+      for subject "s025" over 3 sessions when motion and the prior were weak (6% coherence, 80 deg prior). We also 
+      classified the directions from signals recorded outside the brain as a control check that significant accuracies were not 
+      spurious (e.g., error in the code).
       
       <!--figure-->
-      <center><img src="images/ControROI.png" style="width: 50%; height: 50%"/></center>
-      
-      <p>We then examined classification accuracy in different visual areas (V1)<p>
+      <center><img src="images/ControlROI.png" style="width: 50%; height: 50%"/></center>
       
       <!--code-->
-      <div style="background-color:#f2f2f2; color:black; line-height:0.8; padding:10px;">            
-         <br> >> slfmriInitClassifAnalysisTaskDotDirfMRI05;</br> 
-         <br> >> [dataClassifsw1,dataClassifsw2] = slfmriClassifyTwoDir_x_switch(o);</br> 
-      </div>
+      <section class="code">
+         <p> >> slfmriInitClassifAnalysisTaskDotDirfMRI05_loop; <br> 
+              >> [accuracy, ste, dataClassifsw1, dataClassifsw2, nTrials] = slfmriClassifyTwoDir_x_switch_loop(o); </p>
+      </section>
+      
+      <!--figure-->
+      <center><img src="images/ClassifTwoDir.png" style="width: 50%; height: 50%"/></center>
+      
+      <!--SECTION-->
+      <h3><a id="Analysis-of-population-of-voxel-selectivity" class="anchor" href="#Analysis-of-population-of-voxel-selectivity" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Analysis of population of voxel selectivity</h3>  
+
+      <section class="code">
+        <p> >> slfMRIwrapperDisVoxSelbalDir </p>
+      </section>
       
     </div>
     
