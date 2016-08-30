@@ -38,7 +38,7 @@
         <a href="#Look-at-fMRI-voxel-responses"> Look at fmri voxel responses  <br>
         <a href="#Decode-stimulus-features-from-brain-activity"> Decode stimulus features from brain activity <br>
         <a href="#Decode-direction-with-machine-learning"> &nbsp &nbsp Decode direction with machine learning <br>
-        <a href="#Decode coherence with machine learning"> &nbsp &nbsp Decode coherence with machine learning <br>
+        <a href="#Decode-coherence-with machine-learning"> &nbsp &nbsp Decode coherence with machine learning <br>
         <a href="#Analysis-of-population-of-voxel-selectivity"> &nbsp &nbsp Analysis of population of voxel selectivity <br>
     </div>
     
@@ -131,8 +131,27 @@
           >> slfmriClassifyMotionDirections(o); 
           <p>
 
-      
       </section>
+      
+      <h3><a id="Decode-coherence-with-machine-learning" class="anchor" href="#Decode-coherence-with-machine-learning" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Decode coherence with machine learning</h3>  
+      <p>We also decoded the 2 coherences from the voxels Bold pattern same brain regions. </p>
+      
+      <!--Code-->
+      <section class="code">      
+          <p> %Initialize parameters <br>
+            >> o = slfmriInitTask('Concatenation',1,2,1,2,o); <br>
+            >> o = slfmriInitSession('~/data/datafMRI/sltaskdotdirfmri05/',... <br>
+            &nbsp &nbsp &nbsp &nbsp    {'s02520150814','s02520150923','s02520150925'},o); <br>
+            >> o = slfmriInitRois({'outsideBrain03','V1','V2','V3','V3A','MT','IPS','V1toMT'},...<br>
+            &nbsp &nbsp &nbsp &nbsp   's0025_flatL_WM_occipital_Rad90',... <br>
+            &nbsp &nbsp &nbsp &nbsp  '~/data/datafMRI/mlrAnatDB/s0025/mlrBaseAnatomies/',... <br>
+            &nbsp &nbsp &nbsp &nbsp  '~/data/datafMRI/mlrAnatDB/s0025/mlrROIs/',o); <p>
+          </p>
+
+          <p> %decode
+            slfmriClassifyMotionCoherence(o);
+          <p>
+      <section>
       
       
       <!--text-->
