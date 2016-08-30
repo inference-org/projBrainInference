@@ -88,7 +88,9 @@
       The analysis consists in modeling voxels responses to different stimulus locations with a 2D Gaussian that accounts for the hemodynamic response
       timecourse, hemodynamic response timecourse was modelled with a difference of gamma function (fminsearch). <p>
         
-      <p>We roughly divide the brain into parietal and occipital regions like that : </p>
+      <p>We roughly divided the brain into parietal and occipital regions. To visualize those areas in mrTools load a surface (.off fiels) 
+      produced by freesurfer, create an occipital/parietal flat map on that surface, load the flat map and create an roi
+      out of the entire flat map, then display the roi on the surface). </p>
 
       <center><img src="images/left_parietal_occipital.png" style="width: 50%; height: 50%"/></center>
 
