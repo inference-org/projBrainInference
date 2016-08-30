@@ -83,7 +83,12 @@
       
       <h3><a id="Mapping-brain-areas" class="anchor" href="#Mapping-brain-areas" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Mapping brain areas</h3>
       <p> The predominant view is that the brain is a collection of areas that are specialized for particular processing. e.g., The occipital cortex (largely involved in visual perception) has been divided into areas included V1, specialized in edge orientation processing, MT, specialized in motion processing etc...
-      The first step consists in mapping those visual areas. We first run an event-related analysis to reveal the brain areas that responded to motion (highlighted below in hot colors (yellow) on different views of an inflated brain </p>
+      The first step consists in mapping those visual areas. We used retinotopic mapping to identify visual areas : 6-8 scans of bars swipping the visual screen.
+      We then run a population receptive field analysis that identify voxels preferred spatial location (eccentricity and polar angle).
+      The analysis consists in modeling voxels responses to different stimulus locations with a 2D Gaussian that accounts for the hemodynamic response
+      timecourse, hemodynamic response timecourse was modelled with a difference of gamma function (fminsearch). <p>
+      
+      <p> We then run an event-related analysis to map the areas that responded to motion (highlighted below in hot colors (yellow) on different views of an inflated brain </p>
       <center><img src="images/MotionBrain.png" style="width: 50%; height: 50%"/></center>
       
       <h3><a id="Look-at-fMRI-voxel-responses" class="anchor" href="#Look-at-fMRI-voxel-responses" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Look at fMRI voxel responses</h3>
