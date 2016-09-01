@@ -33,18 +33,19 @@
     <!--Table of contents-->
     <div id="Table_of_content_wrap" class="outer">
       <section id="table_of_content" class="inner">
-        <h3> Table of Content </h3>
-        <a href="#Inference"> Inference <br>
-        <a href="#Design-an-inference-experiment"> Design an inference experiment <br>
-        <a href="#Database"> Database <br>
-        <a href="#Data preprocessing workflow"> Data preprocessing workflow <br>
-        <a href="#Mapping-brain-areas"> Mapping brain areas <br>
-        <a href="#Look-at-fMRI-voxel-responses"> Look at fmri voxel responses  <br>
-        <a href="#Decode-stimulus-features-from-brain-activity"> Decode stimulus features from brain activity <br>
-        <a href="#Decode-direction-with-machine-learning"> &nbsp &nbsp Decode direction with machine learning <br>
-        <a href="#Decode-coherence-with machine-learning"> &nbsp &nbsp Decode coherence with machine learning <br>
-        <a href="#Decode-switching-with machine-learning"> &nbsp &nbsp Decode switching with machine learning <br>
-        <a href="#Analysis-of-population-of-voxel-selectivity"> &nbsp &nbsp Analysis of population of voxel selectivity <br>
+        <h5> TABLE OF CONTENT </h5>
+        <h7><a href="#Inference"> Inference <br></h7>
+        <h7><a href="#Design-an-inference-experiment"> Design an inference experiment <br></h7>
+        <h7><a href="#Database"> Database <br></h7>
+        <h7><a href="#Data preprocessing workflow"> Data preprocessing workflow <br></h7>
+        <h7><a href="#Mapping-brain-areas"> Mapping brain areas <br></h7>
+        <h7><a href="#Look-at-fMRI-voxel-responses"> Look at fmri voxel responses  <br></h7>
+        <h7><a href="#Decode-stimulus-features-from-brain-activity"> Decode stimulus features from brain activity <br></h7>
+        <h7><a href="#Decode-direction-with-machine-learning"> &nbsp &nbsp Decode direction with machine learning <br></h7>
+        <h7><a href="#Decode-coherence-with machine-learning"> &nbsp &nbsp Decode coherence with machine learning <br></h7>
+        <h7><a href="#Decode-switching-with machine-learning"> &nbsp &nbsp Decode switching with machine learning <br></h7>
+        <h7><a href="#Analysis-of-population-of-voxel-selectivity"> &nbsp &nbsp Analysis of population of voxel selectivity <br></h7>
+        </section>
     </div>
     
     <!-- MAIN CONTENT -->
@@ -54,7 +55,7 @@
       <h6><a id="Inference" class="anchor" href="#Inference" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Inference</h3>  
       <p></p>
 
-      <h6><a id="Design-an-inference-experiment" class="anchor" href="#Design-an-inference-experiment" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Designing an inference experiment</h3>
+      <h6><a id="Design-an-inference-experiment" class="anchor" href="#Design-an-inference-experiment" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Designing an inference experiment</h6>
       <p>We designed a motion direction estimation experiment in which humans were asked to estimate the 
       motion direction of noisy stimuli on a computer screen. In this experiment statistical optimality 
       can be achieved by combining noisy evidence of the motion with knowledge of the motion direction 
@@ -66,9 +67,9 @@
       
       <p> The line by line steps of the experiment are stored in the following matlab script : <p>
       <!--Codes-->
-      <section class="code">
+      <code class="code">
           >> run runAlltaskDirfMRI05.m
-      </section>
+      </code>
       
       <h6><a id="Database" class="anchor" href="#Database" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Database</h3>
       <a href="dataset/datasetBrainInfer.csv"> Click for dataset info </a>
@@ -79,10 +80,10 @@
       to be analyzed with the script "analyses.m". The subject id and its associated files for each condition are already set in "slworkflowBehData.m"  </p>
       
       <!--code-->
-      <section class="code">
+      <code class="code">
           >> run slworkflowBehData.m <br>
           >> analyses({'sub02'},{'StimStrength','Pstd','FeatureSample'},'inpath','experiment','vonMisesPrior','dataDis','signDistance');<br>
-      </section>
+      </code>
       
       
       <h6><a id="Mapping-brain-areas" class="anchor" href="#Mapping-brain-areas" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Mapping brain areas</h3>
@@ -106,13 +107,13 @@
       <h6><a id="Look-at-fMRI-voxel-responses" class="anchor" href="#Look-at-fMRI-voxel-responses" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Look at fMRI voxel responses</h3>
           
       <!--code-->
-      <section class="code">    
+      <code class="code">   
         <p>  >> slfmriInitAnalysisTaskDotDirfMRI05 <br>
           >> [d,o,behbySess] = slfmriGetDBoverSessions(o,varargin); <br>
           >> [~,VoxelsParams] = slfmriGetVoxTuningParams('vonMisesprior','neuralvector',d,o); <br>
           >> slfmriVisualDatabase(d.instances(d.mySwitch==1,:),'x1',d.myRandomDir(d.mySwitch==1,:),'x2',VoxelsParams.modes1); <br>
           >> slfmriVisualDatabase(d.instances(d.mySwitch==2,:),'x1',d.myRandomDir(d.mySwitch==2,:),'x2',VoxelsParams.modes2) </p>
-      </section>
+      </code>
 
       
       <h6><a id="Decode-stimulus-features-from-brain-activity" class="anchor" href="#Decode-stimulus-features-from-brain-activity" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Decode stimulus features from brain activity</h3>  
@@ -127,7 +128,7 @@
       processing motion information. </p>
       
       <!--Code-->
-      <section class="code">
+      <code class="code">
         
           <p>
           <p> %Initialize parameters <br>
@@ -144,28 +145,28 @@
           >> slfmriClassifyMotionDirections(o); 
           <p>
 
-      </section>
+      </code>
       
       <h6><a id="Decode-coherence-with-machine-learning" class="anchor" href="#Decode-coherence-with-machine-learning" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Decode coherence with machine learning</h3>  
       <p>We also decoded the 2 coherences from the voxels Bold pattern same brain regions. </p>
       
       <!--Code-->
-      <section class="code">      
+      <code class="code">      
            %First initialize the parameters as above for directions .. <br>
            %..then decode <br>
            >> slfmriClassifyMotionCoherence(o);
-      </section>
+      </code>
       
       <!--Section-->
       <h6><a id="Decode-switching-with-machine-learning" class="anchor" href="#Decode-switching-with-machine-learning" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Decode switching with machine learning</h3>  
       <p>We also decoded when subjects switched to the prior or the likelihood from the voxels Bold pattern of the same brain regions. </p>
       
       <!--Code-->
-      <section class="code">      
+      <code class="code">      
            %First initialize the parameters as above for directions .. <br>
            %..then decode <br>
            >> slfmriClassifySwitchingbyCoh(o);
-      </section>
+      </code>
 
       <!--text-->
       <p><strong> Did the subject's brain maintained a representation of the displayed motion direction when the subject switched to his prior ? </strong>
@@ -175,10 +176,10 @@
       switched to sensory evidence and prior respectively).</p> 
       
       <!--code-->
-      <section class="code">
+      <code class="code">
       <p> >> slfmriInitClassifAnalysisTaskDotDirfMRI05 <br>
        >> dataClassif = slfmriClassifyDir_x_switch(o) </p>
-      </section>
+      </code>
       
       <!--figure-->
       <center><img src="images/Classif4DirBySwitch.png" style="width: 70%; height: 70%"/></center>
@@ -196,7 +197,7 @@
       samples. </p> 
         
       <!--Code-->
-      <section class="code">
+      <code class="code">
         
           <p>>> slfmriInitClassifAnalysisTaskDotDirfMRI05 <br></p>
 
@@ -210,7 +211,7 @@
           <p>>> [stat,cbycByROI,sbycByROI,oByROI,obycByROI]=... <br>
               &nbsp &nbsp &nbsp &nbsp     slfmriClassifyBootInstByConditions(100,params,myConds,o);</p>
               
-      </section>
+      </code>
           
       <center><img src="images/classifAccEqSamplSizeByBoot.png" style="width: 50%; height: 50%"/></center>
           
@@ -228,9 +229,9 @@
       The classifier outputted one class at each of the 8/32 trials collected for each direction and when the subject switched to prior/evidence. 
       We report the classifier's percent correct prediction. </p> 
       <!--code-->
-      <section class="code">
+      <code class="code">
         <p> >> drawVectors([15 85 155 225 295],[1 1 1 1 1]) </p>
-      </section>
+      </code>
       
       <!--figure-->
       <center><img src="images/ClassifyTwoDirections.png" style="width: 100%; height: 100%"/></center>
@@ -244,10 +245,10 @@
       <center><img src="images/ControlROI.png" style="width: 50%; height: 50%"/></center>
       
       <!--code-->
-      <section class="code">
+     <code class="code">
          <p> >> slfmriInitClassifAnalysisTaskDotDirfMRI05_loop; <br> 
               >> [accuracy, ste, dataClassifsw1, dataClassifsw2, nTrials] = slfmriClassifyTwoDir_x_switch_loop(o); </p>
-      </section>
+      </code>
       
       <!--figure-->
       <center><img src="images/ClassifTwoDir.png" style="width: 50%; height: 50%"/></center>
@@ -255,9 +256,9 @@
       <!--SECTION-->
       <h6><a id="Analysis-of-population-of-voxel-selectivity" class="anchor" href="#Analysis-of-population-of-voxel-selectivity" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Analysis of population of voxel selectivity</h3>  
 
-      <section class="code">
+      <code class="code">
         <p> >> slfMRIwrapperDisVoxSelbalDir </p>
-      </section>
+      </code>
       
     </div>
     
