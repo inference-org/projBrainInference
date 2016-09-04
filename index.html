@@ -50,11 +50,12 @@
         <h7><a href="#Data preprocessing workflow"> Data preprocessing workflow <br></h7>
         <h7><a href="#Mapping-brain-areas"> Mapping brain areas <br></h7>
         <h7><a href="#Look-at-fMRI-voxel-responses"> Look at fmri voxel responses  <br></h7>
-        <h7><a href="#Brain-decoding-of-stimulus-machine-learning"> BRAIN DECODING OF STIMULUS (MACHINE LEARNING) <br></h7>
+        <h7><a href="#Brain-decoding-of-stimulus-machine-learning"> BRAIN DECODING (FISHER LINEAR DISCRIMINANT-LOO) <br></h7>
         <h7><a href="#Motion-direction"> &nbsp &nbsp MOTION DIRECTION <br></h7>
         <h7><a href="#Motion-noise"> &nbsp &nbsp MOTION NOISE <br></h7>
-        <h7><a href="#switching"> &nbsp &nbsp SWITCHING BEHAVIOR <br></h7>
-        <h7><a href="#Analysis-of-population-of-voxel-selectivity"> &nbsp &nbsp VOXEL POPULATION ANALYSIS <br></h7>
+        <h7><a href="#switching"> &nbsp &nbsp ESTIMATION BEHAVIOR <br></h7>
+        <h7><a href="#voxel-population-analysis"> &nbsp &nbsp BRAIN RESPONSE POPULATION ANALYSIS <br></h7>
+        <h7><a href="#Brain-decoding-with-Channel-Encoding-reconstruction"> &nbsp &nbsp BRAIN DECODING WITH FORWARD MODELING RECONSTRUCTION <br></h7>
         <h7><a href="#Probabilistic-population-decoding"> &nbsp &nbsp PROBABILISTIC POPULATION DECODING <br></h7>
         </section>
     </div>
@@ -269,18 +270,35 @@
       <center><img src="images/ClassifTwoDir.png" style="width: 50%; height: 50%"/></center>
       
       <!--SECTION-->
-      <h6><a id="Analysis-of-population-of-voxel-selectivity" class="anchor" href="#Analysis-of-population-of-voxel-selectivity" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Analysis of population of voxel selectivity</h3>  
+      <h6><a id="Analysis-of-population-of-voxel-selectivity" class="anchor" href="#Analysis-of-population-of-voxel-selectivity" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>VOXEL POPULATION ANALYSIS</h3>  
 
       <code class="code">
         <p> >> slfMRIwrapperDisVoxSelbalDir </p>
       </code>
-    
+
+      <h7><a href="#Brain-decoding-with-Channel-Encoding-reconstruction"> &nbsp &nbsp BRAIN DECODING WITH FORWARD MODELING RECONSTRUCTION <br></h7>
+      <h6><a id="Brain-decoding-with-Channel-Encoding-reconstruction" class="anchor" href="Brain-decoding-with-Channel-Encoding-reconstruction" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>STIMULS RECONSTRUCTION WITH BRAIN RESPONSE FORWARD MODELING</h3>   
+
     
       <!--SECTION-->
       <h6><a id="Probabilistic-population-decoding" class="anchor" href="#Probabilistic-population-decoding" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>PROBABILISTIC POPULATION DECODING</h3>   
+      <p> We used a forward modeling approach (Brouwer & Heeger) that consists in modeling the brain voxel responses as a linear sum 
+      of cosine functions (we could think of them as neural tuning functions to a stimulus feature) to reconstruct a stimulus feature
+      (here the motion direction). </p>
+        
+      <!--Equations-->
+      <p>
+      $i$ : voxels <br>
+      $s$ : orientation <br>
+      $f_k$(s)  : orientation tuning functions (half wave rectified cosines power 5) of $k$ neural populations ($k$=8) tuned to different orientations <br>
+      $W_i_k$ : contribution of population $k$ to the response of voxel $i$ <br>
       
-      <p> $\Sigma = \rho\tau\tau^T + (1-\rho)I\circ\tau\tau^T$  </p>
-      
+      </p>
+      $\eta_k \sim \mathcal{N}(0,\sigma^2I)$ <br>
+      $\nu_i \sim \mathcal{N}(0,\Sigma)$ <br>
+      $\Sigma = \rho\tau\tau^T + (1-\rho)I\circ\tau\tau^T$  
+      </p>
+        
     </div>
     
     
