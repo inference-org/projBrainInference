@@ -321,10 +321,15 @@
       
       $W_{i_{k}}$ : contribution of population $k$ to the response of voxel $i$ <br>
       
-      $\eta_k \sim \mathcal{N}(0,\sigma^2I)$ <br>
-      $\nu_i \sim \mathcal{N}(0,\Sigma)$ <br>
+      $\eta_k \sim \mathcal{N}(0,\sigma^2I)$ : noise shared among neural populations of similar tunings <br>
+      $\nu_i \sim \mathcal{N}(0,\Sigma)$ : noise specific to individual voxels (with std $\tau_i$ for voxel $i$), 
+      as well as noise shared globally among voxels irrespective of their tunings (scaled by $\rho$)<br> 
+      
+      $\tau$ : a vector of size 1xN voxels that models the standard deviations of the noise (assumed Gaussian) specific to individual voxels <br>
+      $\rho$ : factor modeling the contribution of the noise shared globally among voxels irrespective of their tunings <br><br>
+      
       $\Sigma = \rho\tau\tau^T + (1-\rho)I\circ\tau\tau^T$  
-          
+      
           
           
     </div>
