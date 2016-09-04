@@ -279,6 +279,7 @@
       <h7><a href="#Brain-decoding-with-Channel-Encoding-reconstruction"> &nbsp &nbsp BRAIN DECODING WITH FORWARD MODELING RECONSTRUCTION <br></h7>
       <h6><a id="Brain-decoding-with-Channel-Encoding-reconstruction" class="anchor" href="Brain-decoding-with-Channel-Encoding-reconstruction" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>STIMULS RECONSTRUCTION WITH BRAIN RESPONSE FORWARD MODELING</h3>   
 
+
     
       <!--SECTION-->
       <h6><a id="Probabilistic-population-decoding" class="anchor" href="#Probabilistic-population-decoding" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>PROBABILISTIC POPULATION DECODING</h3>   
@@ -289,12 +290,17 @@
       <!--Equations-->
       $i$ : voxels <br>
       $s$ : orientation <br>
-      $f_k$(s)  : orientation tuning functions (half wave rectified cosines power 5) of $k$ neural populations ($k$=8) tuned to different orientations <br>
+      $f_k(s)$  : orientation tuning functions (half wave rectified cosines power 5) of $k$ neural populations ($k$=8) tuned to different orientations
+      such that : <br>
+      $f_k(s) = max( \Big(0,cos(\pi\frac{s-\phi_k}{90})\Big) )^5$ <br><br>
+      
       $W_{i_{k}}$ : contribution of population $k$ to the response of voxel $i$ <br>
       
       $\eta_k \sim \mathcal{N}(0,\sigma^2I)$ <br>
       $\nu_i \sim \mathcal{N}(0,\Sigma)$ <br>
       $\Sigma = \rho\tau\tau^T + (1-\rho)I\circ\tau\tau^T$  
+          
+          
           
     </div>
     
