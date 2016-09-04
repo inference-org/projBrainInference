@@ -9,7 +9,17 @@
     <!--load font families-->
     <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
     <link rel="stylesheet" href="fonts/Serif/cmun-serif.css" />
+    
+    <!--Mathematics with MathJax-->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+    </script>
+    <script type="text/javascript" async
+      src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML">
+    </script>
   </head>
+  
+  
 
   <body>
     
@@ -40,17 +50,26 @@
         <h7><a href="#Data preprocessing workflow"> Data preprocessing workflow <br></h7>
         <h7><a href="#Mapping-brain-areas"> Mapping brain areas <br></h7>
         <h7><a href="#Look-at-fMRI-voxel-responses"> Look at fmri voxel responses  <br></h7>
-        <h7><a href="#Decode-stimulus-features-from-brain-activity"> Decode stimulus features from brain activity <br></h7>
-        <h7><a href="#Decode-direction-with-machine-learning"> &nbsp &nbsp Decode direction with machine learning <br></h7>
-        <h7><a href="#Decode-coherence-with machine-learning"> &nbsp &nbsp Decode coherence with machine learning <br></h7>
-        <h7><a href="#Decode-switching-with machine-learning"> &nbsp &nbsp Decode switching with machine learning <br></h7>
-        <h7><a href="#Analysis-of-population-of-voxel-selectivity"> &nbsp &nbsp Analysis of population of voxel selectivity <br></h7>
+        <h7><a href="#Brain-decoding-of-stimulus-machine-learning"> BRAIN DECODING OF STIMULUS (MACHINE LEARNING) <br></h7>
+        <h7><a href="#Motion-direction"> &nbsp &nbsp MOTION DIRECTION <br></h7>
+        <h7><a href="#Motion-noise"> &nbsp &nbsp MOTION NOISE <br></h7>
+        <h7><a href="#switching"> &nbsp &nbsp SWITCHING BEHAVIOR <br></h7>
+        <h7><a href="#Analysis-of-population-of-voxel-selectivity"> &nbsp &nbsp VOXEL POPULATION ANALYSIS <br></h7>
+        <h7><a href="#Probabilistic-population-decoding"> &nbsp &nbsp PROBABILISTIC POPULATION DECODING <br></h7>
         </section>
     </div>
+    
+    
+    
+    
     
     <!-- MAIN CONTENT -->
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
+        
+      <p>When $a \ne 0$, there are two solutions to \(ax^2 + bx + c = 0\) and they are
+      $$x = {-b \pm \sqrt{b^2-4ac} \over 2a}.$$ </p>  
+        
         
       <h6><a id="Inference" class="anchor" href="#Inference" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Inference</h3>  
       <p></p>
@@ -259,8 +278,16 @@
       <code class="code">
         <p> >> slfMRIwrapperDisVoxSelbalDir </p>
       </code>
+    
+    
+      <!--SECTION-->
+      <h6><a id="Probabilistic-population-decoding" class="anchor" href="#Probabilistic-population-decoding" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>PROBABILISTIC POPULATION DECODING</h3>   
+      
+      \Sigma = \rho\tau\tau^T + (1-\rho)I\circ\tau\tau^T  
       
     </div>
+    
+    
     
     <!-- FOOTER  -->
     <div id="footer_wrap" class="outer">
