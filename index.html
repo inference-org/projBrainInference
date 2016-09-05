@@ -312,30 +312,32 @@
       (here the motion direction). </p>
         
       <!--Equations-->
-      $i$ : voxels <br>
-      $s$ : orientation <br>
-      $f_k(s)$  : orientation tuning functions (or channels, half wave rectified cosines power 5) of $K$ neural populations ($K$=8) tuned to different orientations <br>
-      $\Phi_k$ : orientation preference of neural population $k$ <br>
+      Each voxel $i$ response $\b_i$ is modelled by : <br>
       
-      Tuning functions are for each neural population are defined as : <br>
-      \[f_k(s) = max \Big(0,cos(\pi(s-\Phi_k)/90) \Big))^5\] 
+      \[$\b_i = \sum_k^K {W_{i_{k}}}(f_k(s) + \eta_k) + \nu_i}\]
       
+      where, <br>
+      $i$ : voxel i <br>
+      $s$ : stimulus direction <br><br>
       $W_{i_{k}}$ : contribution of population $k$ to the response of voxel $i$ <br>
       
-      $\eta_k \sim \mathcal{N}(0,\sigma^2I)$ : noise (deviation from the mean response of a channel) shared among neural populations of similar tunings (1 x K vector) <br>
+      $f_k(s)$ : direction tuning functions (also called channels, half-wave rectified cosines raised to the power 5) <br>
+      of $K$ neural populations ($K$=8) tuned to different directions <br>
+      Tuning functions are defined as : <br>
+      \[f_k(s) = max \Big(0,cos(\pi(s-\Phi_k)/90) \Big))^5\]
+      where, <br>
+      $\Phi_k$ : orientation preference of neural population $k$ <br>
       
-      $\nu \sim \mathcal{N}(0,\Sigma)$ : the linear combination of two sources of noise with covariance matrices: 
-      
+      $\eta_k$ and $\nu_i$ are deviations (noise) from mean response of channel $k$ and mean voxel $i$ responses respectively. <br>
+      They are modelled as follows : <br>
+      $\eta \sim \mathcal{N}(0,\sigma^2I)$ : noise (deviation from the mean response of a channel) shared among neural populations of similar tunings (1 x K vector) <br><br>
+      $\nu \sim \mathcal{N}(0,\Sigma)$ : the linear combination of two sources of noise with covariance matrices: <br>
       - 1) $\rho\tau\tau^T$ the covariance matrix (square symmetric matrix of M x M voxels) that defines the noise specific to individual voxels $i$ which contribution to $\nu$ is scaled by $rho$ <br>
       , where $\tau$ is a 1 x M vector that models the std $\tau_i$ of each voxel $i$ noise <br>
-      
       - 2) $(1-\rho)I\circ\tau\tau^T$ the covariance matrix (diagonal square matrix of M x M voxels) that defines the noise shared among voxels irrespective of their tunings <br>
       (common deviation from voxels mean response scaled by $1-\rho$) <br> 
-      
       $\tau$ : a vector of 1 x M voxels that models the std $\tau_i$ of each voxel's noise <br>
-      
       $\rho$ : factor modeling the contribution of the voxel-specific noise and the noise shared globally among voxels irrespective of their tunings <br><br>
-      
       $\Sigma = \rho\tau\tau^T + (1-\rho)I\circ\tau\tau^T$  
           
     </div>
