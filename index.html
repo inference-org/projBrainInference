@@ -324,10 +324,15 @@
       of $K$ neural populations ($K$=8) tuned to different directions <br> </p>
       Tuning functions are defined as : <br>
       
-                                            \[f_k(s) = max \Big(0,cos(\pi(s-\Phi_k)/90) \Big))^5\]
+                                            \[f_k(s) = max \Big(0,cos(\pi(s-\Phi_k)/180) \Big))^5\]
                                             
       where, <br>
       $\Phi_k$ : orientation preference of neural population $k$ <br>
+      note that sine waves are defined as cos(AngFreq*space + phase) and take radians as inputs, 
+      thus the phases are the orientation preferences $\Phi_k$ in degrees are $\Phi_k/180*pi$ in radians 
+      and the period is $pi/180$ or 360 degs ($=2pi/360$). Ruben S van Bergen et al., 2015, Nature 
+      Neuroscience use $cos(\pi(s-\Phi_k)/90)$ becausethe circular stimulus feature they manipulate is 
+      orientation in which case sine wave periods are 180 degs. </p>
       
       <p> Responses are varible due to multiple sources of noise : <br> 
       $\eta_k$ and $\nu_i$ are deviations (noise) from mean response of channel $k$ and mean voxel $i$ responses respectively. <br>
