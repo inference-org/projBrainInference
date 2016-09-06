@@ -314,7 +314,7 @@
       <!--Equations-->
       Each voxel $i$ response $b_i$ is modelled by : <br>
       
-      \[ b_i = \sum_k^K W_{i_k}(f_k(s) + \eta_k) + \nu_i \]
+                                              \[ b_i = \sum_k^K W_{i_k}(f_k(s) + \eta_k) + \nu_i \]
       
       where, <br>
       $i$ : voxel i <br>
@@ -323,7 +323,9 @@
       $f_k(s)$ : direction tuning functions (also called channels, half-wave rectified cosines raised to the power 5)
       of $K$ neural populations ($K$=8) tuned to different directions <br>
       Tuning functions are defined as : <br>
-      \[f_k(s) = max \Big(0,cos(\pi(s-\Phi_k)/90) \Big))^5\]
+      
+                                            \[f_k(s) = max \Big(0,cos(\pi(s-\Phi_k)/90) \Big))^5\]
+                                            
       where, <br>
       $\Phi_k$ : orientation preference of neural population $k$ <br>
       
@@ -339,7 +341,19 @@
       (common deviation from voxels mean response scaled by $1-\rho$) <br> 
       $\tau$ : a vector of 1 x M voxels that models the std $\tau_i$ of each voxel's noise <br>
       $\rho$ : 1 scalar factor modeling the contribution of the voxel-specific noise and the noise shared globally among voxels irrespective of their tunings <br><br>
-      $\Sigma = \rho\tau\tau^T + (1-\rho)I\circ\tau\tau^T$  
+      $\Sigma = \rho\tau\tau^T + (1-\rho)I\circ\tau\tau^T$  <br>
+          
+       
+      The idea is to search the model parameters ($W$,$\rho$,$\sigma$,$\tau$) that maximize the fit between actual and predicted bold patterns.<br>
+      Model fitting was done in two steps : <br>   
+      - On a training data set, find $W$ by assuming that $\sigma=0$ which simplifies the fit to least-square regression :  <br>
+                                                
+                                                \[ \hat{W}_i = b_i f(s)^T(f(s)f(s)^T)^-1 \]
+      
+      because : <br>
+      \[ b_i = \sum_k^K W_{i_k}(f_k(s) + \eta_k) + \nu_i \]
+      becomes : <br>
+      \[ b_i = \sum_k^K W_{i_k}(f_k(s)) + \nu_i \] where $W_{i_k}$ are the weights of the linear regression and $\nu_i$ is the Gaussian residual.
           
     </div>
     
