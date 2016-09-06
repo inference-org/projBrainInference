@@ -357,7 +357,19 @@
       \[ b_i = \sum_k^K W_{i_k}(f_k(s)) + \nu_i \] where $W_{i_k}$ are the weights of the linear regression and $\nu_i$ is the Gaussian residual.
       </p>
           
-      Once we get the weights the     
+      Once we get the weights, the seconds step is to find $\rho$,$\sigma$,$\tau$ given those weights are fixed using maximum likelihood fit.
+      The likelihood of each voxel response pattern is given by the generative model : <br>
+      
+      \[ p(b|s,\eta;W,\Sigma) = 1/\sqrt(2\pi |\Sigma|) exp( -1/2(b-W(f(s)+\eta))^T \Sigma^-1(b-W(f(s) + \eta)) ) \]
+      
+      marginalizing over \eta : <br>
+      
+      \[ p(b|s,W,\Omega) = \int p(b|\eta,s;\Sigma)p(\eta)d\eta =  1/\sqrt(2\pi|\Omega|) exp( -1/2(b-Wf(s))^T \Omega^-1(b-Wf(s))  ) \] 
+      
+      where, <br>
+      
+      \[ \Omega = \rho\tau\tau^T + (1-\rho)I\circ\tau\tau^T + \sigma^2WW^T \] 
+      
     </div>
     
     
