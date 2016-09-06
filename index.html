@@ -316,12 +316,12 @@
       
                                               \[ b_i = \sum_k^K W_{i_k}(f_k(s) + \eta_k) + \nu_i \]
       
-      where, <br>
+      <p> where, <br>
       $i$ : voxel i <br>
       $s$ : stimulus direction <br>
       $W_{i_{k}}$ : contribution of population $k$ to the response of voxel $i$ <br>
       $f_k(s)$ : direction tuning functions (also called channels, half-wave rectified cosines raised to the power 5)
-      of $K$ neural populations ($K$=8) tuned to different directions <br>
+      of $K$ neural populations ($K$=8) tuned to different directions <br> </p>
       Tuning functions are defined as : <br>
       
                                             \[f_k(s) = max \Big(0,cos(\pi(s-\Phi_k)/90) \Big))^5\]
@@ -329,6 +329,7 @@
       where, <br>
       $\Phi_k$ : orientation preference of neural population $k$ <br>
       
+      <p> Responses are varible due to multiple sources of noise : <br> 
       $\eta_k$ and $\nu_i$ are deviations (noise) from mean response of channel $k$ and mean voxel $i$ responses respectively. <br>
       They are modelled as follows : <br>
       $\eta \sim \mathcal{N}(0,\sigma^2I)$ : 1 x K vector of noise or deviation from the mean response of each channel $k$ shared among neural populations of similar tunings 
@@ -341,10 +342,10 @@
       (common deviation from voxels mean response scaled by $1-\rho$) <br> 
       $\tau$ : a vector of 1 x M voxels that models the std $\tau_i$ of each voxel's noise <br>
       $\rho$ : 1 scalar factor modeling the contribution of the voxel-specific noise and the noise shared globally among voxels irrespective of their tunings <br><br>
-      $\Sigma = \rho\tau\tau^T + (1-\rho)I\circ\tau\tau^T$  <br>
+      $\Sigma = \rho\tau\tau^T + (1-\rho)I\circ\tau\tau^T$  <br> </p>
           
        
-      The idea is to search the model parameters ($W$,$\rho$,$\sigma$,$\tau$) that maximize the fit between actual and predicted bold patterns.<br>
+      <p>The idea is to search the model parameters ($W$,$\rho$,$\sigma$,$\tau$) that maximize the fit between actual and predicted bold patterns.<br>
       Model fitting was done in two steps : <br>   
       - On a training data set, find $W$ by assuming that $\sigma=0$ which simplifies the fit to least-square regression :  <br>
                                                 
@@ -354,7 +355,9 @@
       \[ b_i = \sum_k^K W_{i_k}(f_k(s) + \eta_k) + \nu_i \]
       becomes : <br>
       \[ b_i = \sum_k^K W_{i_k}(f_k(s)) + \nu_i \] where $W_{i_k}$ are the weights of the linear regression and $\nu_i$ is the Gaussian residual.
+      </p>
           
+      Once we get the weights the     
     </div>
     
     
