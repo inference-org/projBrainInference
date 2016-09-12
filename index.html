@@ -381,7 +381,21 @@
     probability of the directions give the voxel response patterns at each trial. If everything is ok, the posterior circular mean
     should more or less match the displayed directions (slight deviations are expected due to noise).  </p>
     
-    
+    <p> The number of voxels is large compared to the number of instances e.g., 320 voxels for V1 compared to about 240 trials. That might 
+    affect our ability to train the weights with Ordinary least squares if lots of voxels have correlated responses (matrix columns are 
+    linearly dependent and thus there are more than one set of weights that can solve the regression). So we first tried to reduce the number
+    of voxels by selecting the more responsive to the motion stimulus (in the localizer, not the actual task which would cause sharing of
+    information between training and test sets).
+    </p> 
+    <p> We get the r-squared of fitting the voxel responses to a periodic motion stimulus (localizer) with a sinewave with the period as 
+    the stimulus. The voxels with very high r-squared, the well fitted ones respond in a way that is correlated with the appearance of the
+    motion stimulus and are thus considered motion responsive : </p>
+      <code class="code">
+          <p> >> sesspath = '~/data/datafMRI/sltaskdotdirfmri05/s02520150814/'		
+              >> group = 'Averages';
+              >> roipath = '~/data/datafMRI/mlrAnatDB/s0025/mlrROIs/V1.mat';
+              >> [r2,o] = slfmriGetMotLocr2(roipath,sesspath,group); <p>
+      </code>
     
       
     </div>
