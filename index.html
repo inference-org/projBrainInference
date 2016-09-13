@@ -402,10 +402,18 @@
     motion directions. This analysis consists in dividing the response matrix into 5 folds, train the model on the 5 combinations of 4/5 folds
     then test on the remaining fold. We then look at the average results over folds : </p>
     
+    <p> We get the instance matrix $b$ and its associated direction vector $svec$ </p>
+    <code class="code">
+      <p> >> slfmriInitAnalysisTaskDotDirfMRI05 <br>
+          >> d = slfmriGetDBoverSessions(o,varargin); <br> 
+          >> b = d.instances; svec = d.myRandomDir;
+          </p>
+    <code>
+      
+    <p> We decode the likelihood of hypothetical motion directions given the voxel responses and the model </p>
     <code class="code">
        [LLH_f,pp] = slvoxppKFoldCVdec(b,svec,5)
     </code>
-    
     
     </div>
     
