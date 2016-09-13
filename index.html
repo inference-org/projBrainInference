@@ -125,7 +125,8 @@
           >> analyses({'sub02'},{'StimStrength','Pstd','FeatureSample'},'inpath','experiment','vonMisesPrior','dataDis','signDistance');<br>
       </code>
       
-      <p> Multiple sessions were collected for each prior conditions. Those sessions were concatenated. </p>
+      <p> Multiple sessions were collected for each prior conditions. The resulting fMRI images were filtered and high-passed with a filter cut-off
+      of 0.01, then the intensity was normalized to percent signal change relative to the mean intensity. Scans were then concatenated over sessions. </p>
       
       
       <h6><a id="Mapping-brain-areas" class="anchor" href="#Mapping-brain-areas" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Mapping brain areas</h3>
