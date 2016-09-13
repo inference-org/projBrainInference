@@ -68,19 +68,19 @@
     <div id="Table_of_content_wrap" class="outer">
       <section id="table_of_content" class="inner">
         <h5> TABLE OF CONTENT </h5>
-        <h7><a href="#Inference"> Inference <br></h7>
-        <h7><a href="#Design-an-inference-experiment"> Design an inference experiment <br></h7>
-        <h7><a href="#Database"> Database <br></h7>
-        <h7><a href="#Data preprocessing workflow"> Data preprocessing workflow <br></h7>
-        <h7><a href="#Mapping-brain-areas"> Mapping brain areas <br></h7>
-        <h7><a href="#Look-at-fMRI-voxel-responses"> Look at fmri voxel responses  <br></h7>
+        <h7><a href="#Inference"> INFERENCE <br></h7>
+        <h7><a href="#Design-an-inference-experiment"> DESIGN AN INFERENCE EXPERIMENT <br></h7>
+        <h7><a href="#Database"> DATABASE <br></h7>
+        <h7><a href="#Data-preprocessing-workflow"> DATA PREPROCESSING WORKFLOW <br></h7>
+        <h7><a href="#Mapping-brain-areas"> MAPPING BRAIN AREAS <br></h7>
+        <h7><a href="#Look-at-fMRI-voxel-responses"> LOOK AT BRAIN RESPONSES  <br></h7>
         <h7><a href="#Brain-decoding-of-stimulus-machine-learning"> BRAIN DECODING (FISHER LINEAR DISCRIMINANT-LOO) <br></h7>
         <h7><a href="#Motion-direction"> &nbsp &nbsp MOTION DIRECTION <br></h7>
         <h7><a href="#Motion-noise"> &nbsp &nbsp MOTION NOISE <br></h7>
         <h7><a href="#switching"> &nbsp &nbsp ESTIMATION BEHAVIOR <br></h7>
         <h7><a href="#voxel-population-analysis"> &nbsp &nbsp BRAIN RESPONSE POPULATION ANALYSIS <br></h7>
         <h7><a href="#Brain-decoding-with-Channel-Encoding-reconstruction"> &nbsp &nbsp BRAIN DECODING WITH FORWARD MODELING RECONSTRUCTION <br></h7>
-        <h7><a href="#Probabilistic-population-decoding"> &nbsp &nbsp PROBABILISTIC POPULATION DECODING <br></h7>
+        <h7><a href="#Probabilistic-population-decoding"> &nbsp &nbsp BRAIN DECODING WITH PROBABILISTIC POPULATION MODELING <br></h7>
         </section>
     </div>
     
@@ -151,11 +151,11 @@
           
       <!--code-->
       <code class="code">   
-        <p>  >> slfmriInitAnalysisTaskDotDirfMRI05 <br>
+          >> slfmriInitAnalysisTaskDotDirfMRI05 <br>
           >> [d,o,behbySess] = slfmriGetDBoverSessions(o,varargin); <br>
           >> [~,VoxelsParams] = slfmriGetVoxTuningParams('vonMisesprior','neuralvector',d,o); <br>
           >> slfmriVisualDatabase(d.instances(d.mySwitch==1,:),'x1',d.myRandomDir(d.mySwitch==1,:),'x2',VoxelsParams.modes1); <br>
-          >> slfmriVisualDatabase(d.instances(d.mySwitch==2,:),'x1',d.myRandomDir(d.mySwitch==2,:),'x2',VoxelsParams.modes2) </p>
+          >> slfmriVisualDatabase(d.instances(d.mySwitch==2,:),'x1',d.myRandomDir(d.mySwitch==2,:),'x2',VoxelsParams.modes2)
       </code>
 
       
@@ -172,22 +172,17 @@
       
       <!--Code-->
       <code class="code">
-        
-          <p>
-          <p> %Initialize parameters <br>
+           %Initialize parameters <br>
             >> o = slfmriInitTask('Concatenation',1,2,1,2,o); <br>
             >> o = slfmriInitSession('~/data/datafMRI/sltaskdotdirfmri05/',... <br>
             &nbsp &nbsp &nbsp &nbsp    {'s02520150814','s02520150923','s02520150925'},o); <br>
             >> o = slfmriInitRois({'outsideBrain03','V1','V2','V3','V3A','MT','IPS','V1toMT'},...<br>
             &nbsp &nbsp &nbsp &nbsp   's0025_flatL_WM_occipital_Rad90',... <br>
             &nbsp &nbsp &nbsp &nbsp  '~/data/datafMRI/mlrAnatDB/s0025/mlrBaseAnatomies/',... <br>
-            &nbsp &nbsp &nbsp &nbsp  '~/data/datafMRI/mlrAnatDB/s0025/mlrROIs/',o); <p>
-          </p>
+            &nbsp &nbsp &nbsp &nbsp  '~/data/datafMRI/mlrAnatDB/s0025/mlrROIs/',o); <br><br>
           
-          <p> %plot <br>
+          %plot <br>
           >> slfmriClassifyMotionDirections(o); 
-          <p>
-
       </code>
       
       <h6><a id="Decode-coherence-with-machine-learning" class="anchor" href="#Decode-coherence-with-machine-learning" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Decode coherence with machine learning</h3>  
@@ -242,17 +237,17 @@
       <!--Code-->
       <code class="code">
         
-          <p>>> slfmriInitClassifAnalysisTaskDotDirfMRI05 <br></p>
+          >> slfmriInitClassifAnalysisTaskDotDirfMRI05 <br>
 
-          <p>>> params = {'accuracyAtTime',[7 14; 7 14;7 14; 7 14;7 14; 7 14;7 14],... <br>
+          >> params = {'accuracyAtTime',[7 14; 7 14;7 14; 7 14;7 14; 7 14;7 14],... <br>
               &nbsp &nbsp &nbsp &nbsp       'loadSavedROI','CalcInstances','leaveOneOut','fisher',... <br>
-              &nbsp &nbsp &nbsp &nbsp       'numInstances',8,'CalcInstancesByCond'};</p>
+              &nbsp &nbsp &nbsp &nbsp       'numInstances',8,'CalcInstancesByCond'};
 
-          <p>>> myConds = {{'myRandomDir_x_mySwitch=1_x_myRandomCoh=0.06'},.... <br>
-              &nbsp &nbsp &nbsp &nbsp     {'myRandomDir_x_mySwitch=2_x_myRandomCoh=0.06'}}; <br></p>
+          >> myConds = {{'myRandomDir_x_mySwitch=1_x_myRandomCoh=0.06'},.... <br>
+              &nbsp &nbsp &nbsp &nbsp     {'myRandomDir_x_mySwitch=2_x_myRandomCoh=0.06'}}; <br>
 
-          <p>>> [stat,cbycByROI,sbycByROI,oByROI,obycByROI]=... <br>
-              &nbsp &nbsp &nbsp &nbsp     slfmriClassifyBootInstByConditions(100,params,myConds,o);</p>
+          >> [stat,cbycByROI,sbycByROI,oByROI,obycByROI]=... <br>
+              &nbsp &nbsp &nbsp &nbsp     slfmriClassifyBootInstByConditions(100,params,myConds,o);
               
       </code>
           
@@ -273,7 +268,7 @@
       We report the classifier's percent correct prediction. </p> 
       <!--code-->
       <code class="code">
-        <p> >> drawVectors([15 85 155 225 295],[1 1 1 1 1]) </p>
+         >> drawVectors([15 85 155 225 295],[1 1 1 1 1])
       </code>
       
       <!--figure-->
@@ -289,8 +284,8 @@
       
       <!--code-->
      <code class="code">
-         <p> >> slfmriInitClassifAnalysisTaskDotDirfMRI05_loop; <br> 
-              >> [accuracy, ste, dataClassifsw1, dataClassifsw2, nTrials] = slfmriClassifyTwoDir_x_switch_loop(o); </p>
+              >> slfmriInitClassifAnalysisTaskDotDirfMRI05_loop; <br> 
+              >> [accuracy, ste, dataClassifsw1, dataClassifsw2, nTrials] = slfmriClassifyTwoDir_x_switch_loop(o);
       </code>
       
       <!--figure-->
@@ -300,7 +295,7 @@
       <h6><a id="Analysis-of-population-of-voxel-selectivity" class="anchor" href="#Analysis-of-population-of-voxel-selectivity" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>VOXEL POPULATION ANALYSIS</h3>  
 
       <code class="code">
-        <p> >> slfMRIwrapperDisVoxSelbalDir </p>
+         >> run slfMRIwrapperDisVoxSelbalDir
       </code>
 
       <h7><a href="#Brain-decoding-with-Channel-Encoding-reconstruction"> &nbsp &nbsp BRAIN DECODING WITH FORWARD MODELING RECONSTRUCTION <br></h7>
@@ -388,16 +383,16 @@
     affect our ability to train the weights with Ordinary least squares if lots of voxels have correlated responses (matrix columns are 
     linearly dependent and thus there are more than one set of weights that can solve the regression). So we first tried to reduce the number
     of voxels by selecting the more responsive to the motion stimulus (in the localizer, not the actual task which would cause sharing of
-    information between training and test sets).
-    </p> 
+    information between training and test sets).</p> 
+    
     <p> We get the r-squared of fitting the voxel responses to a periodic motion stimulus (localizer) with a sinewave with the period as 
     the stimulus. The voxels with very high r-squared, the well fitted ones respond in a way that is correlated with the appearance of the
     motion stimulus and are thus considered motion responsive : </p>
       <code class="code">
-          <p> >> sesspath = '~/data/datafMRI/sltaskdotdirfmri05/s02520150814/'		
+              >> sesspath = '~/data/datafMRI/sltaskdotdirfmri05/s02520150814/'		
               >> group = 'Averages';
               >> roipath = '~/data/datafMRI/mlrAnatDB/s0025/mlrROIs/V1.mat';
-              >> [r2,o] = slfmriGetMotLocr2(roipath,sesspath,group); <p>
+              >> [r2,o] = slfmriGetMotLocr2(roipath,sesspath,group);
       </code>
     
     <p> Now what we need is a response matrix $b$ of Ni instances x Nv voxels and its associated vector of displayed motion directions "svec". 
@@ -407,10 +402,9 @@
     
     <p> We get the instance matrix $b$ and its associated direction vector $svec$ </p>
     <code class="code">
-      <p> >> slfmriInitAnalysisTaskDotDirfMRI05 <br>
+          >> slfmriInitAnalysisTaskDotDirfMRI05 <br>
           >> d = slfmriGetDBoverSessions(o,varargin); <br> 
           >> b = d.instances; svec = d.myRandomDir;
-          </p>
     </code>
       
     <p> We decode the likelihood of hypothetical motion directions given the voxel responses and the model </p>
