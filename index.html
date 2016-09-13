@@ -397,7 +397,16 @@
               >> [r2,o] = slfmriGetMotLocr2(roipath,sesspath,group); <p>
       </code>
     
-      
+    <p> Now what we need is a response matrix $b$ of Ni instances x Nv voxels and its associated vector of displayed motion directions "svec". 
+    We will run a cross-validated reconstruction of the likelihood $p(b|s,\rho;\tau,\sigma)$ of the responses given the model and hypothetical 
+    motion directions. This analysis consists in dividing the response matrix into 5 folds, train the model on the 5 combinations of 4/5 folds
+    then test on the remaining fold. We then look at the average results over folds : </p>
+    
+    <code class="code">
+       [LLH_f,pp] = slvoxppKFoldCVdec(b,svec,5)
+    </code>
+    
+    
     </div>
     
     
