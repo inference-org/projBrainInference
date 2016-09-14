@@ -125,6 +125,9 @@
           >> analyses({'sub02'},{'StimStrength','Pstd','FeatureSample'},'inpath','experiment','vonMisesPrior','dataDis','signDistance');<br>
       </code>
       
+      <p> Each scan within each session collected was motion compensated with linear interpolation and drift correction using the mean frame
+      (acquired volume) as base frame. </p>
+      
       <p> Multiple sessions were collected for each prior conditions. The resulting fMRI images were filtered and high-passed with a filter cut-off
       of 0.01, then the intensity was normalized to percent signal change relative to the mean intensity. Scans were then concatenated over sessions. </p>
       
