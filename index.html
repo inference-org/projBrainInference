@@ -420,6 +420,16 @@
     <!--SECTION-->
     <h6><a id="Decoding-subjects-combined-datasets" class="anchor" href="#Decoding-subjects-combined-datasets" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>DECODING SUBJECTS COMBINED DATASETS</h3>   
     
+    <p> <strong> We need lots of data to train the model well. </strong>  The more instances in the weight matrix (matrix row) and the more likely it is that the 
+    is that each voxel data, the matrix columns are linearly independent (weight matrix columns), and that there is a unique vector of weights
+    solution to the linear regression in the first step of the model training. So we want lots of data. </p>
+    
+    <p> <strong> Combine datasets between subjects </strong> One way to do that is to combined data across subjects. We collected data from 5 subjects. The issue is that an visual rois are not identical between subjects
+    e.g., V1 does not have the same number of voxels (datasets have different number of features) in subject 1 and 2. Another issue is that 
+    certain subjects missed reporting estimates in all trials which results in a different number of instances between subjects datasets (datasets have 
+    different number of observations). Thus how to combine datasets with different number of features and observations. </p>
+    
+    <p></p>
     
     </div>
     
