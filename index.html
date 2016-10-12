@@ -132,7 +132,17 @@
       <p> Multiple sessions were collected for each prior conditions. The resulting fMRI images were filtered and high-passed with a filter cut-off
       of 0.01, then the intensity was normalized to percent signal change relative to the mean intensity. Scans were then concatenated over sessions. </p>
       
+      <p> Create a database of Bold response instances to the displayed stimulus at each trials. The instances and their associated task variables
+        are saved as "d.instances", "d.myRandomDir" etc., in a matlab file "d.mat" at the path : 
+        "o.stckPath 'slStckAnalyses/' o.myGroup '/classif/' 's' o.sid '/prior' num2str(o.priormean) '/' o.myVar '/' [o.myAnalysis{:}] '/' o.myROIname{:} '/']"
+      <p>
       
+      <!--code-->
+      <code class="code">
+      > slfmriInitAnalysisTaskDotDirfMRI05 
+      > d = slfmriGetDBoverSessions(o,varargin);         
+      </code>  
+        
       <h6><a id="Mapping-brain-areas" class="anchor" href="#Mapping-brain-areas" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Mapping brain areas</h3>
       <p> The predominant view is that the brain is a collection of areas that are specialized for particular processing. e.g., The occipital cortex (largely involved in visual perception) has been divided into areas included V1, specialized in edge orientation processing, MT, specialized in motion processing etc...
       The first step consists in mapping those visual areas. We used retinotopic mapping to identify visual areas : 6-8 scans of bars swipping the visual screen.
