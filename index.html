@@ -133,7 +133,8 @@
       of 0.01, then the intensity was normalized to percent signal change relative to the mean intensity. Scans were then concatenated over sessions. </p>
       
       <p> We then created a more operational database (easier to load/manipulate/use) database of Bold response instances to the displayed stimulus at each trials.
-        The instances and their associated task variables are saved as "d.instances", "d.myRandomDir" etc., in a matlab file "d.mat" at the path : 
+        Bold time series are extracted from the .niftii files for specified ROIs ("ROITSeries") and stored (faster load). The BOLD response instances for those ROI 
+        and their associated task variables are saved as "d.instances", "d.myRandomDir" etc., in a matlab file "d.mat" at the path : 
         "o.stckPath 'slStckAnalyses/' o.myGroup '/classif/' 's' o.sid '/prior' num2str(o.priormean) '/' o.myVar '/' [o.myAnalysis{:}] '/' o.myROIname{:} '/']". The
         for example :
         "/data/datafMRI/sltaskdotdirfmri05/slStckAnalyses/Concatenation/classif/s323/ <br>
