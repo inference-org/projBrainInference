@@ -116,6 +116,7 @@
       <a href="dataset/datasetBrainInfer.csv"> Click for dataset info </a>
 
       <h6><a id="Data-preprocessing-workflow" class="anchor" href="#Data-preprocessing-workflow" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Data preprocessing workflow</h3>
+      <Strong> In scanner behavioral data </Strong>  
       <p> The raw behavioral data we collected are saved in files under matlab format (".mat") in a project folder we called "sltaskDotDirfMRI05".
       Open matlab script "slworkflowBehData.m". It contains the steps to preprocess and organize the data in ".mat" file format ready  
       to be analyzed with the script "analyses.m". The subject id and its associated files for each condition are already set in "slworkflowBehData.m"  </p>
@@ -126,15 +127,15 @@
           >> analyses({'sub02'},{'StimStrength','Pstd','FeatureSample'},'inpath','experiment','vonMisesPrior','dataDis','signDistance');<br>
       </code>
       
-      <p> Each scan within each session collected was motion compensated with linear interpolation and drift correction using the mean frame
-      (acquired volume) as base frame. </p>
-      
-      <p> Multiple sessions were collected for each prior conditions. The resulting fMRI images were filtered and high-passed with a filter cut-off
+      <Strong> Brain activity data </Strong>  
+      <p> Brain activity data (heavy files) were stored for each subject under the .niftii format. Each scan within each session collected was motion compensated with linear interpolation and drift correction using the mean frame
+      (acquired volume) as base frame. Multiple sessions were collected for each prior conditions. The resulting fMRI images were filtered and high-passed with a filter cut-off
       of 0.01, then the intensity was normalized to percent signal change relative to the mean intensity. Scans were then concatenated over sessions. </p>
       
-      <p> Create a database of Bold response instances to the displayed stimulus at each trials. The instances and their associated task variables
-        are saved as "d.instances", "d.myRandomDir" etc., in a matlab file "d.mat" at the path : 
-        "o.stckPath 'slStckAnalyses/' o.myGroup '/classif/' 's' o.sid '/prior' num2str(o.priormean) '/' o.myVar '/' [o.myAnalysis{:}] '/' o.myROIname{:} '/']"
+      <p> We then created a more operational database (easier to load/manipulate/use) database of Bold response instances to the displayed stimulus at each trials.
+        The instances and their associated task variables are saved as "d.instances", "d.myRandomDir" etc., in a matlab file "d.mat" at the path : 
+        "o.stckPath 'slStckAnalyses/' o.myGroup '/classif/' 's' o.sid '/prior' num2str(o.priormean) '/' o.myVar '/' [o.myAnalysis{:}] '/' o.myROIname{:} '/']". The
+        following code is run for each subject, prior condition and visual roi.
       <p>
       
       <!--code-->
