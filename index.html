@@ -189,6 +189,20 @@
       <h6><a id="Motion-noise" class="anchor" href="#Motion-noise" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>DECODE MOTION NOISE</h3>  
       <p>We also decoded the 2 coherences from the voxels Bold pattern same brain regions. </p>
       
+      <p> I have stored clean data (Nv voxels by Ni instances response matrices) for each roi and concatenated over experimental sessions for each subject.  You can directly run classification from these datasets. </p>      
+
+      <!--Code-->
+      <code class="code">      
+            %load data, shape and classify <br>
+            > load /Volumes/DroboBKUP/data/datafMRI/sltaskdotdirfmri05/... <br>
+            &nbsp &nbsp &nbsp &nbsp        slStckAnalyses/Concatenation/classif/s25/prior225/myRandomCoh/... <br>
+            &nbsp &nbsp &nbsp &nbsp        accAtTimeleaveOneOutfisherbalancByRemovI/V1/d.mat <br>
+            > [M_struc,v_u] = slmat2structByVar(d.instances,d.myRandomCoh); <br>
+            > c = leaveOneOut(M_struc,'balancByRemovI=1'); <br>
+      </code>  
+
+      <p> You can also run the analysis directly from the heavy raw data </p>
+
       <!--Code-->
       <code class="code">      
            %First initialize the parameters as above for directions .. <br>
