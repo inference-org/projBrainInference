@@ -213,8 +213,8 @@
              
           %load data, shape and classify <br>
           > load(['~/data/datafMRI/sltaskdotdirfmri05/'... <br>
-              'slStckAnalyses/Concatenation/classif/' rows{i} '/prior225/myRandomCoh/'...<br>
-              'accAtTimeleaveOneOutfisherbalancByRemovI/IPS/d.mat'])    <br>
+          &nbsp &nbsp &nbsp &nbsp    'slStckAnalyses/Concatenation/classif/' rows{i} '/prior225/myRandomCoh/'...<br>
+          &nbsp &nbsp &nbsp &nbsp    'accAtTimeleaveOneOutfisherbalancByRemovI/IPS/d.mat'])    <br>
           > [M_struc,v_u] = slmat2structByVar(d.instances,d.myRandomCoh);<br>
           > c = leaveOneOut(M_struc,'balancByRemovI=1');<br>
           > clear('M_struc')<br>
@@ -223,7 +223,8 @@
           > classifres(i,1) = c.correct;   <br>
           > classifres(i,2) = c.correctSTE;   <br>
       > end
-
+      </code>  
+      
       <p> You can also run the analysis directly from the raw data (permission is required to download from Stanford NIMS database 
       and the data needs to be preprocessed with the lab function "dofmricni.m")) </p>
 
