@@ -222,7 +222,13 @@
           &nbsp &nbsp %store
           &nbsp &nbsp > classifres(i,1) = c.correct;   <br>
           &nbsp &nbsp > classifres(i,2) = c.correctSTE;   <br>
-      > end
+      > end <br><br> 
+
+      %save data, col and row headers in .csv files <br> 
+      > slconvMatToCsv('dataClassif_rows',rows,'cell') <br>
+      > slconvMatToCsv('dataClassif_cols',cols,'cell') <br>
+      > slconvMatToCsv('dataClassif',dataClassif,'numeric') <br>
+
       </code>  
 
       <p> You can also run the analysis directly from the raw data (permission is required to download from Stanford NIMS database 
