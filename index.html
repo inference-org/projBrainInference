@@ -209,18 +209,25 @@
       > rows = {'s24','s25','s323','s327','s357'}; <br>
       > cols = {'correct','correctSTE'}; <br><br>
 
-      > for i = 1 : length(rows) <br>
+      > for i = 1 : length(rows) <br><br>
              
           &nbsp &nbsp %load data, shape and classify <br>
           &nbsp &nbsp > load(['~/data/datafMRI/sltaskdotdirfmri05/'... <br>
           &nbsp &nbsp &nbsp &nbsp    'slStckAnalyses/Concatenation/classif/' rows{i} '/prior225/myRandomCoh/'...<br>
-          &nbsp &nbsp &nbsp &nbsp    'accAtTimeleaveOneOutfisherbalancByRemovI/IPS/d.mat'])    <br>
-          &nbsp &nbsp > [M_struc,v_u] = slmat2structByVar(d.instances,d.myRandomCoh);<br>
-          &nbsp &nbsp > c = leaveOneOut(M_struc,'balancByRemovI=1');<br>
-          &nbsp &nbsp > clear('M_struc')<br>
+          &nbsp &nbsp &nbsp &nbsp    'accAtTimeleaveOneOutfisherbalancByRemovI/IPS/d.mat'])    <br><br>
+          &nbsp &nbsp %select variable to classify <br>
+          &nbsp &nbsp > variable = d.myRandomCoh; <br><br>
+        
+          &nbsp &nbsp %balance classes by taking minimum common number of instances <br>
+          &nbsp &nbsp > iCells = slsetNumInstancesByVar(d.instances,variable ,'balanceByRemovI'); <br><br>
+        
+          &nbsp &nbsp %Fisher classification <br>
+          &nbsp &nbsp > c = leaveOneOut(iCells,'balancByRemovI=1');<br>
+          &nbsp &nbsp > clear('iCells')<br><br>
          
-          &nbsp &nbsp %store
+          &nbsp &nbsp %store <br>
           &nbsp &nbsp > classifres(i,1) = c.correct;   <br>
+<<<<<<< HEAD
           &nbsp &nbsp > classifres(i,2) = c.correctSTE;   <br>
       > end <br><br> 
 
@@ -230,6 +237,12 @@
       > slconvMatToCsv('dataClassif',dataClassif,'numeric') <br>
 
       </code>  
+=======
+          &nbsp &nbsp > classifres(i,2) = c.correctSTE;   <br><br>
+        
+      > end
+      </code>   
+>>>>>>> 8bd501386e641264e7c2a72956a46c21f17d84d1
 
       <p> You can also run the analysis directly from the raw data (permission is required to download from Stanford NIMS database 
       and the data needs to be preprocessed with the lab function "dofmricni.m")) </p>
