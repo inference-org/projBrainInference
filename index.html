@@ -215,19 +215,20 @@
           &nbsp &nbsp > load(['~/data/datafMRI/sltaskdotdirfmri05/'... <br>
           &nbsp &nbsp &nbsp &nbsp    'slStckAnalyses/Concatenation/classif/' rows{i} '/prior225/myRandomCoh/'...<br>
           &nbsp &nbsp &nbsp &nbsp    'accAtTimeleaveOneOutfisherbalancByRemovI/IPS/d.mat'])    <br><br>
-          %select variable to classify <br>
-          > variable = d.myRandomCoh; <br><br>
+          &nbsp &nbsp %select variable to classify <br>
+          &nbsp &nbsp > variable = d.myRandomCoh; <br><br>
         
-          %balance classes by taking minimum common number of instances <br>
-          > iCells = slsetNumInstancesByVar(d.instances,variable ,'balanceByRemovI'); <br><br>
+          &nbsp &nbsp %balance classes by taking minimum common number of instances <br>
+          &nbsp &nbsp > iCells = slsetNumInstancesByVar(d.instances,variable ,'balanceByRemovI'); <br><br>
         
-          %Fisher classification <br>
+          &nbsp &nbsp %Fisher classification <br>
           &nbsp &nbsp > c = leaveOneOut(M_struc,'balancByRemovI=1');<br>
           &nbsp &nbsp > clear('iCells')<br><br>
          
           &nbsp &nbsp %store
           &nbsp &nbsp > classifres(i,1) = c.correct;   <br>
           &nbsp &nbsp > classifres(i,2) = c.correctSTE;   <br><br>
+        
       > end
       </code>   
 
