@@ -222,7 +222,7 @@
           &nbsp &nbsp > iCells = slsetNumInstancesByVar(d.instances,variable ,'balanceByRemovI'); <br><br>
         
           &nbsp &nbsp %Fisher classification <br>
-          &nbsp &nbsp > c = leaveOneOut(M_struc,'balancByRemovI=1');<br>
+          &nbsp &nbsp > c = leaveOneOut(iCells,'balancByRemovI=1');<br>
           &nbsp &nbsp > clear('iCells')<br><br>
          
           &nbsp &nbsp %store
