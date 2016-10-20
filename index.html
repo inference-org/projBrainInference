@@ -227,22 +227,23 @@
          
           &nbsp &nbsp %store <br>
           &nbsp &nbsp > classifres(i,1) = c.correct;   <br>
-<<<<<<< HEAD
-          &nbsp &nbsp > classifres(i,2) = c.correctSTE;   <br>
+          &nbsp &nbsp > classifres(i,2) = c.correctSTE;   <br><br>
+
       > end <br><br> 
 
-      %save data, col and row headers in .csv files <br> 
-      > slconvMatToCsv('dataClassif_rows',rows,'cell') <br>
-      > slconvMatToCsv('dataClassif_cols',cols,'cell') <br>
-      > slconvMatToCsv('dataClassif',dataClassif,'numeric') <br>
-
       </code>  
-=======
-          &nbsp &nbsp > classifres(i,2) = c.correctSTE;   <br><br>
+
+      <p> Classification results are saved in <a href="dataset/datasetClassifCoh.csv"> this .csv file </a> with :</p>
+
+      <code class="code">  
+          %save data, col and row headers in .csv files <br> 
+          > slconvMatToCsv('dataClassif_rows',rows,'cell') <br>
+          > slconvMatToCsv('dataClassif_cols',cols,'cell') <br>
+          > slconvMatToCsv('dataClassif',dataClassif,'numeric') <br>
+      </code>  
         
       > end
       </code>   
->>>>>>> 8bd501386e641264e7c2a72956a46c21f17d84d1
 
       <p> You can also run the analysis directly from the raw data (permission is required to download from Stanford NIMS database 
       and the data needs to be preprocessed with the lab function "dofmricni.m")) </p>
