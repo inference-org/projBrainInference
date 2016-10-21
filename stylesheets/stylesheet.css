@@ -126,7 +126,10 @@ a {
   /*line-height: 35px;*/
 }
 
-a:hover, a:focus {text-decoration: underline;}
+/* Color body links */
+a.class2 {color:blue;}
+/* a:hover, a:focus {text-decoration: underline;} */
+
 
 footer a {
   color: #F2F2F2;
