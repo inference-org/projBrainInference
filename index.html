@@ -456,6 +456,30 @@
     probability of the directions give the voxel response patterns at each trial. If everything is ok, the posterior circular mean
     should more or less match the displayed directions (slight deviations are expected due to noise).  </p>
     
+
+    <p> We can then go on to analyse a real dataset. The following commands load subject 24 Ni instances by Nv voxels matrix response
+    for ROI V1, the associated vector of stimulus motion directions that were displayed on screen and decode from the voxel population responses the probability that the measured response indicates any of 360 motion directions (i.e., the likelihood of hypothetical motion directions given the observed responses evidence). </p>
+
+      <code class="code">
+
+        > rows = 's24'; <br><br>
+
+        %load data, shape and classify <br><br>
+        > load(['~/data/datafMRI/sltaskdotdirfmri05/'... <br>
+            'slStckAnalyses/Concatenation/classif/' rows '/prior225/myRandomCoh/'... <br>
+            'accAtTimeleaveOneOutfisherbalancByRemovI/V1/d.mat']) <br><br>
+
+        > instances = d.instances; <br>
+        > svec = d.myRandomDir; <br><br>
+
+        %% cross validated likelihood decoding <br>
+        > pp.phi_k = unique(svec); <br>
+        > pp.exponent = 4; <br>
+        > [LLH_f,pp] = slvoxppKFoldCVdec(instances,svec,5,pp); <br>
+        
+      </code>
+
+
     <p> The number of voxels is large compared to the number of instances e.g., 320 voxels for V1 compared to about 240 trials. That might 
     affect our ability to train the weights with Ordinary least squares if lots of voxels have correlated responses (matrix columns are 
     linearly dependent and thus there are more than one set of weights that can solve the regression). So we first tried to reduce the number
@@ -502,6 +526,8 @@
     certain subjects missed reporting estimates in all trials which results in a different number of instances between subjects datasets (datasets have 
     different number of observations). Thus how to combine datasets with different number of features and observations. </p>
         
+
+
     <p> <a href="http://gru.stanford.edu/doku.php/mrTools/talairachCoordinates">Anatomical alignment ? </a> functional voxel matching ? Hyperalignment ? http://haxbylab.dartmouth.edu/publications/hyperalignment_cns2010_JSGuntupalli_JVHaxby.pdf.
       Based on a preliminary study from Haxby et al., Classification of datasets aligned over subjects show lower accuracy than within subject 
       when anatomically aligned, and at best the same accuracy when functional hyperalignment is used. So Alignment between subjects is not our 
