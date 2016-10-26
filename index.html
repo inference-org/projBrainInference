@@ -212,36 +212,15 @@
 
       <p> You can classify coherences from the data for all subjects like that : </p>      
 
-      <!--Code-->
-      <code class="code">      
-      %set subjects as rows and classification output as column <br>
-      > rows = {'s24','s25','s323','s327','s357'}; <br>
-      > cols = {'correct','correctSTE'}; <br><br>
+      <!-- Codes -->
+      <code class="code">
 
-      > for i = 1 : length(rows) <br><br>
-             
-          &nbsp &nbsp %load data, shape and classify <br>
-          &nbsp &nbsp > load(['~/data/datafMRI/sltaskdotdirfmri05/'... <br>
-          &nbsp &nbsp &nbsp &nbsp    'slStckAnalyses/Concatenation/classif/' rows{i} '/prior225/myRandomCoh/'...<br>
-          &nbsp &nbsp &nbsp &nbsp    'accAtTimeleaveOneOutfisherbalancByRemovI/IPS/d.mat'])    <br><br>
-          &nbsp &nbsp %select variable to classify <br>
-          &nbsp &nbsp > variable = d.myRandomCoh; <br><br>
-        
-          &nbsp &nbsp %balance classes by taking minimum common number of instances <br>
-          &nbsp &nbsp > iCells = slsetNumInstancesByVar(d.instances,variable ,'balanceByRemovI'); <br><br>
-        
-          &nbsp &nbsp %Fisher classification <br>
-          &nbsp &nbsp > c = leaveOneOut(iCells,'balancByRemovI=1');<br>
-          &nbsp &nbsp > clear('iCells')<br><br>
-         
-          &nbsp &nbsp %store <br>
-          &nbsp &nbsp > classifres(i,1) = c.correct;   <br>
-          &nbsp &nbsp > classifres(i,2) = c.correctSTE;   <br><br>
-
-      > end <br><br> 
-
-      </code>  
-
+          > subs = {'s24','s25','s323','s327','s357'}; <br>
+          > cols = {'correct','correctSTE'}; <br>
+          > slclassifyInstancesForMultSubs(subs,cols,'d.myRandomCoh','V1',... <br>
+          &nbsp &nbsp &nbsp &nbsp        'Accuracy (%correct)','Decoding coherence from V1'); <br>
+          
+       </code>   
 
       <p> We can plot the results for roi V1. </p>  
       <code class="code">      
@@ -252,11 +231,10 @@
 
       </code>  
 
+      <!-- figure -->
       <center><img src="images/ClassifCohAllSub_FishLOO.png" style="width: 50%; height: 50%"/></center>
 
       <p> The accuracies and their sem for roi V1 are saved in <a href="dataset/datasetClassifCoh.csv" class="class2"> dataset/datasetClassifCoh.csv file</a> by : </a> </p>
-
-
 
       <code class="code">  
           %convert result to .csv <br>
@@ -275,23 +253,39 @@
       </code>
       
       
-      <h6><a id="Motion-direction" class="anchor" href="#Motion-direction" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>DECODE DIRECTION</h3>  
+      <h6><a id="Motion-direction" class="anchor" href="#Motion-direction" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>DECODE MOTION DIRECTION</h3>  
       <p>We decoded the 5 motion directions from the voxels Bold pattern measured in 8 visual brain regions engaged in 
-      processing motion information. </p>
+      processing motion information. For example we classify from V1 roi with </p>
       
       <!--Code-->
       <code class="code">
+
+          > subs = {'s24','s25','s323','s327','s357'}; <br>
+          > cols = {'correct','correctSTE'}; <br>
+          > slclassifyInstancesForMultSubs(subs,cols,'d.myRandomDir','V1',... <br>
+          &nbsp &nbsp &nbsp &nbsp        'Accuracy (%correct)','Decoding direction from V1'); <br>
+
+       </code>   
+
+      <center><img src="images/ClassifDirAllSub_FishLOO.png" style="width: 50%; height: 50%"/></center>
+
+       <p>And directly from the raw TSeries data after processing with dofmricni (if you have access) with : </p>
+      
+      <!--Code-->
+      <code class="code">
+
            %Initialize parameters <br>
-            >> o = slfmriInitTask('Concatenation',1,2,1,2,o); <br>
-            >> o = slfmriInitSession('~/data/datafMRI/sltaskdotdirfmri05/',... <br>
+            > o = slfmriInitTask('Concatenation',1,2,1,2,o); <br>
+            > o = slfmriInitSession('~/data/datafMRI/sltaskdotdirfmri05/',... <br>
             &nbsp &nbsp &nbsp &nbsp    {'s02520150814','s02520150923','s02520150925'},o); <br>
-            >> o = slfmriInitRois({'outsideBrain03','V1','V2','V3','V3A','MT','IPS','V1toMT'},...<br>
+            > o = slfmriInitRois({'outsideBrain03','V1','V2','V3','V3A','MT','IPS','V1toMT'},...<br>
             &nbsp &nbsp &nbsp &nbsp   's0025_flatL_WM_occipital_Rad90',... <br>
             &nbsp &nbsp &nbsp &nbsp  '~/data/datafMRI/mlrAnatDB/s0025/mlrBaseAnatomies/',... <br>
             &nbsp &nbsp &nbsp &nbsp  '~/data/datafMRI/mlrAnatDB/s0025/mlrROIs/',o); <br><br>
           
           %plot <br>
           >> slfmriClassifyMotionDirections(o); 
+
       </code>
             
       <!--Section-->
