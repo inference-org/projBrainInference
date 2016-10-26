@@ -122,6 +122,7 @@
       Open matlab script "slworkflowBehData.m". It contains the steps to preprocess and organize the data in ".mat" file format ready  
       to be analyzed with the script "analyses.m". The subject id and its associated files for each condition are already set in "slworkflowBehData.m"  </p>
       
+      <p>The first thing we should check is whether the subjects switched between prior mean and sensory evidence when performing the scan in the scanner, consistently with the behavior observed outside the scanner. We look at data for prior with mean 225 deg :  </p>
       <!--code-->
       <code class="code">
           > run slworkflowBehData.m <br>
@@ -129,7 +130,15 @@
           > cd p225 <br>
           > analyses({'sub02'},{'StimStrength','Pstd','FeatureSample'},'inpath','experiment','vonMisesPrior','dataDis','signDistance');<br>
       </code>
+
+
+      <center><img src="images/......png" style="width: 30%; height: 30%"/></center>
       
+
+
+
+
+
       <Strong> Brain activity data </Strong>  
       <p> Brain activity data (heavy files) were stored for each subject under the .niftii format. Each scan within each session collected was motion compensated with linear interpolation and drift correction using the mean frame
       (acquired volume) as base frame. Multiple sessions were collected for each prior conditions. The resulting fMRI images were filtered and high-passed with a filter cut-off
@@ -233,16 +242,26 @@
 
       </code>  
 
-      <p> Classification results for roi V1 are saved in <a href="dataset/datasetClassifCoh.csv" class="class2"> dataset/datasetClassifCoh.csv file</a> by : </a> </p>
+
+      <p> We can plot the results for roi V1. </p>  
+      <code class="code">      
+
+          > %plot <br>
+          > slplotClassifAccuracy(classifres(:,1),classifres(:,2),0.5,...
+          &nbsp &nbsp &nbsp &nbsp    rows,'Accuracy (%correct)','Decoding coherence from V1') <br>
+
+      </code>  
+
+
+      <p> The accuracies and their sem for roi V1 are saved in <a href="dataset/datasetClassifCoh.csv" class="class2"> dataset/datasetClassifCoh.csv file</a> by : </a> </p>
 
       <code class="code">  
           %convert result to .csv <br>
           > dataset = [cols; [rows' num2cell(dataClassif)]]; <br>
           > slconvMatAllCellsToCsv('datasetClassifCoh',dataset) <br>
       </code>  
-        
 
-      <p> You can also run the analysis directly from the raw data (permission is required to download from Stanford NIMS database 
+      <p> You can also run the analysis directly from the raw data (but permission is required to download from Stanford NIMS database 
       and the data needs to be preprocessed with the lab function "dofmricni.m")) </p>
 
       <!--Code-->
@@ -508,12 +527,20 @@
           >> b = d.instances; svec = d.myRandomDir;
     </code>
       
-    <p> We decode the likelihood of hypothetical motion directions given the voxel responses and the model </p>
+    <p> We decode the posterior distribution of hypothetical motion directions given the voxel responses and the model </p>
     <code class="code">
        [LLH_f,pp] = slvoxppKFoldCVdec(b,svec,5)
     </code>
+        
     
-    
+    <p><strong> (Draft in progress....) How should the model be trained to identify whether/how priors bias the posteriors encoded in voxel response patterns ? </strong>. The response of a channel with a given selectivity is something like the sum of responses of all the neurons with that same selectivity.  The weight assigned to that channel quantifies how it contributes to a voxel's response. A channel weight is a parameter that is fixed across all task conditions because it is meant to indicate something like the number of neurons who share the associated channel's selectivity or a synaptic weight that we assume does not change across task conditions. </p>
+
+    <p> Given these assumptions, when the task condition changes (e.g., block with versus block without prior), it is assumed that only the channels' responses change (e.g., a channel's tuning function might become sharper in a prior condition but we assumed that the weight assigned to that channel is the same in conditions with and without prior). That change in the channel's tuning function reflects the bias induced by the prior which in turn is reflected in the posterior that is decoded from the channels' responses. </p>
+  
+    <p> Training the model to predict displayed directions on voxel responses collected in a block with a prior and examining the posterior decoded from a test dataset collected in the same prior condition will provide no insight about prior-induced biases. This is because in order to predict the displayed directions the weights must be adjusted so as to force the posteriors to peak at displayed directions in a condition (prior block) where the actually represented posteriors might be biased by the prior away from the displayed directions. The weights thus somewhat remove any prior-induced biases from the voxel responses and the posteriors decoded from the test dataset. </p>
+
+    <p> The model weights must be trained to predict displayed directions only in the presence of sensory evidence, without any prior and then tested on a data collected in block with a prior to identify prior-induced biases in the posteriors decoded from that test dataset. The weights thus trained contain no information about the prior. </p>
+
     <!--SECTION-->
     <h6><a id="Decoding-subjects-combined-datasets" class="anchor" href="#Decoding-subjects-combined-datasets" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>DECODING SUBJECTS COMBINED DATASETS</h3>   
     
