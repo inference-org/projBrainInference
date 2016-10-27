@@ -291,13 +291,30 @@
       <!--Section-->
       <h6><a id="switching" class="anchor" href="#switching" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Estimation behavior</h3>  
       <p>We also decoded when subjects switched to the prior or the likelihood from the voxels Bold pattern of the same brain regions. </p>
-      
+
       <!--Code-->
       <code class="code">      
            %First initialize the parameters as above for directions .. <br>
            %..then decode <br>
            >> slfmriClassifySwitchingbyCoh(o);
       </code>
+
+
+      <p>The issue with this analysis is that displayed motion directions are not balanced between the switching classes which might bias the classifier. So we equalized the distribution of motion directions between the switching classes by removing the latest instances of each given motion direction in the class where that motion direction was the most frequent. </p>  
+
+      <!--Code-->
+      <code class="code">      
+
+            > subs = {'s24','s25','s323','s327','s357'}; <br>
+            > cols = {'correct','correctSTE'};<br>
+            > fixCoh = [0.08,0.06,0.08,0.08,0.08];<br>
+            > [classifres,cols] = slclassifySwitchForBalDirForMultSubs(subs,cols,fixCoh,'V1',...<br>
+            &nbsp &nbsp &nbsp &nbsp  'Accuracy (%correct)','Decoding switching from V1');<br>
+
+      </code>
+
+      <!-- figure -->
+      <center><img src="images/ClassifSwitchLowCohBalDirAllSub_FishLOO.png" style="width: 50%; height: 50%"/></center>
 
       <!--text-->
       <p><strong> Did the subject's brain maintained a representation of the displayed motion direction when the subject switched to his prior ? </strong>
