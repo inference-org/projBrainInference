@@ -586,7 +586,7 @@
         > biloadRawSaveInBIproj(rawfile,birootpath,subject,prior,roi) <br><br>
 
         %save the raw data contained in "d.mat" into separate matlab variables "instances.mat", "directions.mat", "coherences.mat" and "switching.mat" and convert them into separate ".csv" files for analysis across programming languages (Python, R etc..) <br>
-        > biConvmatTocsv( '~/proj/steeve/','s25','priorUnif','V1'); <br>
+        > biConvmatTocsv( birootpath,subject,prior,roi); <br>
     </code>
 
     <p> You can find the dataset in this example in "projBrainInference/data/s25/priorUnif/V1/". Those are the datasets we'll be working with.</p>
