@@ -556,13 +556,17 @@
     <p> The model weights must be trained to predict displayed directions only in the presence of sensory evidence, without any prior and then tested on a data collected in block with a prior to identify prior-induced biases in the posteriors decoded from that test dataset. The weights thus trained contain no information about the prior. </p>
 
     <p> I saved and organized operational datasets that we can analyse from here. All the raw data collected from the scanner were preprocessed and reduced to one single matlab structure variable d.mat which contains :  </p>
-    <ul>
+    
+    <!-- List -->
+    <ul style="list-style-type:circle">
       <li> d.instances :  Ni instances by Nv voxels of voxel responses to displayed stimulus from 3.5s to 7 sec after the stimulus onset to account for the hemodynamic lag. Voxel responses to stimulus typically peaked at 4.5 sec  after the stimulus onset (see event-related plot above) </li>
       <li> d.myRandomDir :  Ni displayed motion directions </li>
       <li> d.myRandomCoh : Ni displayed motion coherences </li>
-      <li> d.mySwitch : Ni labels for each instance: '1': switch to prior; '- 2' switch to direction;  '-1': prior mean is displayed; '0': subject response is missing</li>
+      <li> d.mySwitch : Ni labels for each instance: '1': switch to prior; '- 2' switch to direction;  '-1': prior mean is displayed; '0': subject response is missing </li>
       <li> d.stimvols:   : Ni timestamps indicating when the stimulus volume is acquired by the scanner (need checking)</li>
     </ul>
+
+    <p> Those variables were then loaded and organized in project "projBrainInference" for each subject, prior and roi with : </p>
 
     <!-- code -->
     <code class="code">          
@@ -579,23 +583,15 @@
         > birootpath = '~/proj/steeve/'; <br><br>
         
         %save and organize data in project "projBrainInference" <br>
-        > biloadRawSaveInBIproj(rawfile,birootpath,subject,prior,roi)
+        > biloadRawSaveInBIproj(rawfile,birootpath,subject,prior,roi) <br><br>
 
-
-    </code>code>
-
-    <p>The dataset composed of an Ni instances by Nv voxels matrix and the associated vector variables for directions, coherences and switching are stored in the data/ folder (e.g., the dataset collected from subject s25's V1 in uniform prior condition is saved in data/s25/priorUnif/V1/)  </p>
-
-    <p>You can convert the raw data contained in a structure variable "d.mat" to separate instances.mat, directions.mat, coherences.mat and switching.mat variables and convert them into .csv files for analysis across programming languages (Python, R etc..) by running : </p>
-
-
-    <!-- code -->
-    <code class="code">       
-       > biConvmatTocsv( '~/proj/steeve/','s25','priorUnif','V1');
+        %save the raw data contained in "d.mat" into separate matlab variables "instances.mat", "directions.mat", "coherences.mat" and "switching.mat" and convert them into separate ".csv" files for analysis across programming languages (Python, R etc..)
+        > biConvmatTocsv( '~/proj/steeve/','s25','priorUnif','V1'); <br>
     </code>
 
-
-    <p>Then we trained the probabilistic population code decoder on subject s25's V1 dataset collected with a uniform prior and used the trained model (trained channel weights and other noise parameters) to decode V1 dataset collected when prior was 80 deg circular with 225 deg mean : </p>
+    <p> You can find the dataset in this example in "projBrainInference/data/s25/priorUnif/V1/". Those are the datasets we'll be working with.</p>
+    
+    <p> We can train the probabilistic population code decoder on subject s25's V1 dataset collected with the uniform prior and use the trained model (trained channel weights and other noise parameters) to decode V1 dataset collected when prior was 80 deg circular with 225 deg mean : </p>
     
     <!-- code -->
     <code class="code">
@@ -603,12 +599,7 @@
        > run bippcAnalysis00.m
     </code>
           
-
-
-
-
-
-          
+                    
 
     <!--SECTION-->
     <h6><a id="Decoding-subjects-combined-datasets" class="anchor" href="#Decoding-subjects-combined-datasets" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>DECODING SUBJECTS COMBINED DATASETS</h3>   
