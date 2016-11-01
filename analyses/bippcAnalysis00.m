@@ -1,0 +1,131 @@
+
+%bippcAnalysis00.m
+%
+%
+% author: steeve laquitaine
+%purpose: train and test probabilitic population code model (WJM 2005, NN) 
+%         Train on uniform prior dataset 
+%         Test on circular priors (e.g., 225 or 135)
+%
+%         Test whether decoded likelihoods are biased toward circular prior
+%         means ?
+%         bimodal ?
+        
+%setup
+%set folder where you cloned project "projBrainInference"
+myrootpath = '~/proj/steeve/';
+subject = 's25';
+prior = 'priorUnif';
+roi = 'V1';
+
+% set train (uniform prior) and test (prior 225) datasets
+%move to data path, load Ni instances x Nv voxels instances data to 
+%decode from and associated Ni directions which the model is trained 
+%to decode. Instances are balanced across directions because prior is 
+%uniform thus dataset is not skewed and need no balancing
+cd([myrootpath 'projBrainInference/data/' subject '/' prior '/' roi])
+load instances
+load directions
+
+% ------------------------  TRAIN ------------------------------
+
+%1st step train encoding channels 
+%hypothetized sinewave channels (no noise)
+%K channels x 360 hypothetical directions space
+model.phi_k = unique(directions);
+model.exponent = 4;
+model = slsimPPchannels(0,model);
+%average channel responses to stimulus directions
+%Ni instances x 8 channels
+C = model.f_k_s(:,directions)';
+b_train = instances;
+model.W_tr = sltrainPPmodel(b_train,C);
+
+%2nd step : train the model's noise parameters
+[rho_tr,tau_tr,sigma_tr,nglogl] = sltrainPPmodelStep2(b_train,directions,model.f_k_s,model.W_tr);
+
+%save model
+model.rho_tr = rho_tr; model.tau_tr = tau_tr; model.sigma_tr = sigma_tr;
+model.nglogl = nglogl;
+mkdir([myrootpath 'projBrainInference/analyses/bippcAnalysis00/'  subject '/' prior '/' roi])
+cd([myrootpath 'projBrainInference/analyses/bippcAnalysis00/'  subject '/' prior '/' roi])
+save('model','model')
+
+%%  ------------------------  TEST ------------------------------
+clear;
+load('model')
+
+%setup
+myrootpath = '~/proj/steeve/';
+subject = 's25';
+prior = 'prior225';
+roi = 'V1';
+
+%load test dataset
+cd([myrootpath 'projBrainInference/data/' subject '/' prior '/' roi])
+load instances
+load directions
+
+%decode likelihoods
+b_test = instances;
+directions_test = directions;
+
+%Nv x Nv mu MV gaussian mean 
+mu = model.W_tr*model.f_k_s;
+Nv = size(instances,2);
+
+%Nv x Nv Omega global noise matrix
+Om = model.rho_tr*(model.tau_tr*model.tau_tr') + ...
+    (1-model.rho_tr)*times(eye(Nv,Nv),model.tau_tr*model.tau_tr') +...
+    (model.sigma_tr^2)*(model.W_tr*model.W_tr');
+
+[~,e] = cholcov(Om);
+if e~=0
+    fprintf('%s \n','(slsimvoxppdec) Covariance matrix Omega is not symmetric, positive definite')
+    dbstack; keyboard    
+end
+if det(Om)==0
+    fprintf('%s \n','(slsimvoxppdec) Covariance matrix Omega singular')
+    dbstack; keyboard   
+end
+
+%decoded likelihoods
+for si = 1 : 360
+    pb_si(:,si) = mvnpdf(b_test,mu(:,si)',Om);
+end
+pbgivs = bsxfun(@rdivide,pb_si,sum(pb_si,2));
+
+%plot decoded likelihoods averaged by directions
+s_disp = unique(directions_test);
+figure('color','w');
+cl = linspecer(length(s_disp));
+
+%each direction
+for i = 1 : length(s_disp)
+    
+    %likelihood with sem over direction instances
+    errorarea(pbgivs(directions_test == s_disp(i),:)','k',cl(i,:))
+    
+    %average
+    nanmean(pbgivs(directions_test == s_disp(i),:))
+    hold on; plot([s_disp(i) s_disp(i)],...
+        [min(nanmean(pbgivs(directions_test == s_disp(i),:))) max(nanmean(pbgivs(directions_test == s_disp(i),:)))],'color',cl(i,:),...
+        'linestyle',':','linewidth',2)
+end
+box off
+xlabel('Hypothetical motion directions (deg)')
+ylabel('Likelihood (probability)')
+title({['Average LLHs decoded by ppc from' roi 'responses by directions (colors)'],...
+    '(area:sem over directions)',...
+    ['Trained on uniform prior - tested on ' prior],...
+    ['rho:' num2str(model.rho_tr) ' - sigma:' num2str(model.sigma_tr) ' - mean(tau):' num2str(mean(model.tau_tr))]})
+xlim([0 360])
+
+%dynamically plot each trial likelihood
+for i = 1 : size(pbgivs,1)
+    plot(pbgivs(i,:))
+    drawnow
+    pause(0.5)
+end
+
+
