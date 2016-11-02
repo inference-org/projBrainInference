@@ -589,15 +589,27 @@
         > biConvmatTocsv( birootpath,subject,prior,roi); <br>
     </code>
 
-    <p> You can find the dataset in this example in "projBrainInference/data/s25/priorUnif/V1/". Those are the datasets we'll be working with.</p>
-    
-    <p> We can train the probabilistic population code decoder on subject s25's V1 dataset collected with the uniform prior and use the trained model (trained channel weights and other noise parameters) to decode V1 dataset collected when prior was 80 deg circular with 225 deg mean : </p>
-    
+    <p> You can find the dataset in this example in "projBrainInference/data/s25/priorUnif/V1/". Those are the datasets we'll be working with.</p>    
+    <p> What the mechanism that drive switching ? Either each trial likelihood is bimodal and trial to trial noise
+     produces switching from one peak of the likelihood to the other (maximum likelihood readout). Or Likelihood is biased in between prior and the displayed motion direction as expected by Bayesian inference and trial to trial noise produce the observed switching. We trained the probabilistic population code model on subject s25's V1 dataset collected with the uniform prior and used the trained model (trained channel weights and other noise parameters) to decode Likelihood from V1 dataset collected when prior was 80 deg circular with 225 deg mean : </p>    
     <!-- code -->
     <code class="code">
-       % open the function to edit data directory and dataset to analyse if needed and run
+       % open the function to edit data directory and dataset to analyse if needed and run <br>
        > run bippcAnalysis00.m
     </code>
+    <!--figure-->
+    <center><img src="images/s25_V1_trainOnUniftestOn225.png" style="width: 50%; height: 50%"/></center>
+    <p> What we see is that decoded likelihoods are neither bimodal or biased in between prior and directions but likelihoods are biased away from the prior ? uh ? How does that explain switching ....? </p>    
+
+    <p> I checked the quality of the model training: do decoded likelihood averaged by directions peak at the displayed motion direction as expected from a well trained model ? </p>
+    <!-- code -->
+    <code class="code">      
+       % open the function to edit data directory and dataset to analyse if needed and run <br>
+       > run bippcAnalysis01.m
+    </code>    
+    <!--figure-->
+    <center><img src="images/s25_LLHsFromTrainingOnUnif.png" style="width: 50%; height: 50%"/></center>
+
           
 
 
