@@ -1,0 +1,60 @@
+
+%bippcAnalysis02.m
+%
+%
+% author: steeve laquitaine
+%   date: 161101
+%purpose: train probabilitic population code model (WJM 2005, NN) 
+%         Check how well the model was trained: if training is good 
+%         model predicted stimulus feature (e.g., direction) from reading 
+%         out estimates with maximum likelihood decoding should be 
+%         correlated with true stimulus feature (e.g., displayed motion 
+%         direction)
+
+%setup
+%set folder where you cloned project "projBrainInference"
+myrootpath = '~/proj/steeve/';
+subject = 's25';
+prior = 'priorUnif';
+roi = 'V1';
+
+%load training dataset
+cd([myrootpath 'projBrainInference/data/' subject '/' prior '/' roi])
+load instances
+load directions
+
+%load trained model
+cd([myrootpath 'projBrainInference/analyses/bippcAnalysis00/'  subject '/' prior '/' roi])
+load('model')
+
+%Check model training performance 
+%i.e., how well the model decodes displayed directions 
+%from the trained voxels responses
+%scatter plot true vs predicted
+LLHs = slvoxppmodelTest(instances,model.W_tr,model.rho_tr,model.tau_tr,model.sigma_tr,model);
+
+%maximum likelihood estimates
+for i = 1 : size(LLHs,1)
+    [~,pred(i)] = max(LLHs(i,:));    
+end
+figure('color','w')
+scatter(directions,pred,30,[.5 .5 .5])
+d_u = unique(directions);
+for i = 1 : size(d_u,1)
+   predThisDir = pred(directions==d_u(i));
+   data = SLcircMeanStd(predThisDir','polar');
+   predm(i) = data.deg.mean;
+   predci(i) = slmakeCircCI(SLde2r(predThisDir,1),0.95);
+   preds(i) = data.deg.sem;
+end
+hold on; myerrorbar(d_u,predm,'yError',preds,'Symbol=.','MarkerSize=30','LineWidth=3')
+
+
+[ldirections,lpred] = slLinearizeCircDataForScatterAndLinFit(directions,pred);
+[a,~] = sllinefit(ldirections,lpred,1:1:360,[1 0 0]);
+slope = a(1);
+intc = a(2);
+xlim
+
+
+
