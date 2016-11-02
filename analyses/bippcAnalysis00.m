@@ -69,63 +69,9 @@ load directions
 %decode likelihoods
 b_test = instances;
 directions_test = directions;
+LLHs = slvoxppmodelTest(b_test,model.W_tr,model.rho_tr,model.tau_tr,model.sigma_tr,model);
 
-%Nv x Nv mu MV gaussian mean 
-mu = model.W_tr*model.f_k_s;
-Nv = size(instances,2);
-
-%Nv x Nv Omega global noise matrix
-Om = model.rho_tr*(model.tau_tr*model.tau_tr') + ...
-    (1-model.rho_tr)*times(eye(Nv,Nv),model.tau_tr*model.tau_tr') +...
-    (model.sigma_tr^2)*(model.W_tr*model.W_tr');
-
-[~,e] = cholcov(Om);
-if e~=0
-    fprintf('%s \n','(slsimvoxppdec) Covariance matrix Omega is not symmetric, positive definite')
-    dbstack; keyboard    
-end
-if det(Om)==0
-    fprintf('%s \n','(slsimvoxppdec) Covariance matrix Omega singular')
-    dbstack; keyboard   
-end
-
-%decoded likelihoods
-for si = 1 : 360
-    pb_si(:,si) = mvnpdf(b_test,mu(:,si)',Om);
-end
-pbgivs = bsxfun(@rdivide,pb_si,sum(pb_si,2));
-
-%plot decoded likelihoods averaged by directions
-s_disp = unique(directions_test);
-figure('color','w');
-cl = linspecer(length(s_disp));
-
-%each direction
-for i = 1 : length(s_disp)
-    
-    %likelihood with sem over direction instances
-    errorarea(pbgivs(directions_test == s_disp(i),:)','k',cl(i,:))
-    
-    %average
-    nanmean(pbgivs(directions_test == s_disp(i),:))
-    hold on; plot([s_disp(i) s_disp(i)],...
-        [min(nanmean(pbgivs(directions_test == s_disp(i),:))) max(nanmean(pbgivs(directions_test == s_disp(i),:)))],'color',cl(i,:),...
-        'linestyle',':','linewidth',2)
-end
-box off
-xlabel('Hypothetical motion directions (deg)')
-ylabel('Likelihood (probability)')
-title({['Average LLHs decoded by ppc from' roi 'responses by directions (colors)'],...
-    '(area:sem over directions)',...
-    ['Trained on uniform prior - tested on ' prior],...
-    ['rho:' num2str(model.rho_tr) ' - sigma:' num2str(model.sigma_tr) ' - mean(tau):' num2str(mean(model.tau_tr))]})
-xlim([0 360])
-
-%dynamically plot each trial likelihood
-for i = 1 : size(pbgivs,1)
-    plot(pbgivs(i,:))
-    drawnow
-    pause(0.5)
-end
+%plot likelihoods
+slppmodelPlotDecodedLLHs(LLHs,directions_test,model,'V1','priorUnif')
 
 

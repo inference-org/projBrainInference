@@ -1,0 +1,36 @@
+
+%bippcAnalysis01.m
+%
+%
+% author: steeve laquitaine
+%purpose: train probabilitic population code model (WJM 2005, NN) 
+%         Check quality of the model trained
+%
+
+%setup
+%set folder where you cloned project "projBrainInference"
+myrootpath = '~/proj/steeve/';
+subject = 's25';
+prior = 'priorUnif';
+roi = 'V1';
+
+%load training dataset
+cd([myrootpath 'projBrainInference/data/' subject '/' prior '/' roi])
+load instances
+load directions
+
+%load trained model
+cd([myrootpath 'projBrainInference/analyses/bippcAnalysis00/'  subject '/' prior '/' roi])
+load('model')
+
+%Check model training performance 
+%i.e., how well the model decodes displayed directions 
+%from the trained voxels responses
+%scatter plot true vs predicted
+
+slvoxppmodelTest(b_test,W_tr,rho_tr,tau_tr,sigma_tr,pp)
+
+
+
+
+
