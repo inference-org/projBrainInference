@@ -118,6 +118,15 @@
 
       <h6><a id="Data-preprocessing-workflow" class="anchor" href="#Data-preprocessing-workflow" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Data preprocessing workflow</h3>
       <Strong> In scanner behavioral data </Strong>  
+
+      <p> Preprocess raw data from Stanford NIMS database (require credentials) to get response instance database : </p>
+      
+      <ul>
+          <li> Preprocess raw fMRI data from NIMS Stanford (dowload data, organize in structured path, distortion correction, motion compensation, dofmricni.m) </li>
+          <li> Align inplane, fMRI data and high resolution anatomical data (mrAlign.m) </li>
+      </ul>
+
+
       <p> The raw behavioral data we collected are saved in files under matlab format (".mat") in a project folder we called "sltaskDotDirfMRI05".
       Open matlab script "slworkflowBehData.m". It contains the steps to preprocess and organize the data in ".mat" file format ready  
       to be analyzed with the script "analyses.m". The subject id and its associated files for each condition are already set in "slworkflowBehData.m"  </p>
