@@ -82,6 +82,10 @@
         <h7><a href="#voxel-population-analysis"> &nbsp &nbsp BRAIN RESPONSE POPULATION ANALYSIS <br></h7>
         <h7><a href="#Brain-decoding-with-Channel-Encoding-reconstruction"> &nbsp &nbsp BRAIN DECODING WITH FORWARD MODELING RECONSTRUCTION <br></h7>
         <h7><a href="#Probabilistic-population-decoding"> &nbsp &nbsp BRAIN DECODING WITH PROBABILISTIC POPULATION MODELING <br></h7>
+        <h7><a href="#ppc"> &nbsp &nbsp &nbsp &nbsp ppc <br></h7>
+        <h7><a href="#kfoldcv"> &nbsp &nbsp &nbsp &nbsp K-Fold cross-validated decoding <br></h7>
+        <h7><a href="#train-test"> &nbsp &nbsp &nbsp &nbsp Train and test <br></h7>
+        <h7><a href="#train-validate-test"> &nbsp &nbsp &nbsp &nbsp Train, validate and test <br></h7>
         <h7><a href="#Decoding-subjects-combined-datasets"> &nbsp &nbsp DECODING SUBJECTS COMBINED DATASETS <br></h7>
       </section>
     </div>
@@ -423,7 +427,11 @@
 
     
       <!--SECTION-->
-      <h6><a id="Probabilistic-population-decoding" class="anchor" href="#Probabilistic-population-decoding" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>PROBABILISTIC POPULATION DECODING</h3>   
+      <h6><a id="Probabilistic-population-decoding" class="anchor" href="#Probabilistic-population-decoding" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>PROBABILISTIC POPULATION DECODING</h6>   
+
+
+      <h7><a id="#ppc" class="anchor" href="#ppc" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>PPC</h6>   
+      
       <p> We used a forward modeling approach (Brouwer & Heeger) that consists in modeling the brain voxel responses as a linear sum 
       of cosine functions (we could think of them as neural tuning functions to a stimulus feature) to reconstruct a stimulus feature
       (here the motion direction). </p>
@@ -498,11 +506,13 @@
     probability of the directions give the voxel response patterns at each trial. If everything is ok, the posterior circular mean
     should more or less match the displayed directions (slight deviations are expected due to noise).  </p>
     
-
+    
+    <h7><a id="#kfoldcv" class="anchor" href="#kfoldcv" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>K-Fold cross-validated decoding</h6>   
+    
     <p> We can then go on to analyse a real dataset. The following commands load subject 24 Ni instances by Nv voxels matrix response
     for ROI V1, the associated vector of stimulus motion directions that were displayed on screen and decode from the voxel population responses the probability that the measured response indicates any of 360 motion directions (i.e., the likelihood of hypothetical motion directions given the observed responses evidence). </p>
 
-      <code class="code">
+    <code class="code">
 
         > rows = 's24'; <br><br>
 
@@ -519,7 +529,7 @@
         > pp.exponent = 4; <br>
         > [LLH_f,pp] = slvoxppKFoldCVdec(instances,svec,5,pp); <br>
         
-      </code>
+    </code>
 
 
     <p> The number of voxels is large compared to the number of instances e.g., 320 voxels for V1 compared to about 240 trials. That might 
@@ -598,9 +608,12 @@
         > biConvmatTocsv( birootpath,subject,prior,roi); <br>
     </code>
 
+    <h7><a id="#train-test" class="anchor" href="#train-test" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Train and test</h6>   
+
     <p> You can find the dataset in this example in "projBrainInference/data/s25/priorUnif/V1/". Those are the datasets we'll be working with.</p>    
     <p> What the mechanism that drive switching ? Either each trial likelihood is bimodal and trial to trial noise
      produces switching from one peak of the likelihood to the other (maximum likelihood readout). Or Likelihood is biased in between prior and the displayed motion direction as expected by Bayesian inference and trial to trial noise produce the observed switching. We trained the probabilistic population code model on subject s25's V1 dataset collected with the uniform prior and used the trained model (trained channel weights and other noise parameters) to decode Likelihood from V1 dataset collected when prior was 80 deg circular with 225 deg mean : </p>    
+    
     <!-- code -->
     <code class="code">
        % open the function to edit data directory and dataset to analyse if needed and run <br>
@@ -628,6 +641,10 @@
     <!--figure-->
     <center><img src="images/s25_V1_mlPredFromTrainingOnUnif.png" style="width: 50%; height: 50%"/></center>
 
+
+
+    
+    <h7><a id="#train-validate-test" class="anchor" href="#train-validate-test" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Train, validate and test</h6>   
 
     <p> <strong> This way of checking the quality of the trained model is not a good </strong> because the model is being tested on the same dataset on which it has been trained. Thus we can't quantify how much the model overfit the data. i.e., how much noise in the data the model actually fits, which we don't want. We want the model to become sensitive only to information in the data that makes its performance robust such that its performance remain high when it is tested on new datasets. We want it to generalize well. <p>
 
