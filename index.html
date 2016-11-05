@@ -119,11 +119,11 @@
       <h6><a id="Data-preprocessing-workflow" class="anchor" href="#Data-preprocessing-workflow" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Data preprocessing workflow</h3>
       <Strong> In scanner behavioral data </Strong>  
 
-      <p> Preprocess raw data from Stanford NIMS database (require credentials) to get response instance database : </p>
+      <p> Download raw data from Stanford NIMS database (require credentials) in "~/data/datafMRI/sltaskdotdirfmri05/" and preprocess : </p>
       
       <ul>
           <li> Preprocess raw fMRI data from NIMS Stanford (dowload data, organize in structured path, distortion correction, motion compensation, dofmricni.m) </li>
-          <li> Align inplane, fMRI data and high resolution anatomical data (mrAlign.m) </li>
+          <li> Align inplane, fMRI data and high resolution anatomical data (mrAlign.m) </li>          
       </ul>
 
 
@@ -627,24 +627,31 @@
     </code>    
     <!--figure-->
     <center><img src="images/s25_V1_mlPredFromTrainingOnUnif.png" style="width: 50%; height: 50%"/></center>
-          
+
+
+    <p> <strong> This way of checking the quality of the trained model is not a good </strong> because the model is being tested on the same dataset on which it has been trained. Thus we can't quantify how much the model overfit the data. i.e., how much noise in the data the model actually fits, which we don't want. We want the model to become sensitive only to information in the data that makes its performance robust such that its performance remain high when it is tested on new datasets. We want it to generalize well. <p>
+
+    <p> It is better to split the dataset into trained and validation datasets, train the model on the trained dataset and test how well it generalizes on the validation dataset. We can define the best split (proportion of instances in the trained vs validation dataset) by training and validating with different splits and by choosing the split that minimizes the sum of squared error between the model predicted directions and the true directions for each split. Once the best model is identified, we can check its quality by plotting the same metrics as above : likelihoods averaged over directions decoded from the validation dataset, predicted directions decoded from validation dataset against validation dataset's displayed directions. Then if the model is good (likelihoods peak at the exoected displayed direction and predicted are strongly correlated with actual directions) we can decode the likelihoods from the test circular prior datasets. </p>
+
+    <!-- code -->
+    <code class="code">      
+       % open the function to edit data directory and dataset to analyse if needed and run <br>
+       > run bippcAnalysis03.m
+    </code>    
 
 
     <!--SECTION-->
-    <h6><a id="Decoding-subjects-combined-datasets" class="anchor" href="#Decoding-subjects-combined-datasets" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>DECODING SUBJECTS COMBINED DATASETS</h3>   
+    <h6><a id="Decoding-subjects-combined-datasets" class="anchor" href="#Decoding-subjects-combined-datasets" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>NOT DECODING SUBJECTS COMBINED DATASETS</h3>   
     
-    <p> <strong> We need lots of data to train the model well. </strong>  The more instances in the weight matrix (matrix row) and the more likely it is that the 
-    is that each voxel data, the matrix columns are linearly independent (weight matrix columns), and that there is a unique vector of weights
+    <p> <strong> We need lots of data to train the model well. </strong>  The more instances in the weight matrix (matrix row) and the more likely it is that each voxel data, the matrix columns are linearly independent (weight matrix columns), and that there is a unique vector of weights
     solution to the linear regression in the first step of the model training. So we want lots of data. </p>
     
     <p> <strong> Combine datasets between subjects </strong> One way to do that is to combined data across subjects. We collected data from 5 subjects. The issue is that an visual rois are not identical between subjects
     e.g., V1 does not have the same number of voxels (datasets have different number of features) in subject 1 and 2. Another issue is that 
     certain subjects missed reporting estimates in all trials which results in a different number of instances between subjects datasets (datasets have 
-    different number of observations). Thus how to combine datasets with different number of features and observations. </p>
-        
+    different number of observations). Thus how to combine datasets with different number of features and observations. </p>        
 
-
-    <p> <a href="http://gru.stanford.edu/doku.php/mrTools/talairachCoordinates">Anatomical alignment ? </a> functional voxel matching ? Hyperalignment ? http://haxbylab.dartmouth.edu/publications/hyperalignment_cns2010_JSGuntupalli_JVHaxby.pdf.
+    <p> <a href="http://gru.stanford.edu/doku.php/mrTools/talairachCoordinates"> Anatomical alignment ? </a> functional voxel matching ? Hyperalignment ? http://haxbylab.dartmouth.edu/publications/hyperalignment_cns2010_JSGuntupalli_JVHaxby.pdf.
       Based on a preliminary study from Haxby et al., Classification of datasets aligned over subjects show lower accuracy than within subject 
       when anatomically aligned, and at best the same accuracy when functional hyperalignment is used. So Alignment between subjects is not our 
       a solution to improve classification accuracy. So we collected lots of data for each subject which will improve the model training and thus
