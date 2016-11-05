@@ -430,7 +430,7 @@
       <h6><a id="Probabilistic-population-decoding" class="anchor" href="#Probabilistic-population-decoding" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>PROBABILISTIC POPULATION DECODING</h6>   
 
 
-      <h7><a id="#ppc" class="anchor" href="#ppc" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>PPC</h6>   
+      <h7><a id="ppc" class="anchor" href="#ppc" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>PPC</h6>   
       
       <p> We used a forward modeling approach (Brouwer & Heeger) that consists in modeling the brain voxel responses as a linear sum 
       of cosine functions (we could think of them as neural tuning functions to a stimulus feature) to reconstruct a stimulus feature
@@ -507,7 +507,7 @@
     should more or less match the displayed directions (slight deviations are expected due to noise).  </p>
     
     
-    <h7><a id="#kfoldcv" class="anchor" href="#kfoldcv" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>K-Fold cross-validated decoding</h6>   
+    <h7><a id="kfoldcv" class="anchor" href="#kfoldcv" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>K-Fold cross-validated decoding</h6>   
     
     <p> We can then go on to analyse a real dataset. The following commands load subject 24 Ni instances by Nv voxels matrix response
     for ROI V1, the associated vector of stimulus motion directions that were displayed on screen and decode from the voxel population responses the probability that the measured response indicates any of 360 motion directions (i.e., the likelihood of hypothetical motion directions given the observed responses evidence). </p>
@@ -608,7 +608,7 @@
         > biConvmatTocsv( birootpath,subject,prior,roi); <br>
     </code>
 
-    <h7><a id="#train-test" class="anchor" href="#train-test" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Train and test</h6>   
+    <h7><a id="train-test" class="anchor" href="#train-test" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Train and test</h6>   
 
     <p> You can find the dataset in this example in "projBrainInference/data/s25/priorUnif/V1/". Those are the datasets we'll be working with.</p>    
     <p> What the mechanism that drive switching ? Either each trial likelihood is bimodal and trial to trial noise
@@ -643,8 +643,8 @@
 
 
 
-    
-    <h7><a id="#train-validate-test" class="anchor" href="#train-validate-test" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Train, validate and test</h6>   
+
+    <h7><a id="train-validate-test" class="anchor" href="#train-validate-test" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Train, validate and test</h6>   
 
     <p> <strong> This way of checking the quality of the trained model is not a good </strong> because the model is being tested on the same dataset on which it has been trained. Thus we can't quantify how much the model overfit the data. i.e., how much noise in the data the model actually fits, which we don't want. We want the model to become sensitive only to information in the data that makes its performance robust such that its performance remain high when it is tested on new datasets. We want it to generalize well. <p>
 
