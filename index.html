@@ -86,6 +86,7 @@
         <h7><a href="#kfoldcv"> &nbsp &nbsp &nbsp &nbsp K-Fold cross-validated decoding <br></h7>
         <h7><a href="#train-test"> &nbsp &nbsp &nbsp &nbsp Train and test <br></h7>
         <h7><a href="#train-validate-test"> &nbsp &nbsp &nbsp &nbsp Train, validate and test <br></h7>
+        <h7><a href="#lars"> &nbsp &nbsp &nbsp &nbsp LARS regularized <br></h7>
         <h7><a href="#Decoding-subjects-combined-datasets"> &nbsp &nbsp DECODING SUBJECTS COMBINED DATASETS <br></h7>
       </section>
     </div>
@@ -655,6 +656,17 @@
        % open the function to edit data directory and dataset to analyse if needed and run <br>
        > run bippcAnalysis03.m
     </code>    
+
+
+    <h7><a id="lars" class="anchor" href="#lars" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>LARS regularized</h6>   
+
+    <p> Another way to make sure that the trained model is robust and generalizes well is to regularize the model's channel weights. The more voxel dimensions the dataset has relative to the number of collected voxel response observations and the more likely it is that some voxels are very correlated with each other : the dimensions are linearly dependent and there are more than one solution to the linear regression that trains the channel weights, producing variable weights (they change from training to training) that thus generalize poorly when tested on new datasets. </p>
+
+    <p> Regularization is making an assumption about the values of the weights. One can constrain the weights by making them sparse, i.e., only a few of them have non zero values which reduces the number of voxel dimensions involved in the linear regression (LARS regularization). Other regularization exist but why not start with LARS. </p>
+
+    <p>Tibshirani & Hastie have developped LARS regularization which is available in R. We could re-code the model in matlab but we just want to quickly test whether we can improve training with LARS so let's just use their R version. </p>
+
+
 
 
     <!--SECTION-->
