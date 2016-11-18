@@ -68,6 +68,10 @@
     <div id="Table_of_content_wrap" class="outer">
       <section id="table_of_content" class="inner">
 
+        <!-- TOP OF THE PAGE -->
+        <h2 id="top">Top of page!</h2>
+
+        <!-- TABLE OF CONTENTS -->
         <h5> TABLE OF CONTENT </h5>
         <h7><a href="#Inference"> INFERENCE <br></h7>
         <h7><a href="#Design-an-inference-experiment"> DESIGN AN INFERENCE EXPERIMENT <br></h7>
@@ -431,7 +435,9 @@
       <h6><a id="Probabilistic-population-decoding" class="anchor" href="#Probabilistic-population-decoding" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>PROBABILISTIC POPULATION DECODING</h6>   
 
 
-      <h7><a id="ppc" class="anchor" href="#ppc" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>PPC</h6>   
+      <h7><a id="ppc" class="anchor" href="#ppc" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a> <a href="#top"> PPC </a> </h6>       
+
+
       
       <p> We used a forward modeling approach (Brouwer & Heeger) that consists in modeling the brain voxel responses as a linear sum 
       of cosine functions (we could think of them as neural tuning functions to a stimulus feature) to reconstruct a stimulus feature
@@ -508,7 +514,7 @@
     should more or less match the displayed directions (slight deviations are expected due to noise).  </p>
     
     
-    <h7><a id="kfoldcv" class="anchor" href="#kfoldcv" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>K-Fold cross-validated decoding</h6>   
+    <h7><a id="kfoldcv" class="anchor" href="#kfoldcv" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a> <a href="#top"> K-Fold cross-validated decoding </a> </h6>   
     
     <p> We can then go on to analyse a real dataset. The following commands load subject 24 Ni instances by Nv voxels matrix response
     for ROI V1, the associated vector of stimulus motion directions that were displayed on screen and decode from the voxel population responses the probability that the measured response indicates any of 360 motion directions (i.e., the likelihood of hypothetical motion directions given the observed responses evidence). </p>
@@ -670,7 +676,7 @@
 
 
     <!--SECTION-->
-    <h6><a id="Decoding-subjects-combined-datasets" class="anchor" href="#Decoding-subjects-combined-datasets" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>NOT DECODING SUBJECTS COMBINED DATASETS</h3>   
+    <h6><a id="Decoding-subjects-combined-datasets" class="anchor" href="#Decoding-subjects-combined-datasets" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><a href="#top"> NOT DECODING SUBJECTS COMBINED DATASETS </a></h3>   
     
     <p> <strong> We need lots of data to train the model well. </strong>  The more instances in the weight matrix (matrix row) and the more likely it is that each voxel data, the matrix columns are linearly independent (weight matrix columns), and that there is a unique vector of weights
     solution to the linear regression in the first step of the model training. So we want lots of data. </p>
