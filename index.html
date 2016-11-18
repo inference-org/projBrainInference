@@ -69,10 +69,10 @@
       <section id="table_of_content" class="inner">
 
         <!-- TOP OF THE PAGE -->
-        <h2 id="top">Top of page!</h2>
+        
 
         <!-- TABLE OF CONTENTS -->
-        <h5> TABLE OF CONTENT </h5>
+        <h5 id="top"> TABLE OF CONTENTS </h5>
         <h7><a href="#Inference"> INFERENCE <br></h7>
         <h7><a href="#Design-an-inference-experiment"> DESIGN AN INFERENCE EXPERIMENT <br></h7>
         <h7><a href="#Database"> DATABASE <br></h7>
@@ -103,10 +103,10 @@
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
         
-      <h6><a id="Inference" class="anchor" href="#Inference" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Inference</h3>  
+      <h6><a id="Inference" class="anchor" href="#Inference" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><a href="#top"> Inference </a></h3>  
       <p></p>
 
-      <h6><a id="Design-an-inference-experiment" class="anchor" href="#Design-an-inference-experiment" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Designing an inference experiment</h6>
+      <h6><a id="Design-an-inference-experiment" class="anchor" href="#Design-an-inference-experiment" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a> <a href="#top"> Designing an inference experiment </a></h6>
       <p>We designed a motion direction estimation experiment in which humans were asked to estimate the 
       motion direction of noisy stimuli on a computer screen. In this experiment statistical optimality 
       can be achieved by combining noisy evidence of the motion with knowledge of the motion direction 
@@ -125,7 +125,7 @@
       <h6><a id="Database" class="anchor" href="#Database" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Database</h3>
       <a href="dataset/datasetBrainInfer.csv"> Click for dataset info </a>
 
-      <h6><a id="Data-preprocessing-workflow" class="anchor" href="#Data-preprocessing-workflow" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Data preprocessing workflow</h3>
+      <h6><a id="Data-preprocessing-workflow" class="anchor" href="#Data-preprocessing-workflow" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><a href="#top"> Data prep. workflow </a></h3>
       <Strong> In scanner behavioral data </Strong>  
 
       <p> Download raw data from Stanford NIMS database (require credentials) in "~/data/datafMRI/sltaskdotdirfmri05/" and preprocess : </p>
@@ -177,7 +177,8 @@
       > d = slfmriGetDBoverSessions(o,varargin);         
       </code>  
         
-      <h6><a id="Mapping-brain-areas" class="anchor" href="#Mapping-brain-areas" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Mapping brain areas</h3>
+      <h6><a id="Mapping-brain-areas" class="anchor" href="#Mapping-brain-areas" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><a href="#top"> Mapping brain areas </a></h3>
+
       <p> The predominant view is that the brain is a collection of areas that are specialized for particular processing. e.g., The occipital cortex (largely involved in visual perception) has been divided into areas included V1, specialized in edge orientation processing, MT, specialized in motion processing etc...
       The first step consists in mapping those visual areas. We used retinotopic mapping to identify visual areas : 6-8 scans of bars swipping the visual screen.
       We then run a population receptive field analysis that identify voxels preferred spatial location (eccentricity and polar angle).
@@ -193,7 +194,7 @@
       <p> We then run an event-related analysis to map the areas that responded to motion (highlighted below in hot colors (yellow) on different views of an inflated brain </p>
       <center><img src="images/MotionBrain.png" style="width: 30%; height: 30%"/></center>
       
-      <h6><a id="Look-at-fMRI-voxel-responses" class="anchor" href="#Look-at-fMRI-voxel-responses" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Look at fMRI voxel responses</h3>
+      <h6><a id="Look-at-fMRI-voxel-responses" class="anchor" href="#Look-at-fMRI-voxel-responses" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a> <a href="#top"> Look at brain activity patterns </a></h3>
           
       <!--code-->
       <code class="code">   
@@ -205,7 +206,7 @@
       </code>
 
       
-      <h6><a id="Decode-stimulus-features-from-brain-activity" class="anchor" href="#Decode-stimulus-features-from-brain-activity" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Decode stimulus features from brain activity</h3>  
+      <h6><a id="Decode-stimulus-features-from-brain-activity" class="anchor" href="#Decode-stimulus-features-from-brain-activity" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><a href="#top"> Brain decoding of stimulus features </a> </h3>  
       
       <ul>
       <li> Are we able to decode prior conditions from any area? </li>
@@ -213,7 +214,7 @@
       </ul>
 
 
-      <h6><a id="Motion-noise" class="anchor" href="#Motion-noise" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>DECODE MOTION NOISE</h3>  
+      <h6><a id="Motion-noise" class="anchor" href="#Motion-noise" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><a href="#top"> BRAIN DECODING OF MOTION NOISE </a></h3>  
       <p>We also decoded the 2 coherences from the voxels Bold pattern same brain regions. </p>
       
       <p> I have stored clean data (Nv voxels by Ni instances response matrices) for each roi and concatenated over experimental sessions for each subject.  You can directly run classification from these datasets. </p>      
@@ -271,7 +272,7 @@
       </code>
       
       
-      <h6><a id="Motion-direction" class="anchor" href="#Motion-direction" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>DECODE MOTION DIRECTION</h3>  
+      <h6><a id="Motion-direction" class="anchor" href="#Motion-direction" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><a href="#top"> BRAIN DECODING OF MOTION DIRECTION </a></h3>  
       <p>We decoded the 5 motion directions from the voxels Bold pattern measured in 8 visual brain regions engaged in 
       processing motion information. For example we classify from V1 roi with </p>
       
@@ -307,7 +308,7 @@
       </code>
             
       <!--Section-->
-      <h6><a id="switching" class="anchor" href="#switching" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Estimation behavior</h3>  
+      <h6><a id="switching" class="anchor" href="#switching" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><a href="#top"> BRAIN DECODING OF BEHAVIOR </a></h3>  
       <p>We also decoded when subjects switched to the prior or the likelihood from the voxels Bold pattern of the same brain regions. </p>
 
       <!--Code-->
@@ -420,23 +421,22 @@
       <center><img src="images/ClassifTwoDir.png" style="width: 50%; height: 50%"/></center>
       
       <!--SECTION-->
-      <h6><a id="Analysis-of-population-of-voxel-selectivity" class="anchor" href="#Analysis-of-population-of-voxel-selectivity" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>VOXEL POPULATION ANALYSIS</h3>  
+      <h6><a id="Analysis-of-population-of-voxel-selectivity" class="anchor" href="#Analysis-of-population-of-voxel-selectivity" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><a href="#top"> VOXEL POPULATION ANALYSIS </a></h3>  
 
       <code class="code">
          >> run slfMRIwrapperDisVoxSelbalDir
       </code>
 
       <h7><a href="#Brain-decoding-with-Channel-Encoding-reconstruction"> &nbsp &nbsp BRAIN DECODING WITH FORWARD MODELING RECONSTRUCTION <br></h7>
-      <h6><a id="Brain-decoding-with-Channel-Encoding-reconstruction" class="anchor" href="Brain-decoding-with-Channel-Encoding-reconstruction" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>STIMULS RECONSTRUCTION WITH BRAIN RESPONSE FORWARD MODELING</h3>   
+      <h6><a id="Brain-decoding-with-Channel-Encoding-reconstruction" class="anchor" href="Brain-decoding-with-Channel-Encoding-reconstruction" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><a href="#top"> STIMULUS RECONSTRUCTION WITH FORWARD MODELING </a></h3>   
 
 
     
       <!--SECTION-->
-      <h6><a id="Probabilistic-population-decoding" class="anchor" href="#Probabilistic-population-decoding" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>PROBABILISTIC POPULATION DECODING</h6>   
+      <h6><a id="Probabilistic-population-decoding" class="anchor" href="#Probabilistic-population-decoding" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><a href="#top"> STIMULUS RECONSTRUCTION WITH PROBABILISTIC POPULATION CODES</a></h6>   
 
 
       <h7><a id="ppc" class="anchor" href="#ppc" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a> <a href="#top"> PPC </a> </h6>       
-
 
       
       <p> We used a forward modeling approach (Brouwer & Heeger) that consists in modeling the brain voxel responses as a linear sum 
@@ -615,7 +615,7 @@
         > biConvmatTocsv( birootpath,subject,prior,roi); <br>
     </code>
 
-    <h7><a id="train-test" class="anchor" href="#train-test" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Train and test</h6>   
+    <h7><a id="train-test" class="anchor" href="#train-test" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><a href="#top"> Train and test </a></h6>   
 
     <p> You can find the dataset in this example in "projBrainInference/data/s25/priorUnif/V1/". Those are the datasets we'll be working with.</p>    
     <p> What the mechanism that drive switching ? Either each trial likelihood is bimodal and trial to trial noise
@@ -651,7 +651,7 @@
 
 
 
-    <h7><a id="train-validate-test" class="anchor" href="#train-validate-test" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Train, validate and test</h6>   
+    <h7><a id="train-validate-test" class="anchor" href="#train-validate-test" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><a href="#top"> Train,validate,test </a></h6>   
 
     <p> <strong> This way of checking the quality of the trained model is not a good </strong> because the model is being tested on the same dataset on which it has been trained. Thus we can't quantify how much the model overfit the data. i.e., how much noise in the data the model actually fits, which we don't want. We want the model to become sensitive only to information in the data that makes its performance robust such that its performance remain high when it is tested on new datasets. We want it to generalize well. <p>
 
@@ -664,7 +664,7 @@
     </code>    
 
 
-    <h7><a id="lars" class="anchor" href="#lars" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>LARS regularized</h6>   
+    <h7><a id="lars" class="anchor" href="#lars" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><a href="#top"> Feature selection </a></h6>   
 
     <p> Another way to make sure that the trained model is robust and generalizes well is to regularize the model's channel weights. The more voxel dimensions the dataset has relative to the number of collected voxel response observations and the more likely it is that some voxels are very correlated with each other : the dimensions are linearly dependent and there are more than one solution to the linear regression that trains the channel weights, producing variable weights (they change from training to training) that thus generalize poorly when tested on new datasets. </p>
 
