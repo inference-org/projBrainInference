@@ -429,10 +429,17 @@
 
       <h7><a href="#Brain-decoding-with-Channel-Encoding-reconstruction"> &nbsp &nbsp BRAIN DECODING WITH FORWARD MODELING RECONSTRUCTION <br></h7>
       
+      <p> We can model model a voxel's response to a direction of motion as a weighted sum of five sine wave channels (we can imagine that these sinewaves describe the direction tuning responses of a group of neurons). The linear regression of the bold response pattern with the fie sinewaves produces a set of weights that quantify the amplitude of each direction tuning function. We can check that voxels are direction-selective  by plotting the responses (ona y-axis) of their channels sorted as function of the distance between their preferred direction (x-axis) and the displayed direction (positioned at 180 deg on the x-axis).  </p>
+
       <!-- code -->
       <code class="code">
-      
+          %cross-validated decoding of a dataset <br>
+          d = slfmriGetDBoverSessions(o,varargin); <br> 
+          b = d.instances; <br> 
+          svec = d.myRandomDir;<br> 
+          fm = slvoxfmKFoldCVdec(instances,svec,5);
       </code>
+
       <!--figure-->
       <center><img src="images/s25_ForwModel.png" style="width: 100%; height: 100%"/></center>
 
