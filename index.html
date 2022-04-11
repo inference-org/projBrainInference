@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Project inference : Design an experiment which requires human subjects to do inference, analyse, mine and model their brain activity to understand how the brain do inference ?">
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+    
+    <!--load font families-->
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+    <link rel="stylesheet" href="fonts/Serif/cmun-serif.css" />
+    
+    <!--Mathematics with MathJax-->
+    <script type="text/x-mathjax-config">      
+      MathJax.Hub.Config({
+          extensions: ["tex2jax.js"],
+          jax: ["input/TeX", "output/HTML-CSS"],
+          tex2jax: {
+              inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+              displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+              processEscapes: true
+          },
+          "HTML-CSS": { 
+            availableFonts: ["STIX"],
+          }
+      });
+    </script>
+    <script type="text/javascript" async
+      src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML">
+    </script>  
+
+  </head>
+  
+  
+
+  <body link="blue">
+    
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/steevelaquitaine/projBrainInference">Github</a>
+          <a id="project_author" href="http://steevelaquitaine.blogspot.com">Steeve laquitaine </a>
+        </header>
+    </div>
+
+    <!--TITLE-->
+    <div id="proj_title_wrap" class="outer">
+        <header class="inner">
+        <section id="proj_title" class="inner">
+        <h1 id="proj_title"> How does the brain do visual inference ? </h1>
+    </div>
+    
+    
+
+    <!--Table of contents-->
+    <div id="Table_of_content_wrap" class="outer">
+      <section id="table_of_content" class="inner">
+
+        <!-- TOP OF THE PAGE -->
+        
+
+        <!-- TABLE OF CONTENTS -->
+        <h5 id="top"> TABLE OF CONTENTS </h5>
+        <h7><a href="#Inference"> INFERENCE <br></h7>
+        <h7><a href="#Design-an-inference-experiment"> DESIGN AN INFERENCE EXPERIMENT <br></h7>
+        <h7><a href="#Database"> DATABASE <br></h7>
+        <h7><a href="#Data-preprocessing-workflow"> DATA PREPROCESSING WORKFLOW <br></h7>
+        <h7><a href="#Mapping-brain-areas"> MAPPING BRAIN AREAS <br></h7>
+        <h7><a href="#Look-at-fMRI-voxel-responses"> LOOK AT BRAIN RESPONSES  <br></h7>      
+        <h7><a href="#Brain-decoding-of-stimulus-machine-learning"> BRAIN DECODING (FISHER LINEAR DISCRIMINANT-LOO)<br></h7>
+        <h7><a href="#Motion-noise"> &nbsp &nbsp DECODE MOTION NOISE <br></h7>
+        <h7><a href="#Motion-direction"> &nbsp &nbsp DECODE MOTION DIRECTION <br></h7>        
+        <h7><a href="#switching"> &nbsp &nbsp ESTIMATION BEHAVIOR <br></h7>
+        <h7><a href="#voxel-population-analysis"> &nbsp &nbsp BRAIN RESPONSE POPULATION ANALYSIS <br></h7>
+        <h7><a href="#Brain-decoding-with-Channel-Encoding-reconstruction"> &nbsp &nbsp BRAIN DECODING WITH FORWARD MODELING RECONSTRUCTION <br></h7>
+        <h7><a href="#Probabilistic-population-decoding"> &nbsp &nbsp BRAIN DECODING WITH PROBABILISTIC POPULATION MODELING <br></h7>
+        <h7><a href="#ppc"> &nbsp &nbsp &nbsp &nbsp ppc <br></h7>
+        <h7><a href="#kfoldcv"> &nbsp &nbsp &nbsp &nbsp K-Fold cross-validated decoding <br></h7>
+        <h7><a href="#train-test"> &nbsp &nbsp &nbsp &nbsp Train and test <br></h7>
+        <h7><a href="#train-validate-test"> &nbsp &nbsp &nbsp &nbsp Train, validate and test <br></h7>
+        <h7><a href="#lars"> &nbsp &nbsp &nbsp &nbsp Feature selection <br></h7>
+        <h7><a href="#Decoding-subjects-combined-datasets"> &nbsp &nbsp NOT DECODING SUBJECTS COMBINED DATASETS <br></h7>
+      </section>
+    </div>
+    
+    
+    
+    
+    
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        
+      <h6><a id="Inference" class="anchor" href="#Inference" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><a href="#top"> Inference </a></h3>  
+      <p></p>
+
+      <h6><a id="Design-an-inference-experiment" class="anchor" href="#Design-an-inference-experiment" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a> <a href="#top"> Designing an inference experiment </a></h6>
+      <p>We designed a motion direction estimation experiment in which humans were asked to estimate the 
+      motion direction of noisy stimuli on a computer screen. In this experiment statistical optimality 
+      can be achieved by combining noisy evidence of the motion with knowledge of the motion direction 
+      statistics learnt over motion stimulus history using Bayesian inference</p>
+      
+      <p> Subjects were first trained with one prior distribution then scanned with the same prior. 
+      In subsequent session, subjects are trained with a new prior and scanned with this new prior. </p>
+      <center><img src="images/experiment.png" style="width: 50%; height: 50%"/></center>
+      
+      <p> The line by line steps of the experiment are stored in the following matlab script : <p>
+      <!--Codes-->
+      <code class="code">
+          >> run runAlltaskDirfMRI05.m
+      </code>
+      
+      <h6><a id="Database" class="anchor" href="#Database" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><a href="#top"> DATABASE </a></h3>
+      <a href="dataset/datasetBrainInfer.csv"> Click for dataset info </a>
+
+      <h6><a id="Data-preprocessing-workflow" class="anchor" href="#Data-preprocessing-workflow" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><a href="#top"> Data prep. workflow </a></h3>
+      <Strong> In scanner behavioral data </Strong>  
+
+      <p> Download raw data from Stanford NIMS database (require credentials) in "~/data/datafMRI/sltaskdotdirfmri05/" and preprocess : </p>
+      
+      <ul>
+          <li> Preprocess raw fMRI data from NIMS Stanford (dowload data, organize in structured path, distortion correction, motion compensation, dofmricni.m) </li>
+          <li> Align inplane, fMRI data and high resolution anatomical data (mrAlign.m) </li>          
+      </ul>
+
+
+      <p> The raw behavioral data we collected are saved in files under matlab format (".mat") in a project folder we called "sltaskDotDirfMRI05".
+      Open matlab script "slworkflowBehData.m". It contains the steps to preprocess and organize the data in ".mat" file format ready  
+      to be analyzed with the script "analyses.m". The subject id and its associated files for each condition are already set in "slworkflowBehData.m"  </p>
+      
+      <p>The first thing we should check is whether the subjects switched between prior mean and sensory evidence when performing the scan in the scanner, consistently with the behavior observed outside the scanner. We look at data for prior with mean 225 deg :  </p>
+      <!--code-->
+      <code class="code">
+          > run slworkflowBehData.m <br>
+          % analyse data from subject02 with prior at 225 deg <br>
+          > cd p225 <br>
+          > analyses({'sub02'},{'StimStrength','Pstd','FeatureSample'},'inpath','experiment','vonMisesPrior','dataDis','signDistance');<br>
+      </code>
+
+
+      <center><img src="images/BehInScan.png" style="width: 100%; height: 100%"/></center>
+      
+
+
+
+
+
+      <Strong> Brain activity data </Strong>  
+      <p> Brain activity data (heavy files) were stored for each subject under the .niftii format. Each scan within each session collected was motion compensated with linear interpolation and drift correction using the mean frame
+      (acquired volume) as base frame. Multiple sessions were collected for each prior conditions. The resulting fMRI images were filtered and high-passed with a filter cut-off
+      of 0.01, then the intensity was normalized to percent signal change relative to the mean intensity. Scans were then concatenated over sessions. </p>
+      
+      <p> We then created a more operational database (easier to load/manipulate/use) database of Bold response instances to the displayed stimulus at each trials.
+        Bold time series are extracted from the .niftii files for specified ROIs ("ROITSeries") and stored (faster load). The BOLD response instances for those ROI 
+        and their associated task variables are saved as "d.instances", "d.myRandomDir" etc., in a matlab file "d.mat" at the path : 
+        "o.stckPath 'slStckAnalyses/' o.myGroup '/classif/' 's' o.sid '/prior' num2str(o.priormean) '/' o.myVar '/' [o.myAnalysis{:}] '/' o.myROIname{:} '/']". The
+        for example :
+        "/data/datafMRI/sltaskdotdirfmri05/slStckAnalyses/Concatenation/classif/s323/ <br>
+        prior225/myRandomCoh/accAtTimeleaveOneOutfisherbalancByRemovI/V1" following code is run for each subject, prior condition and visual roi.
+      <p>
+      
+      <!--code-->
+      <code class="code">
+      > slfmriInitAnalysisTaskDotDirfMRI05 
+      > d = slfmriGetDBoverSessions(o,varargin);         
+      </code>  
+        
+      <h6><a id="Mapping-brain-areas" class="anchor" href="#Mapping-brain-areas" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><a href="#top"> Mapping brain areas </a></h3>
+
+      <p> The predominant view is that the brain is a collection of areas that are specialized for particular processing. e.g., The occipital cortex (largely involved in visual perception) has been divided into areas included V1, specialized in edge orientation processing, MT, specialized in motion processing etc...
+      The first step consists in mapping those visual areas. We used retinotopic mapping to identify visual areas : 6-8 scans of bars swipping the visual screen.
+      We then run a population receptive field analysis that identify voxels preferred spatial location (eccentricity and polar angle).
+      The analysis consists in modeling voxels responses to different stimulus locations with a 2D Gaussian that accounts for the hemodynamic response
+      timecourse, hemodynamic response timecourse was modelled with a difference of gamma function (fminsearch). <p>
+        
+      <p>We roughly divided the brain into parietal and occipital regions. To visualize those areas in mrTools load a surface (.off fiels) 
+      produced by freesurfer, create an occipital/parietal flat map on that surface, load the flat map and create an roi
+      out of the entire flat map, then display the roi on the surface). </p>
+
+      <center><img src="images/left_parietal_occipital.png" style="width: 50%; height: 50%"/></center>
+
+      <p> We then run an event-related analysis to map the areas that responded to motion (highlighted below in hot colors (yellow) on different views of an inflated brain </p>
+      <center><img src="images/MotionBrain.png" style="width: 30%; height: 30%"/></center>
+      
+      <h6><a id="Look-at-fMRI-voxel-responses" class="anchor" href="#Look-at-fMRI-voxel-responses" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a> <a href="#top"> Look at brain activity patterns </a></h3>
+          
+      <!--code-->
+      <code class="code">   
+          >> slfmriInitAnalysisTaskDotDirfMRI05 <br>
+          >> [d,o,behbySess] = slfmriGetDBoverSessions(o,varargin); <br>
+          >> [~,VoxelsParams] = slfmriGetVoxTuningParams('vonMisesprior','neuralvector',d,o); <br>
+          >> slfmriVisualDatabase(d.instances(d.mySwitch==1,:),'x1',d.myRandomDir(d.mySwitch==1,:),'x2',VoxelsParams.modes1); <br>
+          >> slfmriVisualDatabase(d.instances(d.mySwitch==2,:),'x1',d.myRandomDir(d.mySwitch==2,:),'x2',VoxelsParams.modes2)
+      </code>
+
+      
+      <h6><a id="Decode-stimulus-features-from-brain-activity" class="anchor" href="#Brain-decoding-of-stimulus-machine-learning" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><a href="#top"> Brain decoding of stimulus features </a> </h3>  
+      
+      <ul>
+      <li> Are we able to decode prior conditions from any area? </li>
+      <li> Are we able to decode likelihood conditions (motion directions, coherence) ? </li>
+      </ul>
+
+
+      <h6><a id="Motion-noise" class="anchor" href="#Motion-noise" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><a href="#top"> BRAIN DECODING OF MOTION NOISE </a></h3>  
+      <p>We also decoded the 2 coherences from the voxels Bold pattern same brain regions. </p>
+      
+      <p> I have stored clean data (Nv voxels by Ni instances response matrices) for each roi and concatenated over experimental sessions for each subject.  You can directly run classification from these datasets. </p>      
+
+      <!--Code-->
+      <code class="code">      
+            %load data, shape and classify <br>
+            > load /Volumes/DroboBKUP/data/datafMRI/sltaskdotdirfmri05/... <br>
+            &nbsp &nbsp &nbsp &nbsp        slStckAnalyses/Concatenation/classif/s25/prior225/myRandomCoh/... <br>
+            &nbsp &nbsp &nbsp &nbsp        accAtTimeleaveOneOutfisherbalancByRemovI/V1/d.mat <br>
+            > [M_struc,v_u] = slmat2structByVar(d.instances,d.myRandomCoh); <br>
+            > c = leaveOneOut(M_struc,'balancByRemovI=1'); <br>
+      </code>  
+
+      <p> You can classify coherences from the data for all subjects like that : </p>      
+
+      <!-- Codes -->
+      <code class="code">
+
+          > subs = {'s24','s25','s323','s327','s357'}; <br>
+          > cols = {'correct','correctSTE'}; <br>
+          > slclassifyInstancesForMultSubs(subs,cols,'d.myRandomCoh','V1',... <br>
+          &nbsp &nbsp &nbsp &nbsp        'Accuracy (%correct)','Decoding coherence from V1'); <br>
+          
+       </code>   
+
+      <p> We can plot the results for roi V1. </p>  
+      <code class="code">      
+
+          > %plot <br>
+          > slplotClassifAccuracy(classifres(:,1),classifres(:,2),0.5,... <br>
+          &nbsp &nbsp &nbsp &nbsp    rows,'Accuracy (%correct)','Decoding coherence from V1') <br>
+
+      </code>  
+
+      <!-- figure -->
+      <center><img src="images/ClassifCohAllSub_FishLOO.png" style="width: 50%; height: 50%"/></center>
+
+      <p> The accuracies and their sem for roi V1 are saved in <a href="dataset/datasetClassifCoh.csv" class="class2"> dataset/datasetClassifCoh.csv file</a> by : </a> </p>
+
+      <code class="code">  
+          %convert result to .csv <br>
+          > dataset = [cols; [rows' num2cell(dataClassif)]]; <br>
+          > slconvMatAllCellsToCsv('datasetClassifCoh',dataset) <br>
+      </code>  
+
+      <p> You can also run the analysis directly from the raw data (but permission is required to download from Stanford NIMS database 
+      and the data needs to be preprocessed with the lab function "dofmricni.m")) </p>
+
+      <!--Code-->
+      <code class="code">      
+           %First initialize the parameters as above for directions .. <br>
+           %..then decode <br>
+           >> slfmriClassifyMotionCoherence(o);
+      </code>
+      
+      
+      <h6><a id="Motion-direction" class="anchor" href="#Motion-direction" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><a href="#top"> BRAIN DECODING OF MOTION DIRECTION </a></h3>  
+      <p>We decoded the 5 motion directions from the voxels Bold pattern measured in 8 visual brain regions engaged in 
+      processing motion information. For example we classify from V1 roi with </p>
+      
+      <!--Code-->
+      <code class="code">
+
+          > subs = {'s24','s25','s323','s327','s357'}; <br>
+          > cols = {'correct','correctSTE'}; <br>
+          > slclassifyInstancesForMultSubs(subs,cols,'d.myRandomDir','V1',... <br>
+          &nbsp &nbsp &nbsp &nbsp        'Accuracy (%correct)','Decoding direction from V1'); <br>
+
+       </code>   
+
+      <center><img src="images/ClassifDirAllSub_FishLOO.png" style="width: 50%; height: 50%"/></center>
+
+       <p>And directly from the raw TSeries data after processing with dofmricni (if you have access) with : </p>
+      
+      <!--Code-->
+      <code class="code">
+
+           %Initialize parameters <br>
+            > o = slfmriInitTask('Concatenation',1,2,1,2,o); <br>
+            > o = slfmriInitSession('~/data/datafMRI/sltaskdotdirfmri05/',... <br>
+            &nbsp &nbsp &nbsp &nbsp    {'s02520150814','s02520150923','s02520150925'},o); <br>
+            > o = slfmriInitRois({'outsideBrain03','V1','V2','V3','V3A','MT','IPS','V1toMT'},...<br>
+            &nbsp &nbsp &nbsp &nbsp   's0025_flatL_WM_occipital_Rad90',... <br>
+            &nbsp &nbsp &nbsp &nbsp  '~/data/datafMRI/mlrAnatDB/s0025/mlrBaseAnatomies/',... <br>
+            &nbsp &nbsp &nbsp &nbsp  '~/data/datafMRI/mlrAnatDB/s0025/mlrROIs/',o); <br><br>
+          
+          %plot <br>
+          >> slfmriClassifyMotionDirections(o); 
+
+      </code>
+            
+      <!--Section-->
+      <h6><a id="switching" class="anchor" href="#switching" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><a href="#top"> BRAIN DECODING OF BEHAVIOR </a></h3>  
+      <p>We also decoded when subjects switched to the prior or the likelihood from the voxels Bold pattern of the same brain regions. </p>
+
+      <!--Code-->
+      <code class="code">      
+           %First initialize the parameters as above for directions .. <br>
+           %..then decode <br>
+           >> slfmriClassifySwitchingbyCoh(o);
+      </code>
+
+
+      <p>The issue with this analysis is that displayed motion directions are not balanced between the switching classes which might bias the classifier. So we equalized the distribution of motion directions between the switching classes by removing the latest instances of each given motion direction in the class where that motion direction was the most frequent. </p>  
+
+      <!--Code-->
+      <code class="code">      
+
+            > subs = {'s24','s25','s323','s327','s357'}; <br>
+            > cols = {'correct','correctSTE'};<br>
+            > fixCoh = [0.08,0.06,0.08,0.08,0.08];<br>
+            > [classifres,cols] = slclassifySwitchForBalDirForMultSubs(subs,cols,fixCoh,'V1',...<br>
+            &nbsp &nbsp &nbsp &nbsp  'Accuracy (%correct)','Decoding switching from V1');<br>
+
+      </code>
+
+      <!-- figure -->
+      <center><img src="images/ClassifSwitchLowCohBalDirAllSub_FishLOO.png" style="width: 50%; height: 50%"/></center>
+
+      <!--text-->
+      <p><strong> Did the subject's brain maintained a representation of the displayed motion direction when the subject switched to his prior ? </strong>
+      <p> We decoded the 4 motion directions (except at the prior mean, because those trials can be classified as switching to evidence or prior mean) displayed on each trial 
+      from the activity patterns recorded from the subject s025's brain when he switched to his prior mean and when he switched to the 
+      sensory evidence separately (at the weakest motion, 6% coherence, 3 sessions of 80 deg prior). The sample size was 32 trials/direction and 8 trials/direction when subjects 
+      switched to sensory evidence and prior respectively).</p> 
+      
+      <!--code-->
+      <code class="code">
+       >> slfmriInitClassifAnalysisTaskDotDirfMRI05 <br>
+       >> dataClassif = slfmriClassifyDir_x_switch(o)
+      </code>
+      
+      <!--figure-->
+      <center><img src="images/Classif4DirBySwitch.png" style="width: 70%; height: 70%"/></center>
+      
+      <p><strong> The classifier showed very poor decoding accuracies when trying to classify 5 motion directions. But it might have 
+      a hard time identifying differences in patterns elicited by 5 motion directions.
+      
+      <!--subsection-->
+      <p><strong> It is unfair to compare the classification accuracies produced from 32 trials in one condition with 
+      the accuracy produced by classifying from 8 trials which should be poorer because the sample size is smaller. </strong> 
+      We equalized the sample size between switching conditions to 8 instances (sampled out of 32 without 
+      replacement) and rerun the classifications for 7 rois (V1 - V3, V3A, MT, IPS) and a control roi outside the brain. 
+      Sampling was performed 100 times (minimum number of samples) from each class and the 100 resulting classification 
+      accuracies were averaged for each conditions and roi with the 95% confidence interval calculated over bootstrapped 
+      samples. </p> 
+        
+      <!--Code-->
+      <code class="code">
+        
+          >> slfmriInitClassifAnalysisTaskDotDirfMRI05 <br>
+
+          >> params = {'accuracyAtTime',[7 14; 7 14;7 14; 7 14;7 14; 7 14;7 14],... <br>
+              &nbsp &nbsp &nbsp &nbsp       'loadSavedROI','CalcInstances','leaveOneOut','fisher',... <br>
+              &nbsp &nbsp &nbsp &nbsp       'numInstances',8,'CalcInstancesByCond'};
+
+          >> myConds = {{'myRandomDir_x_mySwitch=1_x_myRandomCoh=0.06'},.... <br>
+              &nbsp &nbsp &nbsp &nbsp     {'myRandomDir_x_mySwitch=2_x_myRandomCoh=0.06'}}; <br>
+
+          >> [stat,cbycByROI,sbycByROI,oByROI,obycByROI]=... <br>
+              &nbsp &nbsp &nbsp &nbsp     slfmriClassifyBootInstByConditions(100,params,myConds,o);
+              
+      </code>
+          
+      <center><img src="images/classifAccEqSamplSizeByBoot.png" style="width: 50%; height: 50%"/></center>
+          
+      <!--results-->
+      <p> None of the accuracies were significantly above chance. There might seem below chance because 
+      Fisher leaveOneOut slightly bias predictions against the test set (not sure, it's an explanation for 
+      svm but it should not bias classification for fisher) or because classification outputs are unstable for
+      such small sample size (8 instances). </p>
+      
+      
+      
+      <!--subsection-->
+      <p> Can he do better with 2 motion directions ? </strong> </p>
+      <p> We chose the two directions furthest from the prior (225 deg in blue), where switching is the clearest: 15 and 85 degrees. 
+      The classifier outputted one class at each of the 8/32 trials collected for each direction and when the subject switched to prior/evidence. 
+      We report the classifier's percent correct prediction. </p> 
+      <!--code-->
+      <code class="code">
+         >> drawVectors([15 85 155 225 295],[1 1 1 1 1])
+      </code>
+      
+      <!--figure-->
+      <center><img src="images/ClassifyTwoDirections.png" style="width: 100%; height: 100%"/></center>
+      
+      <p> We classified the two directions from various visually responsive areas of the brain (V1,V2,V3,V3A,hMT,IPS) 
+      for subject "s025" over 3 sessions when motion and the prior were weak (6% coherence, 80 deg prior). We also 
+      classified the directions from signals recorded outside the brain as a control check that significant accuracies were not 
+      spurious (e.g., error in the code).
+      
+      <!--figure-->
+      <center><img src="images/ControlROI.png" style="width: 50%; height: 50%"/></center>
+      
+      <!--code-->
+     <code class="code">
+              >> slfmriInitClassifAnalysisTaskDotDirfMRI05_loop; <br> 
+              >> [accuracy, ste, dataClassifsw1, dataClassifsw2, nTrials] = slfmriClassifyTwoDir_x_switch_loop(o);
+      </code>
+      
+      <!--figure-->
+      <center><img src="images/ClassifTwoDir.png" style="width: 50%; height: 50%"/></center>
+      
+      <!--SECTION-->
+      <h6><a id="Analysis-of-population-of-voxel-selectivity" class="anchor" href="#Analysis-of-population-of-voxel-selectivity" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><a href="#top"> VOXEL POPULATION ANALYSIS </a></h3>  
+
+      <code class="code">
+         >> run slfMRIwrapperDisVoxSelbalDir
+      </code>
+
+      <h7><a href="#Brain-decoding-with-Channel-Encoding-reconstruction"> &nbsp &nbsp BRAIN DECODING WITH FORWARD MODELING RECONSTRUCTION <br></h7>
+      
+      <p> We can model model a voxel's response to a direction of motion as a weighted sum of five sine wave channels (we can imagine that these sinewaves describe the direction tuning responses of a group of neurons). The linear regression of the bold response pattern with the fie sinewaves produces a set of weights that quantify the amplitude of each direction tuning function. We can check that voxels are direction-selective  by plotting the responses (ona y-axis) of their channels sorted as function of the distance between their preferred direction (x-axis) and the displayed direction (positioned at 180 deg on the x-axis).  </p>
+
+      <!-- code -->
+      <code class="code">
+          %cross-validated decoding of a dataset <br>
+          d = slfmriGetDBoverSessions(o,varargin); <br> 
+          b = d.instances; <br> 
+          svec = d.myRandomDir;<br> 
+          fm = slvoxfmKFoldCVdec(instances,svec,5);
+      </code>
+
+      <!--figure-->
+      <center><img src="images/s25_ForwModel.png" style="width: 100%; height: 100%"/></center>
+
+      
+
+
+      <h6><a id="Brain-decoding-with-Channel-Encoding-reconstruction" class="anchor" href="Brain-decoding-with-Channel-Encoding-reconstruction" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><a href="#top"> STIMULUS RECONSTRUCTION WITH FORWARD MODELING </a></h3>   
+
+
+    
+      <!--SECTION-->
+      <h6><a id="Probabilistic-population-decoding" class="anchor" href="#Probabilistic-population-decoding" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><a href="#top"> STIMULUS RECONSTRUCTION WITH PROBABILISTIC POPULATION CODES</a></h6>   
+
+
+      <h7><a id="ppc" class="anchor" href="#ppc" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a> <a href="#top"> PPC </a> </h6>       
+
+      
+      <p> We used a forward modeling approach (Brouwer & Heeger) that consists in modeling the brain voxel responses as a linear sum 
+      of cosine functions (we could think of them as neural tuning functions to a stimulus feature) to reconstruct a stimulus feature
+      (here the motion direction). </p>
+        
+      <!--Equations-->
+      Each voxel $i$ response $b_i$ is modelled by : 
+      
+                            \[b_i = \sum_{k}^K W_{i_k}(f_k(s) + \eta_k) + \nu_i  \]  
+
+      where, $i$ : voxel i, $s$ : stimulus direction, $W_{i_{k}}$ : contribution of population $k$ to the response of voxel $i$, $f_k(s)$ : direction tuning functions (also called channels, half-wave rectified cosines raised to the power 5)
+      of $K$ neural populations ($K$=8) tuned to different directions
+      Tuning functions are defined as :
+      
+                                \[f_k(s) = max \Big(0,cos(\pi(s-\Phi_k)/180) \Big))^5\]
+                                            
+      where,
+      $\Phi_k$ : orientation preference of neural population $k$,
+      note that sine waves are defined as cos(AngFreq*space + phase) and take radians as inputs, 
+      thus the phases are the orientation preferences $\Phi_k$ in degrees are $\Phi_k/180*pi$ in radians 
+      and the period is $pi/180$ or 360 degs ($=2pi/360$). Ruben S van Bergen et al., 2015, Nature 
+      Neuroscience use $cos(\pi(s-\Phi_k)/90)$ becausethe circular stimulus feature they manipulate is 
+      orientation in which case sine wave periods are 180 degs.
+      
+      Responses are varible due to multiple sources of noise : $\eta_k$ and $\nu_i$ are deviations (noise) from mean response of channel $k$ and mean voxel $i$ responses respectively. They are modelled as follows : 
+      $\eta \sim \mathcal{N}(0,\sigma^2I)$ : 1 x K vector of noise or deviation from the mean response of each channel $k$ shared among neural populations of similar tunings 
+      , generated by a Gaussian process with mean 0 and square diagonal covariance matrix $\sigma^2I$  
+      $\nu \sim \mathcal{N}(0,\Sigma)$ : 1 x M voxel vector of noise generated by a Gaussian process with mean 0 covariance matrix $\Sigma$
+      that is the linear combination of two sources of noise with covariance matrices: 
+      - 1) $\rho\tau\tau^T$ the covariance matrix (square symmetric matrix of M x M voxels) that defines the noise specific to individual voxels $i$ which contribution to $\nu$ is scaled by $\rho$ 
+      , where $\tau$ is a 1 x M vector that models the std $\tau_i$ of each voxel $i$ noise
+      - 2) $(1-\rho)I\circ\tau\tau^T$ the covariance matrix (diagonal square matrix of M x M voxels) that defines the noise shared among voxels irrespective of their tunings
+      (common deviation from voxels mean response scaled by $1-\rho$)
+      $\tau$ : a vector of 1 x M voxels that models the std $\tau_i$ of each voxel's noise
+      $\rho$ : 1 scalar factor modeling the contribution of the voxel-specific noise and the noise shared globally among voxels irrespective of their tunings
+      $\Sigma = \rho\tau\tau^T + (1-\rho)I\circ\tau\tau^T$
+          
+       
+      The idea is to search the model parameters ($W$,$\rho$,$\sigma$,$\tau$) that maximize the fit between actual and predicted bold patterns.
+      Model fitting was done in two steps : <br>
+      - On a training data set, find $W$ by assuming that $\sigma=0$ which simplifies the fit to least-square regression :
+                                                
+                                                \[ \hat{W}_i = b_i f(s)^T(f(s)f(s)^T)^-1 \]
+      
+      because :
+
+      \[ b_i = \sum_{k}^K W_{i_k}(f_k(s) + \eta_k) + \nu_i \]
+
+      becomes : 
+
+      \[ b_i = \sum_{k}^K W_{i_k}(f_k(s)) + \nu_i \] where $W_{i_k}$ are the weights of the linear regression and $\nu_i$ is the Gaussian residual.
+      
+
+          
+      Once we get the weights, the seconds step is to find $\rho$,$\sigma$,$\tau$ given those weights are fixed using maximum likelihood fit.
+      The likelihood of each voxel response pattern is given by the generative model : <br>
+      
+      \[ p(b|s,\eta;W,\Sigma) = 1/\sqrt(2\pi |\Sigma|) exp( -1/2(b-W(f(s)+\eta))^T \Sigma^-1(b-W(f(s) + \eta)) ) \]
+      
+      marginalizing over $\eta$ : <br>
+      
+      \[ p(b|s,W,\Omega) = \int p(b|\eta,s;\Sigma)p(\eta)d\eta =  1/\sqrt(2\pi|\Omega|) exp( -1/2(b-Wf(s))^T \Omega^-1(b-Wf(s))  ) \] 
+      
+      where, <br>
+      
+      \[ \Omega = \rho\tau\tau^T + (1-\rho)I\circ\tau\tau^T + \sigma^2WW^T \] 
+    
+    
+    <p> <strong> To develop the code and make sure that everything works as expected, let's first simulate some voxel response
+    to several trial instances of displayed stimulus directions produced by the generative model </strong>; then we'll infer the posterior probabilities of those 
+    probability of the directions give the voxel response patterns at each trial. If everything is ok, the posterior circular mean
+    should more or less match the displayed directions (slight deviations are expected due to noise).  </p>
+    
+    
+    <h7><a id="kfoldcv" class="anchor" href="#kfoldcv" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a> <a href="#top"> K-Fold cross-validated decoding </a> </h6>   
+    
+    <p> We can then go on to analyse a real dataset. The following commands load subject 24 Ni instances by Nv voxels matrix response
+    for ROI V1, the associated vector of stimulus motion directions that were displayed on screen and decode from the voxel population responses the probability that the measured response indicates any of 360 motion directions (i.e., the likelihood of hypothetical motion directions given the observed responses evidence). </p>
+
+    <code class="code">
+
+        > rows = 's24'; <br><br>
+
+        %load data, shape and classify <br>
+        > load(['~/data/datafMRI/sltaskdotdirfmri05/'... <br>
+        &nbsp &nbsp &nbsp &nbsp   'slStckAnalyses/Concatenation/classif/' rows '/prior225/myRandomCoh/'... <br>
+        &nbsp &nbsp &nbsp &nbsp    'accAtTimeleaveOneOutfisherbalancByRemovI/V1/d.mat']) <br><br>
+
+        > instances = d.instances; <br>
+        > svec = d.myRandomDir; <br><br>
+
+        %% cross validated likelihood decoding <br>
+        > pp.phi_k = unique(svec); <br>
+        > pp.exponent = 4; <br>
+        > [LLH_f,pp] = slvoxppKFoldCVdec(instances,svec,5,pp); <br>
+        
+    </code>
+
+
+    <p> The number of voxels is large compared to the number of instances e.g., 320 voxels for V1 compared to about 240 trials. That might 
+    affect our ability to train the weights with Ordinary least squares if lots of voxels have correlated responses (matrix columns are 
+    linearly dependent and thus there are more than one set of weights that can solve the regression). So we first tried to reduce the number
+    of voxels by selecting the more responsive to the motion stimulus (in the localizer, not the actual task which would cause sharing of
+    information between training and test sets).</p> 
+    
+    <p> We get the r-squared of fitting the voxel responses to a periodic motion stimulus (localizer) with a sinewave with the period as 
+    the stimulus. The voxels with very high r-squared, the well fitted ones respond in a way that is correlated with the appearance of the
+    motion stimulus and are thus considered motion responsive : </p>
+      <code class="code">
+              >> sesspath = '~/data/datafMRI/sltaskdotdirfmri05/s02520150814/'		
+              >> group = 'Averages';
+              >> roipath = '~/data/datafMRI/mlrAnatDB/s0025/mlrROIs/V1.mat';
+              >> [r2,o] = slfmriGetMotLocr2(roipath,sesspath,group);
+      </code>
+    
+    <p> Now what we need is a response matrix $b$ of Ni instances x Nv voxels and its associated vector of displayed motion directions "svec". 
+    We will run a cross-validated reconstruction of the likelihood $p(b|s,\rho;\tau,\sigma)$ of the responses given the model and hypothetical 
+    motion directions. This analysis consists in dividing the response matrix into 5 folds, train the model on the 5 combinations of 4/5 folds
+    then test on the remaining fold. We then look at the average results over folds : </p>
+    
+    <p> We get the instance matrix $b$ and its associated direction vector $svec$ </p>
+    <code class="code">
+          >> slfmriInitAnalysisTaskDotDirfMRI05 <br>
+          >> d = slfmriGetDBoverSessions(o,varargin); <br> 
+          >> b = d.instances; svec = d.myRandomDir;
+    </code>
+      
+    <p> We decode the posterior distribution of hypothetical motion directions given the voxel responses and the model </p>
+    <code class="code">
+       [LLH_f,pp] = slvoxppKFoldCVdec(b,svec,5)
+    </code>
+        
+    
+    <p><strong> (Draft in progress....) How should the model be trained to identify whether/how priors bias the posteriors encoded in voxel response patterns ? </strong>. The response of a channel with a given selectivity is something like the sum of responses of all the neurons with that same selectivity.  The weight assigned to that channel quantifies how it contributes to a voxel's response. A channel weight is a parameter that is fixed across all task conditions because it is meant to indicate something like the number of neurons who share the associated channel's selectivity or a synaptic weight that we assume does not change across task conditions. </p>
+
+    <p> Given these assumptions, when the task condition changes (e.g., block with versus block without prior), it is assumed that only the channels' responses change (e.g., a channel's tuning function might become sharper in a prior condition but we assumed that the weight assigned to that channel is the same in conditions with and without prior). That change in the channel's tuning function reflects the bias induced by the prior which in turn is reflected in the posterior that is decoded from the channels' responses. </p>
+  
+    <p> Training the model to predict displayed directions on voxel responses collected in a block with a prior and examining the posterior decoded from a test dataset collected in the same prior condition will provide no insight about prior-induced biases. This is because in order to predict the displayed directions the weights must be adjusted so as to force the posteriors to peak at displayed directions in a condition (prior block) where the actually represented posteriors might be biased by the prior away from the displayed directions. The weights thus somewhat remove any prior-induced biases from the voxel responses and the posteriors decoded from the test dataset. </p>
+
+    <p> The model weights must be trained to predict displayed directions only in the presence of sensory evidence, without any prior and then tested on a data collected in block with a prior to identify prior-induced biases in the posteriors decoded from that test dataset. The weights thus trained contain no information about the prior. </p>
+
+    <p> I saved and organized operational datasets that we can analyse from here. All the raw data collected from the scanner were preprocessed and reduced to one single matlab structure variable d.mat which contains :  </p>
+    
+    <!-- List -->
+    <ul style="list-style-type:circle">
+      <li> d.instances :  Ni instances by Nv voxels of voxel responses to displayed stimulus from 3.5s to 7 sec after the stimulus onset to account for the hemodynamic lag. Voxel responses to stimulus typically peaked at 4.5 sec  after the stimulus onset (see event-related plot above) </li>
+      <li> d.myRandomDir :  Ni displayed motion directions </li>
+      <li> d.myRandomCoh : Ni displayed motion coherences </li>
+      <li> d.mySwitch : Ni labels for each instance: '1': switch to prior; '- 2' switch to direction;  '-1': prior mean is displayed; '0': subject response is missing </li>
+      <li> d.stimvols:   : Ni timestamps indicating when the stimulus volume is acquired by the scanner (need checking)</li>
+    </ul>
+
+    <p> Those variables were then loaded and organized in project "projBrainInference" for each subject, prior and roi with : </p>
+
+    <!-- code -->
+    <code class="code">          
+
+        %set subject id, prior and roi  <br>
+        > subject = 's25'; <br>
+        > prior = 'prior225'; <br>
+        > roi = 'V1'; <br><br>
+
+        %set raw file and path path in which "projBrainInference" project was <br>
+        %cloned <br>
+        > rawfile = ['~/data/datafMRI/sltaskdotdirfmri05/slStckAnalyses/Concatenation/classif/' subject '/' prior '/myRandomCoh/  <br>
+        &nbsp &nbsp &nbsp &nbsp   accAtTimeleaveOneOutfisherbalancByRemovI/' roi '/d.mat']; <br>
+        > birootpath = '~/proj/steeve/'; <br><br>
+        
+        %save and organize data in project "projBrainInference" <br>
+        > biloadRawSaveInBIproj(rawfile,birootpath,subject,prior,roi) <br><br>
+
+        %save the raw data contained in "d.mat" into separate matlab variables "instances.mat", "directions.mat", "coherences.mat" and "switching.mat" and convert them into separate ".csv" files for analysis across programming languages (Python, R etc..) <br>
+        > biConvmatTocsv( birootpath,subject,prior,roi); <br>
+    </code>
+
+    <h7><a id="train-test" class="anchor" href="#train-test" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><a href="#top"> Train and test </a></h6>   
+
+    <p> You can find the dataset in this example in "projBrainInference/data/s25/priorUnif/V1/". Those are the datasets we'll be working with.</p>    
+    <p> What the mechanism that drive switching ? Either each trial likelihood is bimodal and trial to trial noise
+     produces switching from one peak of the likelihood to the other (maximum likelihood readout). Or Likelihood is biased in between prior and the displayed motion direction as expected by Bayesian inference and trial to trial noise produce the observed switching. We trained the probabilistic population code model on subject s25's V1 dataset collected with the uniform prior and used the trained model (trained channel weights and other noise parameters) to decode Likelihood from V1 dataset collected when prior was 80 deg circular with 225 deg mean : </p>    
+    
+    <!-- code -->
+    <code class="code">
+       % open the function to edit data directory and dataset to analyse if needed and run <br>
+       > run bippcAnalysis00.m
+    </code>
+    <!--figure-->
+    <center><img src="images/s25_V1_trainOnUniftestOn225.png" style="width: 50%; height: 50%"/></center>
+    <p> What we see is that decoded likelihoods are neither bimodal or biased in between prior and directions but likelihoods are biased away from the prior ? uh ? How does that explain switching ....? </p>    
+
+    <p> I checked the quality of the model training: do decoded likelihood averaged by directions peak at the displayed motion direction as expected from a well trained model ? </p>
+    <!-- code -->
+    <code class="code">      
+       % open the function to edit data directory and dataset to analyse if needed and run <br>
+       > run bippcAnalysis01.m
+    </code>    
+    <!--figure-->
+    <center><img src="images/s25_LLHsFromTrainingOnUnif.png" style="width: 50%; height: 50%"/></center>
+
+    <p> Do the model predicted directions match the displayed directions well ? I used maximum likelihood decoding to that consists making direction estimates by reading out the argmax of the decoded likelihood and I plotted predictions against displayed directions :</p>
+    <!-- code -->
+    <code class="code">      
+       % open the function to edit data directory and dataset to analyse if needed and run <br>
+       > run bippcAnalysis02.m
+    </code>    
+    <!--figure-->
+    <center><img src="images/s25_V1_mlPredFromTrainingOnUnif.png" style="width: 50%; height: 50%"/></center>
+
+
+
+
+    <h7><a id="train-validate-test" class="anchor" href="#train-validate-test" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><a href="#top"> Train,validate,test </a></h6>   
+
+    <p> <strong> This way of checking the quality of the trained model is not a good </strong> because the model is being tested on the same dataset on which it has been trained. Thus we can't quantify how much the model overfit the data. i.e., how much noise in the data the model actually fits, which we don't want. We want the model to become sensitive only to information in the data that makes its performance robust such that its performance remain high when it is tested on new datasets. We want it to generalize well. <p>
+
+    <p> It is better to split the dataset into trained and validation datasets, train the model on the trained dataset and test how well it generalizes on the validation dataset. We can define the best split (proportion of instances in the trained vs validation dataset) by training and validating with different splits and by choosing the split that minimizes the sum of squared error between the model predicted directions and the true directions for each split. Once the best model is identified, we can check its quality by plotting the same metrics as above : likelihoods averaged over directions decoded from the validation dataset, predicted directions decoded from validation dataset against validation dataset's displayed directions. Then if the model is good (likelihoods peak at the exoected displayed direction and predicted are strongly correlated with actual directions) we can decode the likelihoods from the test circular prior datasets. </p>
+
+    <!-- code -->
+    <code class="code">      
+       % open the function to edit data directory and dataset to analyse if needed and run <br>
+       > run bippcAnalysis03.m
+    </code>    
+
+
+    <h7><a id="lars" class="anchor" href="#lars" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><a href="#top"> Feature selection </a></h6>   
+
+    <p> Another way to make sure that the trained model is robust and generalizes well is to regularize the model's channel weights. The more voxel dimensions the dataset has relative to the number of collected voxel response observations and the more likely it is that some voxels are very correlated with each other : the dimensions are linearly dependent and there are more than one solution to the linear regression that trains the channel weights, producing variable weights (they change from training to training) that thus generalize poorly when tested on new datasets. </p>
+
+    <p> Regularization is making an assumption about the values of the weights. One can constrain the weights by making them sparse, i.e., only a few of them have non zero values which reduces the number of voxel dimensions involved in the linear regression (LARS regularization). Other regularization exist but why not start with LARS. </p>
+
+    <p>Tibshirani & Hastie have developped LARS regularization which is available in R. We could re-code the model in matlab but we just want to quickly test whether we can improve training with LARS so let's just use their R version. </p>
+
+
+
+
+    <!--SECTION-->
+    <h6><a id="Decoding-subjects-combined-datasets" class="anchor" href="#Decoding-subjects-combined-datasets" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><a href="#top"> NOT DECODING SUBJECTS COMBINED DATASETS </a></h3>   
+    
+    <p> <strong> We need lots of data to train the model well. </strong>  The more instances in the weight matrix (matrix row) and the more likely it is that each voxel data, the matrix columns are linearly independent (weight matrix columns), and that there is a unique vector of weights
+    solution to the linear regression in the first step of the model training. So we want lots of data. </p>
+    
+    <p> <strong> Combine datasets between subjects </strong> One way to do that is to combined data across subjects. We collected data from 5 subjects. The issue is that an visual rois are not identical between subjects
+    e.g., V1 does not have the same number of voxels (datasets have different number of features) in subject 1 and 2. Another issue is that 
+    certain subjects missed reporting estimates in all trials which results in a different number of instances between subjects datasets (datasets have 
+    different number of observations). Thus how to combine datasets with different number of features and observations. </p>        
+
+    <p> <a href="http://gru.stanford.edu/doku.php/mrTools/talairachCoordinates"> Anatomical alignment ? </a> functional voxel matching ? Hyperalignment ? http://haxbylab.dartmouth.edu/publications/hyperalignment_cns2010_JSGuntupalli_JVHaxby.pdf.
+      Based on a preliminary study from Haxby et al., Classification of datasets aligned over subjects show lower accuracy than within subject 
+      when anatomically aligned, and at best the same accuracy when functional hyperalignment is used. So Alignment between subjects is not our 
+      a solution to improve classification accuracy. So we collected lots of data for each subject which will improve the model training and thus
+      its accuracy. /p>   
+
+    <p></p>
+    
+    </div>
+    
+    
+    
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">projBrainInference maintained by <a href="https://github.com/steevelaquitaine">steevelaquitaine</a></p>
+        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+  </body>
+</html>
