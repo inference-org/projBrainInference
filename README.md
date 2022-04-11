@@ -1,16 +1,8 @@
 # projBrainInference
-<<<<<<< HEAD
-Analysis of how the Human brain incorporates prior knowledge about environment statistics to improve inference
-=======
---------------------
+----------------------------------------------
 
 author: steeve laquitaine
 
-Analysis of how the Human visual cortex uses knowledge of motion direction statistics to improve motion direction inference
+Computational modeling of motion direction inference in the Human visual cortex with Machine learning techniques (Supervised learning, channel modeling, etc.,.)
 
 See [report](https://inference-org.github.io/projBrainInference/) 
-
-
-
-
->>>>>>> gh-pages
